@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+        }
+
+        * {
+    box-sizing: border-box;
+}
+
+    .sidebar {
+    width: 220px;
+    background: #0d3c74;
+    color: white;
+    padding: 30px 25px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: auto;
+}
+
+    .main {
+    margin-left: 220px;
+    flex: 1;
+    padding: 40px 60px;
+    background-color: #f8f9fa;
+}
+
+
+        .sidebar h2, .sidebar ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 10px 0;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #1d4fa0;
+            cursor: pointer;
+        }
+
+        .main {
+            margin-left: 200px;
+            flex: 1;
+            padding: 40px;
+            background-color: #f8f9fa;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h3 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 5px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .documents label {
+            font-weight: normal;
+            font-size: 13px;
+        }
+
+        .buttons {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 8px 16px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-box {
+            border: 2px dashed #ccc;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-bottom: 20px;
+        }
+
+        .upload-box img {
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Dashboard</h2>
+    <ul>
+        <li>Admission</li>
+        <li>Registrar</li>
+        <li>Cashier</li>
+        <li>Settings and Profile</li>
+        <li>Exams</li>
+    </ul>
+</div>
+
+<div class="main">
+    <h2>Student Info</h2>
+
+    <div class="upload-box">
+        <img src="camera-icon.png" alt="Upload">
+    </div>
+    <button>Upload</button>
+
+    <form>
+        <div class="section">
+            <h3>Personal Information</h3>
+            <div class="field-group">
+                <div class="field"><label>Full Name</label><input type="text" value="Aladeen Kuzma"></div>
+                <div class="field"><label>Birthdate</label><input type="date" value="1998-09-11"></div>
+                <div class="field"><label>Gender</label>
+                    <select>
+                        <option selected>Male</option>
+                    </select>
+                </div>
+                <div class="field"><label>Religion</label><input type="text" value="Muslim"></div>
+                <div class="field"><label>Nationality</label><input type="text" value="Filipino"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Contact Information</h3>
+            <div class="field-group">
+                <div class="field"><label>Current Address</label><input type="text" value="Blk 104 Lt 72 Villar Homes Subdivision"></div>
+                <div class="field"><label>Permanent Address</label><input type="text" value="Blk 104 Lt 72 Villar Homes Subdivision"></div>
+                <div class="field"><label>City</label><input type="text" value="Maguindanao"></div>
+                <div class="field"><label>Province</label><input type="text" value="Bulaan"></div>
+                <div class="field"><label>ZIP</label><input type="text" value="9616"></div>
+                <div class="field"><label>Phone Number</label><input type="text" value="0911201911"></div>
+                <div class="field"><label>Email ID</label><input type="email" value="ikawlangsapinas_27@gmail.com"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Academic Information</h3>
+            <div class="field-group">
+                <div class="field"><label>Course</label>
+                    <select>
+                        <option selected>BSIT</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Parent’s Information</h3>
+            <div class="field-group">
+                <div class="field"><label>Mother's Name</label><input type="text" value="Ermita Sultanato"></div>
+                <div class="field"><label>Occupation</label><input type="text" value="Housewife"></div>
+                <div class="field"><label>Contact Information</label><input type="text" value="09092217218"></div>
+                <div class="field"><label>Father's Name</label><input type="text" value="Erwin Sultanato"></div>
+                <div class="field"><label>Occupation</label><input type="text" value="Police"></div>
+                <div class="field"><label>Contact Information</label><input type="text" value="09123456789"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Contact Person</h3>
+            <div class="field-group">
+                <div class="field"><label>Guardian's Name</label><input type="text" value="Ermita Sultanato"></div>
+                <div class="field"><label>Relationship to Student</label><input type="text" value="Mother"></div>
+                <div class="field"><label>Contact Information</label><input type="text" value="09092217218"></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Documents</h3>
+            <div class="field-group documents">
+                <label><input type="checkbox" checked> PSA/NSO Birth Certificate</label>
+                <label><input type="checkbox" checked> Transcript of Grades</label>
+                <label><input type="checkbox"> Honorable Dismissal</label>
+                <label><input type="checkbox" checked> Good Moral</label>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
