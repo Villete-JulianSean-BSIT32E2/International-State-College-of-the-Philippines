@@ -30,28 +30,30 @@
     </div>
 
     <h2>Parent/Guardian Information</h2>
+    <form action="connect.php" method="post">
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Father's Name Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Mother's Name Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Occupation" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Occupation" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Name Information" name="fname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Name Information" name="mname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Occupation" name="foccu" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Occupation" name="moccu" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Contact Information" name="fno" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Contact Information" name="mno" style="flex: 1; padding: 8px;">
     </div>
 
     <h3 style="margin-top: 40px;">In case of Emergency:</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Guardian's Name" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Relationship to student" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Guardian's Name" name="gname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Relationship to student" name="relationship" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Contact Information" name="gno" style="flex: 1; padding: 8px;">
     </div>
 
     <!-- Navigation Buttons -->
     <div style="margin-top: 40px; text-align: right;">
       <button style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px; margin-right: 10px;">Previous</button>
-      <button style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
+      <button type="submit" style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
     </div>
   </div>
+</form>
 
 </body>
 </html>
