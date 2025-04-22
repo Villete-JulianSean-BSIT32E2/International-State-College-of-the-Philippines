@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      background-color: #f6f8fb;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: #13334D;
+      color: white;
+      height: 100vh;
+      padding: 1rem;
+    }
+
+    .sidebar img {
+      width: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .nav-item {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .nav-item.active, .nav-item:hover {
+      background-color: #3e6df3;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    .overview {
+      background-color: #13235b;
+      color: white;
+      border-radius: 10px;
+      padding: 2rem;
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2rem;
+    }
+
+    
+
+    .overview div {
+      text-align: center;
+    }
+
+    .overview .count {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .add-btn {
+      background-color: #3e6df3;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      float: right;
+      margin-bottom: 1rem;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead {
+      background-color: #BCBCBC;
+    }
+
+    .table th, .table td {
+      padding: 12px;
+      text-align: left;
+    }
+
+    .table tbody tr:nth-child(even) {
+      background-color: #f2f8ff;
+    }
+
+    .student-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .student-info img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Seal_of_the_International_State_College_of_the_Philippines.svg/800px-Seal_of_the_International_State_College_of_the_Philippines.svg.png" alt="Logo">
+    <div class="nav-item active">Admission</div>
+    <div class="nav-item">Registrar</div>
+    <div class="nav-item">Cashier</div>
+    <div class="nav-item">Settings and Profile</div>
+    <div class="nav-item">Exams</div>
+  </div>
+
+  <div class="main-content">
+    <div class="overview">
+      <div>
+        <div>Total Student</div>
+        <div class="count">868</div>
+      </div>
+      <div>
+        <div>Departments</div>
+        <div class="count">10</div>
+      </div>
+      <div>
+        <div>New Students Applicant</div>
+        <div class="count">5</div>
+      </div>
+      <div>
+        <div>Transferee</div>
+        <div class="count">5</div>
+      </div>
+      <div>
+        <div>Incomplete Document</div>
+        <div class="count">5</div>
+      </div>
+    </div>
+
+    <button class="add-btn">+ Add Student</button>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Year Level</th>
+          <th>Student Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="student-info"><img src="https://i.pravatar.cc/30?img=1">Kristin Watson</td>
+          <td>BSIT</td>
+          <td>2nd Year</td>
+          <td>Transferee</td>
+          <td>Enrolled</td>
+        </tr>
+        <tr>
+          <td class="student-info"><img src="https://i.pravatar.cc/30?img=2">Marvin McKinney</td>
+          <td>BSCS</td>
+          <td>1st Year</td>
+          <td>Freshman</td>
+          <td>Pending</td>
+        </tr>
+        <tr>
+          <td class="student-info"><img src="https://i.pravatar.cc/30?img=3">Jane Cooper</td>
+          <td>BSBA</td>
+          <td>4th Year</td>
+          <td>Transferee</td>
+          <td>Enrolled</td>
+        </tr>
+        <tr>
+          <td class="student-info"><img src="https://i.pravatar.cc/30?img=4">Cody Fisher</td>
+          <td>BSED</td>
+          <td>3rd Year</td>
+          <td>Old Student</td>
+          <td>Pending</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
