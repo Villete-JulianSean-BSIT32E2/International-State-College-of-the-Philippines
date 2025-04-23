@@ -8,8 +8,8 @@
   <!-- Sidebar -->
   <div style="width: 200px; height: 100vh; background: #112D4E; float: left; color: white;">
     <div style="padding: 20px; text-align: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Placeholder_image.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-      <h3 style="margin: 10px 0;">College</h3>
+      <img src="logo.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
+  
     </div>
     <div style="padding: 10px;">
       <div style="margin: 10px 0;">Dashboard</div>
@@ -30,44 +30,38 @@
     </div>
 
     <h2>Personal Information</h2>
-
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Full Name" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Birthdate" style="flex: 1; padding: 8px;">
-      <select style="flex: 1; padding: 8px;">
-        <option>Gender</option>
-        <option>Male</option>
-        <option>Female</option>
-      </select>
-      <input type="text" placeholder="Nationality" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Religion" style="flex: 1; padding: 8px;">
-    </div>
-
-    <h2 style="margin-top: 30px;">Contact Information</h2>
-
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Current Address" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Province" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Permanent Address" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="ZIP" style="width: 100px; padding: 8px;">
-      <input type="text" placeholder="Email ID" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="City" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Phone Number" style="flex: 1; padding: 8px;">
-    </div>
-
-    <!-- Photo Upload -->
-    <div style="margin-top: 20px; display: flex; align-items: center;">
-      <div style="width: 150px; height: 150px; background: #eee; border: 4px solid #ccc; display: flex; justify-content: center; align-items: center;">
-        <span style="font-size: 50px;">📷</span>
+    <form action="connect.php" method="post">
+      <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <input type="text" placeholder="Full Name" name="name" style="flex: 1; padding: 8px;" required>
+        <input type="date" placeholder="Birthdate" name="bdate" style="flex: 1; padding: 8px;" required>
+        <select name="gender" style="flex: 1; padding: 8px;" required>
+          <option value="">Gender</option>
+          <option value="m">Male</option>
+          <option value="f">Female</option>
+          <option value="o">Other</option>
+        </select>
+        <input type="text" placeholder="Nationality" name="nat" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="Religion" name="religion" style="flex: 1; padding: 8px;">
       </div>
-      <button style="margin-left: 20px; padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Upload</button>
-    </div>
-
-    <!-- Next Button -->
-    <div style="margin-top: 30px; text-align: right;">
-      <button style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
-    </div>
-  </div>
+    
+      <h2 style="margin-top: 30px;">Contact Information</h2>
+    
+      <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <input type="text" placeholder="Current Address" name="curraddress" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="Province" name="province" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="Permanent Address" name="peraddress" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="ZIP" name="zip" style="width: 100px; padding: 8px;">
+        <input type="text" placeholder="Email ID" name="email" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="City" name="city" style="flex: 1; padding: 8px;">
+        <input type="text" placeholder="Phone Number" name="phoneno" style="flex: 1; padding: 8px;">
+      </div>
+    
+      <!-- Next Button (inside form now) -->
+      <div style="margin-top: 30px; text-align: right;">
+        <button type="submit" style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
+      </div>
+    </form>
+    
 
 </body>
 </html>

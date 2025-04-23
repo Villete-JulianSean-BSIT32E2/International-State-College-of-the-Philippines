@@ -8,9 +8,8 @@
   <!-- Sidebar -->
   <div style="width: 200px; height: 100vh; background: #112D4E; float: left; color: white;">
     <div style="padding: 20px; text-align: center;">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Placeholder_image.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-      <h3 style="margin: 10px 0;">College</h3>
-    </div>
+     <img src="logo.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
+          </div>
     <div style="padding: 10px;">
       <div style="margin: 10px 0;">Dashboard</div>
       <div style="margin: 10px 0; background: #3F72AF; padding: 8px; border-radius: 4px;">Admission</div>
@@ -30,28 +29,30 @@
     </div>
 
     <h2>Parent/Guardian Information</h2>
+    <form action="connect.php" method="post">
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Father's Name Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Mother's Name Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Occupation" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Occupation" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Name Information" name="fname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Name Information" name="mname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Occupation" name="foccu" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Occupation" name="moccu" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Contact Information" name="fno" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Mother's Contact Information" name="mno" style="flex: 1; padding: 8px;">
     </div>
 
     <h3 style="margin-top: 40px;">In case of Emergency:</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Guardian's Name" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Relationship to student" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Guardian's Name" name="gname" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Relationship to student" name="relationship" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Contact Information" name="gno" style="flex: 1; padding: 8px;">
     </div>
 
     <!-- Navigation Buttons -->
     <div style="margin-top: 40px; text-align: right;">
       <button style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px; margin-right: 10px;">Previous</button>
-      <button style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
+      <button type="submit" style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
     </div>
   </div>
+</form>
 
 </body>
 </html>
