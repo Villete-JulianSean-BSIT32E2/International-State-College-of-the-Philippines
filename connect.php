@@ -84,5 +84,54 @@ if (
   }
 }
 
+if (isset($_POST['applying_grade'])) {
+  $applying_grade = $_POST['applying_grade'];
+  $prevschool = $_POST['prevschool'];
+  $last_grade = $_POST['last_grade'];
+  $sigdate = $_POST['sigdate'];
+  $confirmed = isset($_POST['confirm']) && $_POST['confirm'] === "yes" ? 1 : 0;
+
+  // File upload function
+  function uploadFile($fileKey) {
+    $targetDir = "uploads/";
+    if (!is_dir($targetDir)) {
+      mkdir($targetDir, 0777, true);
+    }
+
+    $fileName = basename($_FILES[$fileKey]["name"]);
+    $targetFile = $targetDir . time() . "_" . $fileName;
+
+    if (move_uploaded_file($_FILES[$fileKey]["tmp_name"], $targetFile)) {
+      return $targetFile;
+    }
+    return null;
+  }
+
+  $birth_cert_path = uploadFile("doc1");
+  $form137_path = uploadFile("doc2");
+  $tor_path = uploadFile("doc3");
+  $good_moral_path = uploadFile("doc4");
+  $honorable_dismissal_path = uploadFile("doc5");
+  $signature_path = uploadFile("signature");
+
+  $sql = "INSERT INTO student_documents (
+      applying_grade, prevschool, last_grade,
+      birth_cert_path, form137_path, tor_path,
+      good_moral_path, honorable_dismissal_path,
+      signature_path, sigdate, confirmed
+    ) VALUES (
+      '$applying_grade', '$prevschool', '$last_grade',
+      '$birth_cert_path', '$form137_path', '$tor_path',
+      '$good_moral_path', '$honorable_dismissal_path',
+      '$signature_path', '$sigdate', $confirmed
+    )";
+
+  if ($conn->query($sql) === TRUE) {
+    echo "<script>alert('Academic information and documents submitted successfully!'); window.location.href='Post-AdmissionPreview.html';</script>";
+  } else {
+    echo "Error inserting academic info: " . $conn->error;
+  }
+}
+
 $conn->close();
 ?>
