@@ -98,9 +98,12 @@ $conn->close();
       <p style="color: #777; margin-bottom: 5px;">BSIT</p>
       <p style="color: #777;">S.Y 3001-3002</p>
     </div>
+   
 
     <div style="display: flex; justify-content: flex-end; margin-top: 40px;">
+      <a href="AcademicInformation.html">
       <button style="padding: 10px 20px; border: 1px solid #ccc; border-radius: 5px; background-color: white; color: #555; cursor: pointer; margin-right: 10px;">Previous</button>
+    </a>
 
       <a href="Personal-Information.php">
       <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer;">Next</button>
