@@ -1,27 +1,69 @@
 <?php
 include 'connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Update admission
-    $stmt = $conn->prepare("UPDATE admission SET name=?, bdate=?, gender=?, nat=?, religion=?, curraddress=?, province=?, peraddress=?, zip=?, email=?, city=?, phoneno=? WHERE id=?");
-    $stmt->bind_param("ssssssssssssi", $_POST['name'], $_POST['bdate'], $_POST['gender'], $_POST['nat'], $_POST['religion'],
-                      $_POST['curraddress'], $_POST['province'], $_POST['peraddress'], $_POST['zip'], $_POST['email'], $_POST['city'], $_POST['phoneno'], $_POST['admission_id']);
-    $stmt->execute();
-    $stmt->close();
+// Sanitize POST data
+function clean_input($conn, $data) {
+    return $conn->real_escape_string(trim($data));
+}
 
-    // Update guardian_info
-    $stmt = $conn->prepare("UPDATE guardian_info SET fname=?, mname=?, foccu=?, moccu=?, fno=?, mno=?, gname=?, relationship=?, gno=? WHERE id=?");
-    $stmt->bind_param("sssssssssi", $_POST['fname'], $_POST['mname'], $_POST['foccu'], $_POST['moccu'],
-                      $_POST['fno'], $_POST['mno'], $_POST['gname'], $_POST['relationship'], $_POST['gno'], $_POST['guardian_id']);
-    $stmt->execute();
-    $stmt->close();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Admission data
+    $admission_id = $_POST['admission_id'];
+    $name = clean_input($conn, $_POST['name']);
+    $bdate = clean_input($conn, $_POST['bdate']);
+    $gender = clean_input($conn, $_POST['gender']);
+    $religion = clean_input($conn, $_POST['religion']);
+    $nat = clean_input($conn, $_POST['nat']);
+    $curraddress = clean_input($conn, $_POST['curraddress']);
+    $peraddress = clean_input($conn, $_POST['peraddress']);
+    $city = clean_input($conn, $_POST['city']);
+    $province = clean_input($conn, $_POST['province']);
+    $zip = clean_input($conn, $_POST['zip']);
+    $phoneno = clean_input($conn, $_POST['phoneno']);
+    $email = clean_input($conn, $_POST['email']);
 
-    // Update student_documents
-    $stmt = $conn->prepare("UPDATE student_documents SET applying_grade=?, prevschool=?, last_grade=? WHERE id=?");
-    $stmt->bind_param("sssi", $_POST['applying_grade'], $_POST['prevschool'], $_POST['last_grade'], $_POST['docs_id']);
-    $stmt->execute();
-    $stmt->close();
+    // Guardian data
+    $guardian_id = $_POST['guardian_id'];
+    $mname = clean_input($conn, $_POST['mname']);
+    $moccu = clean_input($conn, $_POST['moccu']);
+    $mno = clean_input($conn, $_POST['mno']);
+    $fname = clean_input($conn, $_POST['fname']);
+    $foccu = clean_input($conn, $_POST['foccu']);
+    $fno = clean_input($conn, $_POST['fno']);
+    $gname = clean_input($conn, $_POST['gname']);
+    $relationship = clean_input($conn, $_POST['relationship']);
+    $gno = clean_input($conn, $_POST['gno']);
 
-    echo "<script>alert('Student information updated successfully!'); window.location.href='Personal-Information.php';</script>";
+    // Academic data
+    $prevschool = clean_input($conn, $_POST['prevschool']);
+    $last_grade = clean_input($conn, $_POST['last_grade']);
+    $applying_grade = clean_input($conn, $_POST['applying_grade']);
+    $new_status = clean_input($conn, $_POST['Student_status']);
+    $Course = clean_input($conn, $_POST['Course']);
+
+    // Define available student status tables
+    $statusTables = ['new', 'transferee', 'irregular', 'old'];
+
+    // Update admission table
+    $conn->query("UPDATE admission SET 
+        name='$name', bdate='$bdate', gender='$gender', religion='$religion', nat='$nat',
+        curraddress='$curraddress', peraddress='$peraddress', city='$city',
+        province='$province', zip='$zip', phoneno='$phoneno', email='$email'
+        WHERE id=$admission_id");
+
+    // Update guardian_info table
+    $conn->query("UPDATE guardian_info SET 
+        mname='$mname', moccu='$moccu', mno='$mno', fname='$fname',
+        foccu='$foccu', fno='$fno', gname='$gname', relationship='$relationship', gno='$gno'
+        WHERE id=$guardian_id");
+
+    // Insert into the selected student status table (optional)
+    if (!empty($new_status) && in_array($new_status, $statusTables)) {
+        $conn->query("INSERT INTO `$new_status` (name) VALUES ('$name')");
+    }
+
+    // Redirect after processing
+    header("Location: index.php");
+    exit(); // Stop script after redirect
 }
 ?>
