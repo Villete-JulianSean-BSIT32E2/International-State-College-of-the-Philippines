@@ -5,15 +5,36 @@ include 'connect.php';
 $admission = null;
 $guardian = null;
 $docs = null;
+$student_status = '';
+$course = '';
+
 
 if ($conn && !$conn->connect_error) {
     $admission = $conn->query("SELECT * FROM admission ORDER BY id DESC LIMIT 1")->fetch_assoc();
     $guardian = $conn->query("SELECT * FROM guardian_info ORDER BY id DESC LIMIT 1")->fetch_assoc();
     $docs = $conn->query("SELECT * FROM student_documents ORDER BY id DESC LIMIT 1")->fetch_assoc();
+
+    // Determine student status from lowercase-named tables
+    if ($admission && isset($admission['name'])) {
+        $name = $conn->real_escape_string($admission['name']);
+        $statusTables = ['transferee', 'old', 'irregular', 'new'];
+
+        foreach ($statusTables as $table) {
+            $check = $conn->query("SELECT * FROM `$table` WHERE name = '$name' LIMIT 1");
+            if ($check && $check->num_rows > 0) {
+                // Capitalize the status for display
+                $student_status = ucfirst($table);
+                break;
+            }
+        }
+
+        // Determine course from course table
+    }
 } else {
     die("Database connection failed.");
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -207,6 +228,17 @@ if ($conn && !$conn->connect_error) {
                 <div class="field"><label>Previous School</label><input name="prevschool" type="text" value="<?= $docs['prevschool'] ?>"></div>
                 <div class="field"><label>Last Grade Completed</label><input name="last_grade" type="text" value="<?= $docs['last_grade'] ?>"></div>
                 <div class="field"><label>Applying Grade</label><input name="applying_grade" type="text" value="<?= $docs['applying_grade'] ?>"></div>
+
+                <!-- Student Status Dropdown -->
+                <!-- Editable Student Status -->
+<div class="field">
+    <label>Student Status</label>
+    <input type="text" name="Student_status" value="<?= htmlspecialchars($student_status) ?>">
+</div>
+
+<!-- Editable Course -->
+<div class="field"><label>Course</label><input name="Course" type="text" value="<?= $docs['Course'] ?>"></div>
+            </div>
             </div>
         </div>
 

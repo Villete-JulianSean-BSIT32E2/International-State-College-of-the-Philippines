@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+echo "DEBUG: insert_data.php is being executed.<br>";
 include 'connect.php';
 
 // Insert into admission
@@ -26,7 +29,7 @@ if (isset($_POST['fname'])) {
     exit();
 }
 
-// Insert academic info + uploads
+// Insert academic info + file uploads
 if (isset($_POST['applying_grade'])) {
     function uploadFile($key) {
         $dir = "uploads/";
@@ -44,13 +47,26 @@ if (isset($_POST['applying_grade'])) {
     $honor = uploadFile("doc5");
     $sign = uploadFile("signature");
 
-    $stmt = $conn->prepare("INSERT INTO student_documents (applying_grade, prevschool, last_grade, birth_cert_path, form137_path, tor_path, good_moral_path, honorable_dismissal_path, signature_path, sigdate, confirmed)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $confirmed = isset($_POST['confirm']) && $_POST['confirm'] == "yes" ? 1 : 0;
-    $stmt->bind_param("ssssssssssi", $_POST['applying_grade'], $_POST['prevschool'], $_POST['last_grade'],
+    $confirmed = isset($_POST['confirm']) && $_POST['confirm'] === "yes" ? 1 : 0;
+
+    $stmt = $conn->prepare("INSERT INTO student_documents (applying_grade, prevschool, last_grade, Course, birth_cert_path, form137_path, tor_path, good_moral_path, honorable_dismissal_path, signature_path, sigdate, confirmed)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssssssi", $_POST['applying_grade'], $_POST['prevschool'], $_POST['last_grade'], $_POST['Course'],
                       $birth, $form137, $tor, $good, $honor, $sign, $_POST['sigdate'], $confirmed);
     $stmt->execute();
     $stmt->close();
+
+    // Insert into corresponding status table
+    $status = $_POST['Student_status'] ?? '';
+    $valid_statuses = ['Transferee', 'old', 'Irregular', 'New'];
+    if (in_array($status, $valid_statuses)) {
+        $table = $status;
+        $name = $_POST['name'] ?? 'Unknown';
+        $stmt = $conn->prepare("INSERT INTO `$table` (name) VALUES (?)");
+        $stmt->bind_param("s", $name);
+        $stmt->execute();
+        $stmt->close();
+    }
 
     echo "<script>alert('Submitted successfully!'); window.location.href='Post-AdmissionPreview.php';</script>";
 }

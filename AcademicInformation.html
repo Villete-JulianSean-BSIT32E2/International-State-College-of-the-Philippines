@@ -33,17 +33,17 @@
       <a href="#" style="text-decoration: none; color: #555; margin-left: 20px;">Log out</a>
     </div>
 
-    <form action="connect.php" method="post" enctype="multipart/form-data">
+    <form action="insert_data.php" method="post" enctype="multipart/form-data">      
       <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
         <div style="width: 45%;">
           <h2 style="color: #333;">Academic Information</h2>
           <label style="display:block; margin-top: 15px;">Applying For Class/Grade</label>
           <select name="applying_grade" style="width: 100%; padding: 10px;">
             <option value="">Select Grade</option>
-            <option value="1st">1st Year</option>
-            <option value="2nd">2nd Year</option>
-            <option value="3rd">3rd Year</option>
-            <option value="4th">4th Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
           </select>
 
           <label style="display:block; margin-top: 15px;">Previous School Name</label>
@@ -52,12 +52,35 @@
           <label style="display:block; margin-top: 15px;">Last Grade Completed</label>
           <select name="last_grade" style="width: 100%; padding: 10px;">
             <option value="">Select Grade</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
           </select>
-        </div>
+
+
+               <label style="display:block; margin-top: 15px;">Course</label>
+          <select name="Course" style="width: 100%; padding: 10px;">
+            <option value="">Select</option>
+            <option value="BSIT">BSIT</option>
+            <option value="BSCRIM">BSCRIM</option>
+            <option value="BSED">BSED</option>
+            <option value="BSCS">BSCS</option>
+            <option value="CTHM">CTHM</option>
+            <option value="BSA">BSA</option>
+          </select>
+
+            <label style="display:block; margin-top: 15px;">Student Status</label>
+          <select name="Student_status" style="width: 100%; padding: 10px;">
+            <option value="">Select</option>
+            <option value="Transferee">Transferee</option>
+            <option value="old">Old</option>
+            <option value="Irregular">Irregular</option>
+            <option value="New">New</option>
+          </select>
+
+
+                 </div>
 
         <div style="width: 45%;">
           <h2 style="color: #333;">Documents</h2>
