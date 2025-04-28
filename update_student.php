@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         WHERE id=$admission_id"); // make sure id matches admission id (assuming both tables sync by id)
 
     // Insert into the selected student status table (optional)
-    $statusTables = ['Transferee', 'old', 'Irregular', 'New']; // correct capitalization
+    $statusTables = ['transferee', 'old', 'irregular', 'new']; // correct capitalization
     if (!empty($new_status) && in_array($new_status, $statusTables)) {
         $conn->query("INSERT INTO `$new_status` (name) VALUES ('$name')");
     }

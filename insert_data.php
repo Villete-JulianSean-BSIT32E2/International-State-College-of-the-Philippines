@@ -61,7 +61,7 @@ if (isset($_POST['applying_grade'])) {
 
     // Insert into corresponding status table
     $status = $_POST['Student_status'] ?? '';
-    $valid_statuses = ['Transferee', 'old', 'Irregular', 'New'];
+    $valid_statuses = ['transferee', 'old', 'irregular', 'new'];
     if (in_array($status, $valid_statuses)) {
         $table = $status;
         $name = $_POST['name'] ?? 'Unknown';
