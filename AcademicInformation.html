@@ -38,7 +38,7 @@
         <div style="width: 45%;">
           <h2 style="color: #333;">Academic Information</h2>
           <label style="display:block; margin-top: 15px;">Applying For Class/Grade</label>
-          <select name="applying_grade" style="width: 100%; padding: 10px;">
+          <select name="applying_grade" style="width: 100%; padding: 10px;" required>
             <option value="">Select Grade</option>
             <option value="1st Year">1st Year</option>
             <option value="2nd Year">2nd Year</option>
@@ -47,10 +47,10 @@
           </select>
 
           <label style="display:block; margin-top: 15px;">Previous School Name</label>
-          <input type="text" name="prevschool" style="width: 100%; padding: 10px;">
+          <input type="text" name="prevschool" style="width: 100%; padding: 10px;" required>
 
           <label style="display:block; margin-top: 15px;">Last Grade Completed</label>
-          <select name="last_grade" style="width: 100%; padding: 10px;">
+          <select name="last_grade" style="width: 100%; padding: 10px;" required>
             <option value="">Select Grade</option>
             <option value="1st Year">1st Year</option>
             <option value="2nd Year">2nd Year</option>
@@ -60,7 +60,7 @@
 
 
                <label style="display:block; margin-top: 15px;">Course</label>
-          <select name="Course" style="width: 100%; padding: 10px;">
+          <select name="Course" style="width: 100%; padding: 10px;" required>
             <option value="">Select</option>
             <option value="BSIT">BSIT</option>
             <option value="BSCRIM">BSCRIM</option>
@@ -71,7 +71,7 @@
           </select>
 
             <label style="display:block; margin-top: 15px;">Student Status</label>
-          <select name="Student_status" style="width: 100%; padding: 10px;">
+          <select name="Student_status" style="width: 100%; padding: 10px;" required>
             <option value="">Select</option>
             <option value="Transferee">Transferee</option>
             <option value="old">Old</option>
@@ -107,16 +107,16 @@
       <!-- Declaration -->
       <div>
         <h2 style="color: #333;">Declaration</h2>
-        <label><input type="radio" name="confirm" value="yes" style="margin-right: 10px;">I confirm all the information provided is true.</label>
+        <label><input type="radio" name="confirm" value="yes" style="margin-right: 10px;" required>I confirm all the information provided is true.</label>
 
         <div style="margin-top: 20px;">
           <label style="display:block;">Signature</label>
-          <input type="file" name="signature" accept="image/*" style="margin-top: 10px;">
+          <input type="file" name="signature" accept="image/*" style="margin-top: 10px;" required>
         </div>
 
         <div style="margin-top: 20px;">
           <label>Date</label>
-          <input type="date" name="sigdate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+          <input type="date" name="sigdate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
         </div>
       </div>
 
@@ -129,8 +129,6 @@
       </div>
     </form>
   </div>
-
-  <!-- JavaScript Preview Script -->
   <script>
     function showPreview(event, id) {
       const input = event.target;

@@ -49,10 +49,13 @@ if (isset($_POST['applying_grade'])) {
 
     $confirmed = isset($_POST['confirm']) && $_POST['confirm'] === "yes" ? 1 : 0;
 
-    $stmt = $conn->prepare("INSERT INTO student_documents (applying_grade, prevschool, last_grade, Course, birth_cert_path, form137_path, tor_path, good_moral_path, honorable_dismissal_path, signature_path, sigdate, confirmed)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssssssssi", $_POST['applying_grade'], $_POST['prevschool'], $_POST['last_grade'], $_POST['Course'],
-                      $birth, $form137, $tor, $good, $honor, $sign, $_POST['sigdate'], $confirmed);
+    $status_std = $_POST['Student_status'] ?? ''; // Get Student Status
+
+    $stmt = $conn->prepare("INSERT INTO student_documents (applying_grade, prevschool, last_grade, Course, status_std, birth_cert_path, form137_path, tor_path, good_moral_path, honorable_dismissal_path, signature_path, sigdate, confirmed)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssssssii", 
+                      $_POST['applying_grade'], $_POST['prevschool'], $_POST['last_grade'], $_POST['Course'],
+                      $status_std, $birth, $form137, $tor, $good, $honor, $sign, $_POST['sigdate'], $confirmed);
     $stmt->execute();
     $stmt->close();
 

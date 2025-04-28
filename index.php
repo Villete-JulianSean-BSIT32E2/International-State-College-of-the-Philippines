@@ -7,7 +7,7 @@ $new_count = $transferee_count = $irregular_count = $old_count = 0;
 if ($conn && !$conn->connect_error) {
   // Join admission and student_documents by id
   $result = $conn->query("
-    SELECT a.name, d.Course, d.applying_grade
+    SELECT a.name, d.Course, d.applying_grade, d.status_std
     FROM admission a
     INNER JOIN student_documents d ON a.id = d.id
     ORDER BY a.id DESC
@@ -52,6 +52,7 @@ if ($conn && !$conn->connect_error) {
     body {
       display: flex;
       background-color: #f6f8fb;
+      min-height: 100vh;
     }
 
     .sidebar {
@@ -82,6 +83,9 @@ if ($conn && !$conn->connect_error) {
     .main-content {
       flex: 1;
       padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .overview {
@@ -91,6 +95,7 @@ if ($conn && !$conn->connect_error) {
       padding: 2rem;
       display: flex;
       justify-content: space-around;
+      width: 80%;
       margin-bottom: 2rem;
     }
 
@@ -110,8 +115,21 @@ if ($conn && !$conn->connect_error) {
       padding: 10px 20px;
       border-radius: 6px;
       cursor: pointer;
-      float: right;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      transition: background-color 0.3s;
+    }
+
+    .add-btn:hover {
+      background-color: #3054c7;
+    }
+
+    .table-container {
+      width: 80%;
+      overflow-x: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .table {
@@ -120,30 +138,34 @@ if ($conn && !$conn->connect_error) {
     }
 
     .table thead {
-      background-color: #BCBCBC;
+      background-color: #3e6df3;
+      color: white;
     }
 
     .table th,
     .table td {
-      padding: 12px;
-      text-align: left;
+      padding: 14px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
     }
 
-    .table tbody tr:nth-child(even) {
-      background-color: #f2f8ff;
+    .table tbody tr:hover {
+      background-color: #f0f6ff;
     }
 
     .table td input {
       border: none;
       background: transparent;
       font-weight: bold;
+      text-align: center;
       width: 100%;
+      color: #333;
     }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Seal_of_the_International_State_College_of_the_Philippines.svg/800px-Seal_of_the_International_State_College_of_the_Philippines.svg.png" alt="Logo" />
+    <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
     <div class="nav-item active">Admission</div>
     <div class="nav-item">Registrar</div>
     <div class="nav-item">Cashier</div>
@@ -165,24 +187,28 @@ if ($conn && !$conn->connect_error) {
     </a>
 
     <!-- Combined Table -->
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Course</th>
-          <th>Year Level</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($students as $student): ?>
-        <tr>
-          <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
-          <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
-          <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
-        </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Year Level</th>
+            <th>Student Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($students as $student): ?>
+          <tr>
+            <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
+            <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
+            <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
+            <td><input type="text" value="<?= htmlspecialchars($student['status_std']) ?>" readonly></td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 </body>
 </html>

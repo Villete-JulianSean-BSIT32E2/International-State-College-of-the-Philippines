@@ -41,9 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_status = clean_input($conn, $_POST['Student_status']);
     $Course = clean_input($conn, $_POST['Course']);
 
-    // Define available student status tables
-    $statusTables = ['new', 'transferee', 'irregular', 'old'];
-
     // Update admission table
     $conn->query("UPDATE admission SET 
         name='$name', bdate='$bdate', gender='$gender', religion='$religion', nat='$nat',
@@ -57,13 +54,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foccu='$foccu', fno='$fno', gname='$gname', relationship='$relationship', gno='$gno'
         WHERE id=$guardian_id");
 
+    // Update student_documents table - specifically status_std, course, previous school, etc
+    $conn->query("UPDATE student_documents SET 
+        prevschool='$prevschool', 
+        last_grade='$last_grade', 
+        applying_grade='$applying_grade', 
+        Course='$Course', 
+        status_std='$new_status'
+        WHERE id=$admission_id"); // make sure id matches admission id (assuming both tables sync by id)
+
     // Insert into the selected student status table (optional)
+    $statusTables = ['Transferee', 'old', 'Irregular', 'New']; // correct capitalization
     if (!empty($new_status) && in_array($new_status, $statusTables)) {
         $conn->query("INSERT INTO `$new_status` (name) VALUES ('$name')");
     }
 
     // Redirect after processing
     header("Location: index.php");
-    exit(); // Stop script after redirect
+    exit(); // Important to stop further code execution
 }
 ?>
