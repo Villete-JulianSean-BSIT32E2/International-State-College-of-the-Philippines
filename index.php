@@ -28,7 +28,8 @@ if ($conn && !$conn->connect_error) {
   foreach ($tables as $table => &$count) {
     $res = $conn->query("SELECT COUNT(*) as total FROM `$table`");
     if ($res && $row = $res->fetch_assoc()) {
-      $count = $row['total'] ?? 0;
+      $count = isset($row['total']) ? $row['total'] : 0;
+
     }
   }
 }
