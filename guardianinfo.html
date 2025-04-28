@@ -31,19 +31,19 @@
     <h2>Parent/Guardian Information</h2>
     <form action="insert_data.php" method="post" enctype="multipart/form-data"> 
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Father's Name Information" name="fname" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Mother's Name Information" name="mname" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Father's Occupation" name="foccu" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Mother's Occupation" name="moccu" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Father's Contact Information" name="fno" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Mother's Contact Information" name="mno" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Father's Name Information" name="fname" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Mother's Name Information" name="mname" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Father's Occupation" name="foccu" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Mother's Occupation" name="moccu" style="flex: 1; padding: 8px;"required>
+      <input type="text" placeholder="Father's Contact Information" name="fno" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Mother's Contact Information" name="mno" style="flex: 1; padding: 8px;" required>
     </div>
 
     <h3 style="margin-top: 40px;">In case of Emergency:</h3>
     <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-      <input type="text" placeholder="Guardian's Name" name="gname" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Relationship to student" name="relationship" style="flex: 1; padding: 8px;">
-      <input type="text" placeholder="Contact Information" name="gno" style="flex: 1; padding: 8px;">
+      <input type="text" placeholder="Guardian's Name" name="gname" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Relationship to student" name="relationship" style="flex: 1; padding: 8px;" required>
+      <input type="text" placeholder="Contact Information" name="gno" style="flex: 1; padding: 8px;" required>
     </div>
 
     <!-- Navigation Buttons -->

@@ -101,8 +101,8 @@ $conn->close();
    
 
     <div style="display: flex; justify-content: flex-end; margin-top: 40px;">
-      <a href="AcademicInformation.html">
-      <button style="padding: 10px 20px; border: 1px solid #ccc; border-radius: 5px; background-color: white; color: #555; cursor: pointer; margin-right: 10px;">Previous</button>
+      <a href="index.php">
+      <button style="padding: 10px 20px; border: 1px solid #ccc; border-radius: 5px; background-color: white; color: #555; cursor: pointer; margin-right: 10px;">Back to Dashboard</button>
     </a>
 
       <a href="Personal-Information.php">
