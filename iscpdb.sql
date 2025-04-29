@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2025 at 03:58 AM
+-- Generation Time: Apr 29, 2025 at 09:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,7 +48,10 @@ CREATE TABLE `admission` (
 --
 
 INSERT INTO `admission` (`id`, `name`, `bdate`, `gender`, `nat`, `religion`, `curraddress`, `province`, `peraddress`, `zip`, `email`, `city`, `phoneno`) VALUES
-(32, 'Christpoer tangea', '2025-04-03', 'm', 'jkmung', 'gdfsgsfg', 'dfgsfgs', 'fgsdfg', 'svsdfg', '012313', 'Ampongs@yahoo.com', 'bumbay', '0921237474');
+(47, 'ROSWELL GRECIA', '2025-04-10', '', 'asdasd', 'asdas', 'asdasdasd', 'asd', 'dasasd', '1231', 'fasdfasda@gmila.com', 'das', '0921237474'),
+(48, 'Lolo Bron', '2025-04-18', 'm', 'asdfasdf', 'asdfasdfadsf', 'asdfasdf', 'asdf', 'fasdf', '21313', 'Ampongs@yahoo.com', 'dsfadsdf', '0921237474'),
+(49, 'Kevin Dirhams', '2025-04-30', '', 'dfasdf', 'fasdfsa', 'fsdafasd', 'fasd', 'fasdfasdf', '2312312', 'Ampongs@yahoo.com', 'sdafs', '0921237474'),
+(50, 'Sung Jin-woo', '2025-04-11', '', 'asdfasda', 'asdfafas', 'ba talga to', 'fdasdfasd', 'dasasd', '12312312', 'SungjinWoo@gmail.com', 'sadas', '0921237474');
 
 -- --------------------------------------------------------
 
@@ -74,7 +77,10 @@ CREATE TABLE `guardian_info` (
 --
 
 INSERT INTO `guardian_info` (`id`, `fname`, `mname`, `foccu`, `moccu`, `fno`, `mno`, `gname`, `relationship`, `gno`) VALUES
-(30, 'JUnuoidasd', 'ewgsgsfdg', 'sdfgsdfgfs', 'gsdfgsdf', 'gsfgsg', '092312421421', 'ngnfnhfhnfghn', 'sfgsdfgsdfgs', '0921432142');
+(43, 'vbxcbx', 'bxcvbx', 'cvbxc', 'vbxcvb', 'bxcvb', 'xcvbxcvb', 'cvbxcv', 'xcvbxcv', 'xcvbxcv'),
+(44, 'sdfafda', 'fadsf', 'asdfasdfas', 'asfd', 'adfasdfs', 'asdfasdf', 'dsfas', 'dfasdf', 'asfdasdf'),
+(45, 'vxzcvzx', 'zxcvz', 'xcvzxcvz', 'xzcvzcv', 'xzcvzcx', 'zxcvzx', 'cvzvzcv', 'xcvzxcv', 'cvxzv'),
+(46, 'afasdfa', 'sdfasfd', 'adsfasd', 'sfasfas', 'dfasdf', 'asdfasf', 'asdfa', 'fasdfa', 'asdfasdf');
 
 -- --------------------------------------------------------
 
@@ -86,6 +92,13 @@ CREATE TABLE `irregular` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `irregular`
+--
+
+INSERT INTO `irregular` (`id`, `name`) VALUES
+(10, 'Sung Jin-woo');
 
 -- --------------------------------------------------------
 
@@ -110,6 +123,13 @@ CREATE TABLE `new` (
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `new`
+--
+
+INSERT INTO `new` (`id`, `name`) VALUES
+(8, 'ROSWELL GRECIA');
+
 -- --------------------------------------------------------
 
 --
@@ -126,7 +146,7 @@ CREATE TABLE `old` (
 --
 
 INSERT INTO `old` (`id`, `name`) VALUES
-(12, 'Unknown');
+(17, 'Kevin Dirhams');
 
 -- --------------------------------------------------------
 
@@ -157,8 +177,10 @@ CREATE TABLE `student_documents` (
 --
 
 INSERT INTO `student_documents` (`id`, `applying_grade`, `prevschool`, `last_grade`, `Course`, `status_std`, `birth_cert_path`, `form137_path`, `tor_path`, `good_moral_path`, `honorable_dismissal_path`, `signature_path`, `sigdate`, `confirmed`, `created_at`) VALUES
-(32, '4th Year', 'minybubomp2131', '3rd Year', 'BSCS', 'old', 'uploads/1745804167_', 'uploads/1745804167_', 'uploads/1745804167_', 'uploads/1745804167_', 'uploads/1745804167_', 'uploads/1745804167_', '0000-00-00', 1, '2025-04-28 01:36:07'),
-(33, '', '', '', '', '', 'uploads/1745804766_', 'uploads/1745804766_', 'uploads/1745804766_', 'uploads/1745804766_', 'uploads/1745804766_', 'uploads/1745804766_', '0000-00-00', 0, '2025-04-28 01:46:06');
+(47, '3rd Year', '12dASDdasc', '2nd Year', 'BSIT', 'new', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_Report Acknowledgement.jfif', '2025-04-22', 1, '2025-04-29 06:15:36'),
+(48, '2nd Year', 'sdfadfasf', '1st Year', 'CTHM', 'transferee', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_Selected photo (1).jpg', '2025-04-29', 1, '2025-04-29 06:17:58'),
+(49, '4th Year', 'minybubomp2131', '3rd Year', 'BSCRIM', 'old', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_Selected photo (1).jfif', '2025-04-30', 1, '2025-04-29 06:19:12'),
+(50, '4th Year', '12dASDdasc', '1st Year', 'BSCS', 'irregular', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_Selected photo (1).jfif', '2025-04-30', 1, '2025-04-29 06:23:15');
 
 -- --------------------------------------------------------
 
@@ -170,6 +192,13 @@ CREATE TABLE `transferee` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transferee`
+--
+
+INSERT INTO `transferee` (`id`, `name`) VALUES
+(11, 'Lolo Bron');
 
 -- --------------------------------------------------------
 
@@ -234,43 +263,43 @@ ALTER TABLE `transferee`
 -- AUTO_INCREMENT for table `admission`
 --
 ALTER TABLE `admission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `guardian_info`
 --
 ALTER TABLE `guardian_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `irregular`
 --
 ALTER TABLE `irregular`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `new`
 --
 ALTER TABLE `new`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `old`
 --
 ALTER TABLE `old`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `student_documents`
 --
 ALTER TABLE `student_documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `transferee`
 --
 ALTER TABLE `transferee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 DELIMITER $$
 --
