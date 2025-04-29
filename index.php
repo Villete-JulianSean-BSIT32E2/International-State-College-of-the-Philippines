@@ -6,10 +6,11 @@ $new_count = $transferee_count = $irregular_count = $old_count = 0;
 
 if ($conn && !$conn->connect_error) {
   $result = $conn->query("
-    SELECT a.name, d.Course, d.applying_grade, d.status_std
-    FROM admission a
-    INNER JOIN student_documents d ON a.id = d.id
-    ORDER BY a.id DESC
+   SELECT a.name, d.Course, d.applying_grade, d.status_std
+FROM admission a
+LEFT JOIN student_documents d ON a.id = d.id
+ORDER BY a.id DESC
+
   ");
 
   if ($result) {
@@ -215,17 +216,20 @@ if ($conn && !$conn->connect_error) {
             <th>Name</th>
             <th>Course</th>
             <th>Year Level</th>
+            <th>Student Type</th>
             <th>Student Status</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($students as $student): ?>
-          <tr data-status="<?= strtolower(htmlspecialchars($student['status_std'])) ?>">
-            <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['status_std']) ?>" readonly></td>
-          </tr>
+          <tr data-status="<?= strtolower(htmlspecialchars($student['status_std'] ?? 'unknown')) ?>">
+  <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['status_std']) ?>" readonly></td>
+  <td>Pending...</td>
+</tr>
+
           <?php endforeach; ?>
         </tbody>
       </table>
