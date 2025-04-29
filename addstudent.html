@@ -9,10 +9,9 @@
   <div style="width: 200px; height: 100vh; background: #112D4E; float: left; color: white;">
     <div style="padding: 20px; text-align: center;">
       <img src="logo.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-  
     </div>
     <div style="padding: 10px;">
-      <div style="margin: 10px 0;">Dashboard</div>
+      <div style="margin: 10px 0;"><a href="index.php" style="text-decoration: none; color: white;">Dashboard</a></div>
       <div style="margin: 10px 0; background: #3F72AF; padding: 8px; border-radius: 4px;">Admission</div>
       <div style="margin: 10px 0;">Registrar</div>
       <div style="margin: 10px 0;">Cashier</div>
@@ -30,7 +29,7 @@
     </div>
 
     <h2>Personal Information</h2>
-    <form action="insert_data.php" method="post" enctype="multipart/form-data">      
+    <form id="studentForm" action="insert_data.php" method="post" enctype="multipart/form-data">      
       <div style="display: flex; flex-wrap: wrap; gap: 20px;">
         <input type="text" placeholder="Full Name" name="name" style="flex: 1; padding: 8px;" required>
         <input type="date" placeholder="Birthdate" name="bdate" style="flex: 1; padding: 8px;" required>
@@ -43,25 +42,45 @@
         <input type="text" placeholder="Nationality" name="nat" style="flex: 1; padding: 8px;" required>
         <input type="text" placeholder="Religion" name="religion" style="flex: 1; padding: 8px;" required>
       </div>
-    
+
       <h2 style="margin-top: 30px;">Contact Information</h2>
-    
+
       <div style="display: flex; flex-wrap: wrap; gap: 20px;">
         <input type="text" placeholder="Current Address" name="curraddress" style="flex: 1; padding: 8px;" required>
         <input type="text" placeholder="Province" name="province" style="flex: 1; padding: 8px;" required>
         <input type="text" placeholder="Permanent Address" name="peraddress" style="flex: 1; padding: 8px;" required>
-        <input type="text" placeholder="ZIP" name="zip" style="width: 100px; padding: 8px;" required>
+        <input type="Number" placeholder="ZIP" name="zip" style="width: 100px; padding: 8px;" required>
         <input type="text" placeholder="Email ID" name="email" style="flex: 1; padding: 8px;" required>
         <input type="text" placeholder="City" name="city" style="flex: 1; padding: 8px;" required>
-        <input type="text" placeholder="Phone Number" name="phoneno" style="flex: 1; padding: 8px;" required>
+        <input type="Number" placeholder="Phone Number" name="phoneno" style="flex: 1; padding: 8px;" required>
       </div>
-    
-      <!-- Next Button (inside form now) -->
+
+      <!-- Next Button -->
       <div style="margin-top: 30px; text-align: right;">
         <button type="submit" style="padding: 10px 20px; background: #3F72AF; color: white; border: none; border-radius: 4px;">Next</button>
       </div>
     </form>
-    
+  </div>
+
+  <script>
+    const form = document.getElementById('studentForm');
+
+    form.addEventListener('submit', function(event) {
+      const inputs = form.querySelectorAll('input, select');
+      let allFilled = true;
+
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          allFilled = false;
+        }
+      });
+
+      if (!allFilled) {
+        event.preventDefault(); // stop form submission
+        alert('⚠️ Please fill out all fields before proceeding!');
+      }
+    });
+  </script>
 
 </body>
 </html>
