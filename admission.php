@@ -5,19 +5,18 @@ $students = [];
 $new_count = $transferee_count = $irregular_count = $old_count = 0;
 
 if ($conn && !$conn->connect_error) {
-  // Join admission and student_documents by id
   $result = $conn->query("
-    SELECT a.name, d.Course, d.applying_grade, d.status_std
-    FROM admission a
-    INNER JOIN student_documents d ON a.id = d.id
-    ORDER BY a.id DESC
+   SELECT a.name, d.Course, d.applying_grade, d.status_std
+FROM admission a
+LEFT JOIN student_documents d ON a.id = d.id
+ORDER BY a.id DESC
+
   ");
 
   if ($result) {
     $students = $result->fetch_all(MYSQLI_ASSOC);
   }
 
-  // Count for each category
   $tables = [
     'new' => &$new_count,
     'transferee' => &$transferee_count,
@@ -73,6 +72,7 @@ if ($conn && !$conn->connect_error) {
       margin: 10px 0;
       border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
 
     .nav-item.active,
@@ -97,10 +97,18 @@ if ($conn && !$conn->connect_error) {
       justify-content: space-around;
       width: 80%;
       margin-bottom: 2rem;
+      cursor: pointer;
     }
 
     .overview div {
       text-align: center;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .overview div:hover {
+      background-color: #1c3470;
     }
 
     .overview .count {
@@ -166,27 +174,47 @@ if ($conn && !$conn->connect_error) {
 <body>
   <div class="sidebar">
     <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
-    <div class="nav-item active">Admission</div>
+    <div class="nav-item active">Dashboard</div>
+    <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
     <div class="nav-item">Registrar</div>
     <div class="nav-item">Cashier</div>
-    <div class="nav-item">Settings and Profile</div>
-    <div class="nav-item">Exams</div>
+    <div class="nav-item">Attendance</div>
   </div>
 
   <div class="main-content">
     <div class="overview">
-      <div><div>Total Students</div><div class="count"><?= count($students) ?></div></div>
-      <div><div>Transferee</div><div class="count"><?= $transferee_count ?></div></div>
-      <div><div>New Students</div><div class="count"><?= $new_count ?></div></div>
-      <div><div>Irregular</div><div class="count"><?= $irregular_count ?></div></div>
-      <div><div>Old Students</div><div class="count"><?= $old_count ?></div></div>
+      <div onclick="filterTable('all')">
+        <div>Total Students</div>
+        <div class="count"><?= count($students) ?></div>
+      </div>
+      <div onclick="filterTable('transferee')">
+        <div>Transferee</div>
+        <div class="count"><?= $transferee_count ?></div>
+      </div>
+      <div onclick="filterTable('new')">
+        <div>New Students</div>
+        <div class="count"><?= $new_count ?></div>
+      </div>
+      <div onclick="filterTable('irregular')">
+        <div>Irregular</div>
+        <div class="count"><?= $irregular_count ?></div>
+      </div>
+      <div onclick="filterTable('old')">
+        <div>Old Students</div>
+        <div class="count"><?= $old_count ?></div>
+      </div>
     </div>
 
-    <a href="addstudent.html">
-      <button class="add-btn">+ Add Student</button>
-    </a>
+   <div style="display: flex; gap: 15px; margin-bottom: 1.5rem;">
+  <a href="addstudent.html">
+    <button class="add-btn">+ Add Student</button>
+  </a>
+  <a href="report.php">
+    <button class="add-btn">📄 Get Report</button>
+  </a>
+</div>
 
-    <!-- Combined Table -->
+
     <div class="table-container">
       <table class="table">
         <thead>
@@ -194,21 +222,37 @@ if ($conn && !$conn->connect_error) {
             <th>Name</th>
             <th>Course</th>
             <th>Year Level</th>
+            <th>Student Type</th>
             <th>Student Status</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($students as $student): ?>
-          <tr>
-            <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
-            <td><input type="text" value="<?= htmlspecialchars($student['status_std']) ?>" readonly></td>
-          </tr>
+          <tr data-status="<?= strtolower(htmlspecialchars($student['status_std'] ?? 'unknown')) ?>">
+  <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
+  <td><input type="text" value="<?= htmlspecialchars($student['status_std']) ?>" readonly></td>
+  <td>Pending...</td>
+</tr>
+
           <?php endforeach; ?>
         </tbody>
       </table>
     </div>
   </div>
+
+  <script>
+    function filterTable(status) {
+      const rows = document.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        if (status === 'all') {
+          row.style.display = '';
+        } else {
+          row.style.display = (row.getAttribute('data-status') === status) ? '' : 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
