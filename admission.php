@@ -175,7 +175,7 @@ ORDER BY a.id DESC
   <div class="sidebar">
     <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
     <div class="nav-item active">Dashboard</div>
-    <div class="nav-item">Home</div>
+    <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
     <div class="nav-item">Registrar</div>
     <div class="nav-item">Cashier</div>
     <div class="nav-item">Attendance</div>
@@ -205,9 +205,15 @@ ORDER BY a.id DESC
       </div>
     </div>
 
-    <a href="addstudent.html">
-      <button class="add-btn">+ Add Student</button>
-    </a>
+   <div style="display: flex; gap: 15px; margin-bottom: 1.5rem;">
+  <a href="addstudent.html">
+    <button class="add-btn">+ Add Student</button>
+  </a>
+  <a href="report.php">
+    <button class="add-btn">📄 Get Report</button>
+  </a>
+</div>
+
 
     <div class="table-container">
       <table class="table">
