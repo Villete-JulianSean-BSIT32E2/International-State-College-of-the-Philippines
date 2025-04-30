@@ -175,10 +175,10 @@ ORDER BY a.id DESC
   <div class="sidebar">
     <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
     <div class="nav-item active">Dashboard</div>
+    <div class="nav-item">Home</div>
     <div class="nav-item">Registrar</div>
     <div class="nav-item">Cashier</div>
-    <div class="nav-item">Settings and Profile</div>
-    <div class="nav-item">Exams</div>
+    <div class="nav-item">Attendance</div>
   </div>
 
   <div class="main-content">
