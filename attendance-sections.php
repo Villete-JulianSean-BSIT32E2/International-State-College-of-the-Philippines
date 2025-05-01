@@ -1,3 +1,51 @@
+<?php
+//ATTENDANCE-SECTIONS.PHP
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "iscpdb";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$coursesQuery = "SELECT 
+                   Course, 
+                   CurrentGrade,
+                   COUNT(DISTINCT StudentID) as StudentCount 
+                 FROM 
+                   student_attendance_view 
+                 GROUP BY 
+                   Course, CurrentGrade 
+                 ORDER BY 
+                   Course ASC, CurrentGrade ASC";
+
+$coursesResult = $conn->query($coursesQuery);
+
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$searchCondition = '';
+
+if (!empty($search)) {
+    $searchCondition = "WHERE Course LIKE '%$search%' OR CurrentGrade LIKE '%$search%'";
+    
+    $coursesQuery = "SELECT 
+                      Course, 
+                      CurrentGrade,
+                      COUNT(DISTINCT StudentID) as StudentCount 
+                    FROM 
+                      student_attendance_view 
+                    $searchCondition
+                    GROUP BY 
+                      Course, CurrentGrade 
+                    ORDER BY 
+                      Course ASC, CurrentGrade ASC";
+    
+    $coursesResult = $conn->query($coursesQuery);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,10 +85,12 @@
                 <div class="mb-4">
                     <div class="card shadow-sm border-0 rounded-3">
                         <div class="card-header d-flex justify-content-between align-items-center px-4">
-                            <h2 class="card-title mb-0">List of Sections</h2>
+                            <h2 class="card-title mb-0">Classes & Sections</h2>
                             <div class="d-flex">
-                                <input type="text" id="search" name="search" class="form-control me-2">
-                                <button type="button" class="btn" style="background-color:#fff; color: #13334D;">Search</button>
+                                <form method="get" action="" class="d-flex">
+                                    <input type="text" id="search" name="search" class="form-control me-2" value="<?php echo htmlspecialchars($search); ?>" placeholder="Search by course or year">
+                                    <button type="submit" class="btn" style="background-color:#fff; color: #13334D;">Search</button>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body">
@@ -48,19 +98,32 @@
                                 <table class="table text-center">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Section</th>
-                                            <th scope="col">Number of Student</th>
+                                            <th scope="col">Course</th>
+                                            <th scope="col">Year Level</th>
+                                            <th scope="col">Number of Students</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>BSIT 41A2</td>
-                                            <td>30</td>
-                                            <td><button class="btn btn-primary" onclick="window.location.href='attendance-section-student.php';">View</button></td>
-                                        </tr>
+                                        <?php
+                                        if ($coursesResult->num_rows > 0) {
+                                            while($row = $coursesResult->fetch_assoc()) {
+                                                echo "<tr>";
+                                                echo "<td>" . htmlspecialchars($row["Course"]) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row["CurrentGrade"]) . "</td>";
+                                                echo "<td>" . $row["StudentCount"] . "</td>";
+                                                echo "<td>
+                                                        <a href='attendance-section-student.php?course=" . urlencode($row["Course"]) . "&grade=" . urlencode($row["CurrentGrade"]) . "' class='btn btn-primary'>View</a>
+                                                      </td>";
+                                                echo "</tr>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='4'>No sections found</td></tr>";
+                                        }
+                                        ?>
                                     </tbody>
                                 </table>
+                                <button class="btn form-control mt-3" type="button" onclick="window.location.href='attendance-dashboard.php';">Back to Dashboard</button>
                             </div>
                         </div>
                     </div>
@@ -88,3 +151,10 @@
             setInterval(updateDateTime, 1000);
         });
     </script>
+</body>
+</html>
+
+<?php
+// Close connection
+$conn->close();
+?>

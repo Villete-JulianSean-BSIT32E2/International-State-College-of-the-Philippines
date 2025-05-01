@@ -178,7 +178,7 @@ ORDER BY a.id DESC
     <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
     <div class="nav-item">Registrar</div>
     <div class="nav-item">Cashier</div>
-    <div class="nav-item">Attendance</div>
+    <div class="nav-item"><a href="attendance-dashboard.php" style="text-decoration: none; color: white;">Attendance</a></div>
   </div>
 
   <div class="main-content">
