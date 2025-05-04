@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2025 at 09:11 AM
+-- Generation Time: May 01, 2025 at 09:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,39 @@ INSERT INTO `admission` (`id`, `name`, `bdate`, `gender`, `nat`, `religion`, `cu
 (48, 'Lolo Bron', '2025-04-18', 'm', 'asdfasdf', 'asdfasdfadsf', 'asdfasdf', 'asdf', 'fasdf', '21313', 'Ampongs@yahoo.com', 'dsfadsdf', '0921237474'),
 (49, 'Kevin Dirhams', '2025-04-30', '', 'dfasdf', 'fasdfsa', 'fsdafasd', 'fasd', 'fasdfasdf', '2312312', 'Ampongs@yahoo.com', 'sdafs', '0921237474'),
 (50, 'Sung Jin-woo', '2025-04-11', '', 'asdfasda', 'asdfafas', 'ba talga to', 'fdasdfasd', 'dasasd', '12312312', 'SungjinWoo@gmail.com', 'sadas', '0921237474');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `AttendanceID` int(11) NOT NULL,
+  `id` int(11) NOT NULL COMMENT 'ID IS FROM ADMISSION TABLE',
+  `Date` date NOT NULL,
+  `Status` smallint(1) NOT NULL COMMENT '0 - ABSENT, 1 - PRESENT, 2 - LATE',
+  `Notes` text DEFAULT NULL,
+  `TimeRecorded` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`AttendanceID`, `id`, `Date`, `Status`, `Notes`, `TimeRecorded`) VALUES
+(1, 47, '2025-04-28', 2, NULL, '2025-05-01 19:11:31'),
+(2, 47, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
+(3, 47, '2025-05-01', 1, NULL, '2025-05-01 19:11:31'),
+(4, 48, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
+(5, 48, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
+(6, 48, '2025-05-02', 1, NULL, '2025-05-01 19:11:31'),
+(7, 49, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
+(8, 49, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
+(9, 49, '2025-05-02', 1, NULL, '2025-05-01 19:11:31'),
+(10, 50, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
+(11, 50, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
+(12, 50, '2025-05-02', 1, NULL, '2025-05-01 19:11:31');
 
 -- --------------------------------------------------------
 
@@ -151,6 +184,29 @@ INSERT INTO `old` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Stand-in structure for view `student_attendance_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `student_attendance_view` (
+`AttendanceID` int(11)
+,`Date` date
+,`Status` smallint(1)
+,`StatusText` varchar(7)
+,`StudentID` int(11)
+,`StudentName` varchar(255)
+,`gender` enum('m','f','o')
+,`email` varchar(255)
+,`phoneno` varchar(20)
+,`Course` varchar(255)
+,`CurrentGrade` varchar(20)
+,`PreviousGrade` varchar(20)
+,`StudentStatus` varchar(255)
+,`PreviousSchool` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `student_documents`
 --
 
@@ -209,6 +265,15 @@ DROP TABLE IF EXISTS `joined_students`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `joined_students`  AS SELECT `a`.`name` AS `name`, `d`.`applying_grade` AS `applying_grade`, `d`.`Course` AS `Course` FROM (`admission` `a` join `student_documents` `d` on(`a`.`name` <> 0)) ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure for view `student_attendance_view`
+--
+DROP TABLE IF EXISTS `student_attendance_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS SELECT `a`.`AttendanceID` AS `AttendanceID`, `a`.`Date` AS `Date`, `a`.`Status` AS `Status`, CASE WHEN `a`.`Status` = 0 THEN 'Absent' WHEN `a`.`Status` = 1 THEN 'Present' WHEN `a`.`Status` = 2 THEN 'Late' ELSE 'Unknown' END AS `StatusText`, `ad`.`id` AS `StudentID`, `ad`.`name` AS `StudentName`, `ad`.`gender` AS `gender`, `ad`.`email` AS `email`, `ad`.`phoneno` AS `phoneno`, `sd`.`Course` AS `Course`, `sd`.`applying_grade` AS `CurrentGrade`, `sd`.`last_grade` AS `PreviousGrade`, `sd`.`status_std` AS `StudentStatus`, `sd`.`prevschool` AS `PreviousSchool` FROM ((`attendance` `a` join `admission` `ad` on(`a`.`id` = `ad`.`id`)) join `student_documents` `sd` on(`a`.`id` = `sd`.`id`)) ORDER BY `a`.`Date` DESC, `ad`.`name` ASC ;
+
 --
 -- Indexes for dumped tables
 --
@@ -218,6 +283,13 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 ALTER TABLE `admission`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD PRIMARY KEY (`AttendanceID`),
+  ADD UNIQUE KEY `student_date_unique` (`id`,`Date`);
 
 --
 -- Indexes for table `guardian_info`
@@ -266,6 +338,12 @@ ALTER TABLE `admission`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
+-- AUTO_INCREMENT for table `attendance`
+--
+ALTER TABLE `attendance`
+  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `guardian_info`
 --
 ALTER TABLE `guardian_info`
@@ -300,6 +378,16 @@ ALTER TABLE `student_documents`
 --
 ALTER TABLE `transferee`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`id`) REFERENCES `admission` (`id`);
 
 DELIMITER $$
 --
