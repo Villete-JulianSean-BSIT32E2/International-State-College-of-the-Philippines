@@ -54,8 +54,10 @@ if (isset($_POST['applying_grade'])) {
 
     $confirmed = isset($_POST['confirm']) && $_POST['confirm'] === "yes" ? 1 : 0;
 
-    $status_std = $_POST['Student_status'] ?? '';
-    $student_id = $_SESSION['student_id'] ?? null;
+    $status_std = isset($_POST['Student_status']) ? $_POST['Student_status'] : '';
+
+    $student_id = isset($_SESSION['student_id']) ? $_SESSION['student_id'] : null;
+
 
     if ($student_id) {
         // Insert into student_documents with correct admission ID
@@ -74,7 +76,7 @@ if (isset($_POST['applying_grade'])) {
             // Get student's name for the insert
             $name_result = $conn->query("SELECT name FROM admission WHERE id = $student_id LIMIT 1");
             $name_row = $name_result->fetch_assoc();
-            $student_name = $name_row['name'] ?? 'Unknown';
+            $student_name = isset($name_row['name']) ? $name_row['name'] : 'Unknown';
 
             $stmt = $conn->prepare("INSERT INTO `$status` (name) VALUES (?)");
             $stmt->bind_param("s", $student_name);
