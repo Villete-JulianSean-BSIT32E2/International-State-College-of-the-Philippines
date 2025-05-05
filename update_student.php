@@ -98,6 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     // --- 6) Redirect back to dashboard ---
-    header("Location: index.php");
+    header("Location: admission.php");
     exit();
 }

@@ -51,6 +51,10 @@ $result = $conn->query("
     <div>
         <button onclick="window.print()">🖨️ Print Report</button>
         <button onclick="exportToPDF()">📄 Export to PDF</button>
+        <a href="export_excel.php">
+        <button>📊 Export to Excel</button>
+</a>
+
     </div>
 </div>
 
