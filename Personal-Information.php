@@ -1,20 +1,42 @@
 <?php
 include 'connect.php';
 
-// Fetch the latest student data safely
-$admission = null;
-$guardian = null;
-$docs = null;
+$studentData = $guardianData = $documentData = [];
 $student_status = '';
-$course = '';
 
-if ($conn && !$conn->connect_error) {
-    $admission = $conn->query("SELECT * FROM admission ORDER BY id DESC LIMIT 1")->fetch_assoc();
-    $guardian = $conn->query("SELECT * FROM guardian_info ORDER BY id DESC LIMIT 1")->fetch_assoc();
-    $docs = $conn->query("SELECT * FROM student_documents ORDER BY id DESC LIMIT 1")->fetch_assoc();
+if (isset($_GET['id'])) {
+    $id = intval($_GET['id']);
 
-    if ($admission && isset($admission['name'])) {
-        $name = $conn->real_escape_string($admission['name']);
+    // Fetch from admission table
+    $admissionQuery = $conn->prepare("SELECT * FROM admission WHERE id = ?");
+    $admissionQuery->bind_param("i", $id);
+    $admissionQuery->execute();
+    $admissionResult = $admissionQuery->get_result();
+    if ($admissionResult->num_rows > 0) {
+        $studentData = $admissionResult->fetch_assoc();
+    }
+
+    // Fetch from guardian_info table
+    $guardianQuery = $conn->prepare("SELECT * FROM guardian_info WHERE id = ?");
+    $guardianQuery->bind_param("i", $id);
+    $guardianQuery->execute();
+    $guardianResult = $guardianQuery->get_result();
+    if ($guardianResult->num_rows > 0) {
+        $guardianData = $guardianResult->fetch_assoc();
+    }
+
+    // Fetch from student_documents table
+    $documentQuery = $conn->prepare("SELECT * FROM student_documents WHERE id = ?");
+    $documentQuery->bind_param("i", $id);
+    $documentQuery->execute();
+    $documentResult = $documentQuery->get_result();
+    if ($documentResult->num_rows > 0) {
+        $documentData = $documentResult->fetch_assoc();
+    }
+
+    // Detect student status from status tables
+    if (!empty($studentData['name'])) {
+        $name = $conn->real_escape_string($studentData['name']);
         $statusTables = ['transferee', 'old', 'irregular', 'new'];
 
         foreach ($statusTables as $table) {
@@ -25,8 +47,10 @@ if ($conn && !$conn->connect_error) {
             }
         }
     }
+
 } else {
-    die("Database connection failed.");
+    echo "<h3 style='color:red;'>No student ID provided in URL.</h3>";
+    exit;
 }
 ?>
 
@@ -40,9 +64,7 @@ if ($conn && !$conn->connect_error) {
             margin: 0;
             display: flex;
         }
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         .sidebar {
             width: 220px;
             background: #0d3c74;
@@ -64,13 +86,8 @@ if ($conn && !$conn->connect_error) {
             flex-direction: column;
             justify-content: space-between;
         }
-        .sidebar h2, .sidebar ul {
-            margin: 0;
-            padding: 0;
-        }
-        .sidebar ul {
-            list-style: none;
-        }
+        .sidebar h2, .sidebar ul { margin: 0; padding: 0; }
+        .sidebar ul { list-style: none; }
         .sidebar ul li {
             padding: 10px 0;
         }
@@ -114,9 +131,7 @@ if ($conn && !$conn->connect_error) {
             font-weight: normal;
             font-size: 13px;
         }
-        form {
-            flex: 1;
-        }
+        form { flex: 1; }
         .bottom-buttons {
             text-align: right;
             padding-top: 20px;
@@ -160,73 +175,83 @@ if ($conn && !$conn->connect_error) {
     <div>
         <h2>Student Info</h2>
 
-        <?php if (!$admission || !$guardian || !$docs): ?>
-            <p style="color: red;">No student data found.</p>
-        <?php else: ?>
+       <?php if (empty($studentData)): ?>
+    <p style="color: red;">No admission data found for this student.</p>
+<?php else: ?>
+
         <form action="update_student.php" method="POST">
-            <input type="hidden" name="admission_id" value="<?= $admission['id'] ?>">
-            <input type="hidden" name="guardian_id" value="<?= $guardian['id'] ?>">
+            <input type="hidden" name="admission_id" value="<?= $studentData['id'] ?>">
+            <input type="hidden" name="guardian_id" value="<?= $guardianData['id'] ?>">
 
             <div class="section">
                 <h3>Personal Information</h3>
                 <div class="field-group">
-                    <div class="field"><label>Full Name</label><input name="name" type="text" value="<?= $admission['name'] ?>"></div>
-                    <div class="field"><label>Birthdate</label><input name="bdate" type="date" value="<?= $admission['bdate'] ?>"></div>
+                    <div class="field"><label>Full Name</label><input name="name" type="text" value="<?= $studentData['name'] ?>"></div>
+                    <div class="field"><label>Birthdate</label><input name="bdate" type="date" value="<?= $studentData['bdate'] ?>"></div>
                     <div class="field"><label>Gender</label>
                         <select name="gender">
-                            <option <?= $admission['gender'] == 'm' ? 'selected' : '' ?>>Male</option>
-                            <option <?= $admission['gender'] == 'f' ? 'selected' : '' ?>>Female</option>
-                            <option <?= $admission['gender'] == 'o' ? 'selected' : '' ?>>Other</option>
+                            <option <?= $studentData['gender'] == 'm' ? 'selected' : '' ?>>Male</option>
+                            <option <?= $studentData['gender'] == 'f' ? 'selected' : '' ?>>Female</option>
+                            <option <?= $studentData['gender'] == 'o' ? 'selected' : '' ?>>Other</option>
                         </select>
                     </div>
-                    <div class="field"><label>Religion</label><input name="religion" type="text" value="<?= $admission['religion'] ?>"></div>
-                    <div class="field"><label>Nationality</label><input name="nat" type="text" value="<?= $admission['nat'] ?>"></div>
+                    <div class="field"><label>Religion</label><input name="religion" type="text" value="<?= $studentData['religion'] ?>"></div>
+                    <div class="field"><label>Nationality</label><input name="nat" type="text" value="<?= $studentData['nat'] ?>"></div>
                 </div>
             </div>
 
             <div class="section">
                 <h3>Contact Information</h3>
                 <div class="field-group">
-                    <div class="field"><label>Current Address</label><input name="curraddress" type="text" value="<?= $admission['curraddress'] ?>"></div>
-                    <div class="field"><label>Permanent Address</label><input name="peraddress" type="text" value="<?= $admission['peraddress'] ?>"></div>
-                    <div class="field"><label>City</label><input name="city" type="text" value="<?= $admission['city'] ?>"></div>
-                    <div class="field"><label>Province</label><input name="province" type="text" value="<?= $admission['province'] ?>"></div>
-                    <div class="field"><label>ZIP</label><input name="zip" type="text" value="<?= $admission['zip'] ?>"></div>
-                    <div class="field"><label>Phone Number</label><input name="phoneno" type="text" value="<?= $admission['phoneno'] ?>"></div>
-                    <div class="field"><label>Email ID</label><input name="email" type="email" value="<?= $admission['email'] ?>"></div>
+                    <div class="field"><label>Current Address</label><input name="curraddress" type="text" value="<?= $studentData['curraddress'] ?>"></div>
+                    <div class="field"><label>Permanent Address</label><input name="peraddress" type="text" value="<?= $studentData['peraddress'] ?>"></div>
+                    <div class="field"><label>City</label><input name="city" type="text" value="<?= $studentData['city'] ?>"></div>
+                    <div class="field"><label>Province</label><input name="province" type="text" value="<?= $studentData['province'] ?>"></div>
+                    <div class="field"><label>ZIP</label><input name="zip" type="text" value="<?= $studentData['zip'] ?>"></div>
+                    <div class="field"><label>Phone Number</label><input name="phoneno" type="text" value="<?= $studentData['phoneno'] ?>"></div>
+                    <div class="field"><label>Email ID</label><input name="email" type="email" value="<?= $studentData['email'] ?>"></div>
                 </div>
             </div>
 
             <div class="section">
                 <h3>Parent’s Information</h3>
+                 <?php if (empty($guardianData)): ?>
+        <p style="color: orange;">Guardian information is missing.</p>
+    <?php else: ?>
                 <div class="field-group">
-                    <div class="field"><label>Mother's Name</label><input name="mname" type="text" value="<?= $guardian['mname'] ?>"></div>
-                    <div class="field"><label>Occupation</label><input name="moccu" type="text" value="<?= $guardian['moccu'] ?>"></div>
-                    <div class="field"><label>Contact Information</label><input name="mno" type="text" value="<?= $guardian['mno'] ?>"></div>
-                    <div class="field"><label>Father's Name</label><input name="fname" type="text" value="<?= $guardian['fname'] ?>"></div>
-                    <div class="field"><label>Occupation</label><input name="foccu" type="text" value="<?= $guardian['foccu'] ?>"></div>
-                    <div class="field"><label>Contact Information</label><input name="fno" type="text" value="<?= $guardian['fno'] ?>"></div>
+                    <div class="field"><label>Mother's Name</label><input name="mname" type="text" value="<?= $guardianData['mname'] ?>"></div>
+                    <div class="field"><label>Occupation</label><input name="moccu" type="text" value="<?= $guardianData['moccu'] ?>"></div>
+                    <div class="field"><label>Contact Information</label><input name="mno" type="text" value="<?= $guardianData['mno'] ?>"></div>
+                    <div class="field"><label>Father's Name</label><input name="fname" type="text" value="<?= $guardianData['fname'] ?>"></div>
+                    <div class="field"><label>Occupation</label><input name="foccu" type="text" value="<?= $guardianData['foccu'] ?>"></div>
+                    <div class="field"><label>Contact Information</label><input name="fno" type="text" value="<?= $guardianData['fno'] ?>"></div>
                 </div>
+                <?php endif; ?>
             </div>
 
             <div class="section">
                 <h3>Contact Person</h3>
                 <div class="field-group">
-                    <div class="field"><label>Guardian's Name</label><input name="gname" type="text" value="<?= $guardian['gname'] ?>"></div>
-                    <div class="field"><label>Relationship to Student</label><input name="relationship" type="text" value="<?= $guardian['relationship'] ?>"></div>
-                    <div class="field"><label>Contact Information</label><input name="gno" type="text" value="<?= $guardian['gno'] ?>"></div>
+                    <div class="field"><label>Guardian's Name</label><input name="gname" type="text" value="<?= $guardianData['gname'] ?>"></div>
+                    <div class="field"><label>Relationship to Student</label><input name="relationship" type="text" value="<?= $guardianData['relationship'] ?>"></div>
+                    <div class="field"><label>Contact Information</label><input name="gno" type="text" value="<?= $guardianData['gno'] ?>"></div>
                 </div>
             </div>
 
             <div class="section">
                 <h3>Academic Information</h3>
+                <?php if (empty($documentData)): ?>
+        <p style="color: orange;">Academic information is missing.</p>
+    <?php else: ?>
                 <div class="field-group">
-                    <div class="field"><label>Previous School</label><input name="prevschool" type="text" value="<?= $docs['prevschool'] ?>"></div>
-                    <div class="field"><label>Last Grade Completed</label><input name="last_grade" type="text" value="<?= $docs['last_grade'] ?>"></div>
-                    <div class="field"><label>Applying Grade</label><input name="applying_grade" type="text" value="<?= $docs['applying_grade'] ?>"></div>
+                    <div class="field"><label>Previous School</label><input name="prevschool" type="text" value="<?= $documentData['prevschool'] ?>"></div>
+                    <div class="field"><label>Last Grade Completed</label><input name="last_grade" type="text" value="<?= $documentData['last_grade'] ?>"></div>
+                    <div class="field"><label>Applying Grade</label><input name="applying_grade" type="text" value="<?= $documentData['applying_grade'] ?>"></div>
+                    <div class="field"><label>Student Status</label><input name="status_std" type="text" value="<?= $documentData['status_std'] ?>"></div>
+                    <div class="field"><label>Course</label><input name="Course" type="text" value="<?= $documentData['Course'] ?>"></div>
 
-                    <div class="field"><label>Student Status</label><input name="status_std" type="text" value="<?= $docs['status_std'] ?>"></div>
-                    <div class="field"><label>Course</label><input name="Course" type="text" value="<?= $docs['Course'] ?>"></div>
+                    <?php endif; ?>
+
                 </div>
             </div>
     </div>
