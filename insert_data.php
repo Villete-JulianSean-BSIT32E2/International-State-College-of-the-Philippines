@@ -5,7 +5,7 @@ include 'connect.php';
 
 session_start(); // Start session to persist student ID between steps
 
-// Step 1: Insert into admission
+// Insert into admission
 if (isset($_POST['name'])) {
     $stmt = $conn->prepare("INSERT INTO admission (name, bdate, gender, nat, religion, curraddress, province, peraddress, zip, email, city, phoneno)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -22,7 +22,7 @@ if (isset($_POST['name'])) {
     exit();
 }
 
-// Step 2: Insert into guardian_info
+//  Insert into guardian_info
 if (isset($_POST['fname'])) {
     $stmt = $conn->prepare("INSERT INTO guardian_info (fname, mname, foccu, moccu, fno, mno, gname, relationship, gno)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -34,7 +34,7 @@ if (isset($_POST['fname'])) {
     exit();
 }
 
-// Step 3: Insert academic info + file uploads
+// Insert academic info + file uploads
 if (isset($_POST['applying_grade'])) {
     function uploadFile($key) {
         $dir = "uploads/";
