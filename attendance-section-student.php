@@ -106,7 +106,15 @@ $stats = $statsResult->fetch_assoc();
         <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
         <div class="nav-item">Registrar</div>
         <div class="nav-item">Cashier</div>
-        <div class="nav-item active"><a href="attendance-dashboard.php" style="text-decoration: none; color: white;">Attendance</a></div>
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="attendanceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white;">
+                Attendance
+            </a>
+            <ul class="dropdown-menu bg-dark" aria-labelledby="attendanceDropdown">
+                <li><a class="dropdown-item text-white" href="attendance-scan.php">Scan</a></li>
+                <li><a class="dropdown-item text-white" href="attendance-dashboard.php">Dashboard</a></li>
+            </ul>
+        </div>
     </div>
 
     <div class="flex-grow-1">
