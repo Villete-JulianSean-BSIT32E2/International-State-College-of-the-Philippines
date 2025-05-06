@@ -442,6 +442,7 @@
             decoder: {
                 readers: [
                     "code_128_reader",
+                    "qrcode",
                     "ean_reader",
                     "ean_8_reader",
                     "code_39_reader",

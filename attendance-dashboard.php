@@ -62,6 +62,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
     <style>
     .sidebar {
       width: 240px;
+      height: 135vh;
       background-color: #13334D;
       color: white;
       padding: 1rem;
