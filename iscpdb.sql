@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 09:20 PM
+-- Generation Time: May 06, 2025 at 10:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,26 +65,9 @@ CREATE TABLE `attendance` (
   `Date` date NOT NULL,
   `Status` smallint(1) NOT NULL COMMENT '0 - ABSENT, 1 - PRESENT, 2 - LATE',
   `Notes` text DEFAULT NULL,
-  `TimeRecorded` timestamp NOT NULL DEFAULT current_timestamp()
+  `TimeIn` timestamp NOT NULL DEFAULT current_timestamp(),
+  `TimeOut` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `attendance`
---
-
-INSERT INTO `attendance` (`AttendanceID`, `id`, `Date`, `Status`, `Notes`, `TimeRecorded`) VALUES
-(1, 47, '2025-04-28', 2, NULL, '2025-05-01 19:11:31'),
-(2, 47, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
-(3, 47, '2025-05-01', 1, NULL, '2025-05-01 19:11:31'),
-(4, 48, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
-(5, 48, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
-(6, 48, '2025-05-02', 1, NULL, '2025-05-01 19:11:31'),
-(7, 49, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
-(8, 49, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
-(9, 49, '2025-05-02', 1, NULL, '2025-05-01 19:11:31'),
-(10, 50, '2025-04-28', 0, NULL, '2025-05-01 19:11:31'),
-(11, 50, '2025-04-30', 0, NULL, '2025-05-01 19:11:31'),
-(12, 50, '2025-05-02', 1, NULL, '2025-05-01 19:11:31');
 
 -- --------------------------------------------------------
 
@@ -192,6 +175,8 @@ CREATE TABLE `student_attendance_view` (
 ,`Date` date
 ,`Status` smallint(1)
 ,`StatusText` varchar(7)
+,`TimeIn` timestamp
+,`TimeOut` timestamp
 ,`StudentID` int(11)
 ,`StudentName` varchar(255)
 ,`gender` enum('m','f','o')
@@ -272,7 +257,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `student_attendance_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS SELECT `a`.`AttendanceID` AS `AttendanceID`, `a`.`Date` AS `Date`, `a`.`Status` AS `Status`, CASE WHEN `a`.`Status` = 0 THEN 'Absent' WHEN `a`.`Status` = 1 THEN 'Present' WHEN `a`.`Status` = 2 THEN 'Late' ELSE 'Unknown' END AS `StatusText`, `ad`.`id` AS `StudentID`, `ad`.`name` AS `StudentName`, `ad`.`gender` AS `gender`, `ad`.`email` AS `email`, `ad`.`phoneno` AS `phoneno`, `sd`.`Course` AS `Course`, `sd`.`applying_grade` AS `CurrentGrade`, `sd`.`last_grade` AS `PreviousGrade`, `sd`.`status_std` AS `StudentStatus`, `sd`.`prevschool` AS `PreviousSchool` FROM ((`attendance` `a` join `admission` `ad` on(`a`.`id` = `ad`.`id`)) join `student_documents` `sd` on(`a`.`id` = `sd`.`id`)) ORDER BY `a`.`Date` DESC, `ad`.`name` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS SELECT `a`.`AttendanceID` AS `AttendanceID`, `a`.`Date` AS `Date`, `a`.`Status` AS `Status`, CASE WHEN `a`.`Status` = 0 THEN 'Absent' WHEN `a`.`Status` = 1 THEN 'Present' WHEN `a`.`Status` = 2 THEN 'Late' ELSE 'Unknown' END AS `StatusText`, `a`.`TimeIn` AS `TimeIn`, `a`.`TimeOut` AS `TimeOut`, `ad`.`id` AS `StudentID`, `ad`.`name` AS `StudentName`, `ad`.`gender` AS `gender`, `ad`.`email` AS `email`, `ad`.`phoneno` AS `phoneno`, `sd`.`Course` AS `Course`, `sd`.`applying_grade` AS `CurrentGrade`, `sd`.`last_grade` AS `PreviousGrade`, `sd`.`status_std` AS `StudentStatus`, `sd`.`prevschool` AS `PreviousSchool` FROM ((`attendance` `a` join `admission` `ad` on(`a`.`id` = `ad`.`id`)) join `student_documents` `sd` on(`a`.`id` = `sd`.`id`)) ORDER BY `a`.`Date` DESC, `ad`.`name` ASC ;
 
 --
 -- Indexes for dumped tables
@@ -341,7 +326,7 @@ ALTER TABLE `admission`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `guardian_info`
