@@ -1,4 +1,5 @@
 <?php
+
 //ATTENDANCE-SCAN.PHP
 $servername = "localhost";
 $username = "root";
@@ -9,6 +10,8 @@ $message = '';
 $messageType = '';
 $studentInfo = null;
 $action = '';
+
+date_default_timezone_set('Asia/Manila');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -36,46 +39,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                 $currTime = date('Y-m-d H:i:s');
 
                 //CHECKS IF ALREADY TOOK ATTENDANCE
-                $checkSQL = "SELECT AttendanceID, Status FROM attendance WHERE id = ? AND Date = ?";
+                $checkSQL = "SELECT AttendanceID, Status, TimeIn, TimeOut FROM attendance WHERE id = ? AND Date = ?";
                 $stmt = $conn->prepare($checkSQL);
                 $stmt->bind_param("is", $studentId, $currDate);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
                 if ($result->num_rows > 0) {
-                    //IF STUDENT EXISTS, TAKE ATTENDANCE
+                    //IF STUDENT EXISTS, CHECK FOR ATTENDANCE
                     $row = $result->fetch_assoc();
                     $attendanceId = $row['AttendanceID'];
-                    $status = 1; // Present
 
-                    //IF PROF MARKED STUDENT AS ABSENT, TURN TO PRESENT
-                    //TODO: ADD LATE STATUS
-                    if ($row['Status'] != 1) {
+                    if (!empty($row['TimeIn']) && empty($row['TimeOut'])) {
+                        // Student has signed in but not signed out yet - update to LOGGED OUT (2)
+                        $status = 2; // LOGGED OUT
+                        $updateSQL = "UPDATE attendance SET Status = ?, TimeOut = ? WHERE AttendanceID = ?";
+                        $stmt = $conn->prepare($updateSQL);
+                        $stmt->bind_param("isi", $status, $currTime, $attendanceId);
+
+                        if ($stmt->execute()) {
+                            $action = "update";
+                            $message = "Sign out recorded successfully!";
+                            $messageType = 'update';
+                        } else {
+                            $message = "Error updating attendance: " . $stmt->error;
+                            $messageType = 'error';
+                        }
+                    } elseif (!empty($row['TimeOut'])) {
+                        $message = "Student has already completed attendance for today.";
+                        $messageType = 'info';
+                    } else {
+                        // If Status is 0 (Absent) and TimeIn is NULL, mark as Present
+                        $status = 1; // Present
                         $updateSQL = "UPDATE attendance SET Status = ?, TimeIn = ? WHERE AttendanceID = ?";
                         $stmt = $conn->prepare($updateSQL);
                         $stmt->bind_param("isi", $status, $currTime, $attendanceId);
 
                         if ($stmt->execute()) {
                             $action = "update";
-                            $message = "Attendance updated successfully!";
-                            $messageType = 'update';
+                            $message = "Sign in recorded successfully!";
+                            $messageType = 'success';
                         } else {
                             $message = "Error updating attendance: " . $stmt->error;
                             $messageType = 'error';
                         }
-                    } else {
-                        $message = "Student already marked present for today.";
-                        $messageType = 'info';
                     }
                 } else {
-                    $status = 1;
-                    $insertSQL = "INSERT INTO attendance (id, Date, Status, TimeIn) VALUES (?, ?, ?, ?)";
+                    // First time attendance for the day
+                    $status = 1; // Present
+                    $insertSQL = "INSERT INTO attendance(id, Date, Status, TimeIn) VALUES (?,?,?,?)";
                     $stmt = $conn->prepare($insertSQL);
                     $stmt->bind_param("isis", $studentId, $currDate, $status, $currTime);
 
                     if ($stmt->execute()) {
                         $action = "insert";
-                        $message = "Attendance recorded successfully!";
+                        $message = "Sign in recorded successfully!";
                         $messageType = 'success';
                     } else {
                         $message = "Error recording attendance: " . $stmt->error;
@@ -86,14 +104,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                 if ($messageType == 'success' || $messageType == 'update' || $messageType == 'info') {
                     $infoSQL = "SELECT a.id as studentId, a.AttendanceID, a.Date as date, sav.StudentName,
                                 CASE
-                                    WHEN a.Status = 0 THEN 'Absent'
+                                    WHEN a.Status = 0 THEN  'Absent'
                                     WHEN a.Status = 1 THEN 'Present'
-                                    WHEN a.Status = 2 THEN 'Late'
-                                    ELSE 'Unknown'
+                                    WHEN a.Status = 2 THEN 'Logged Out'
+                                    ELSE 'Late'
                                 END as status,
-                                a.TimeIn as timeIn
+                                a.TimeIn as timeIn,
+                                a.TimeOut as timeOut
                                 FROM attendance a
-                                INNER JOIN student_attendance_view sav ON a.AttendanceID = sav.AttendanceID
+                                INNER JOIN student_attendance_view sav ON a.id = sav.StudentID
                                 WHERE a.id = ? AND a.Date = ?";
                     
                     $stmt = $conn->prepare($infoSQL);
@@ -202,6 +221,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
         background-color: #fff3cd;
         color: #856404;
     }
+    .status-loggedout {
+        background-color: #cfe2ff;
+        color: #084298;
+    }
     .time-info {
         background-color: #f8f9fa;
         padding: 15px;
@@ -222,6 +245,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
         font-size: 3rem;
         margin-bottom: 15px;
         color: #dee2e6;
+    }
+    .fade-out {
+        opacity: 0,
+        transition: opacity 0.5s ease-out;
     }
     </style>
 </head>
@@ -303,8 +330,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                                             <h2 class="mb-0">Student Information</h2>
                                         </div>
                                         
+                                        <div id="StudentInfoCard">
                                         <?php if($studentInfo) :?>
-                                        <div class="card-body student-info">
+                                        <div class="card-body student-info" id="StudentInfo">
                                             <div class="row mb-4">
                                                 <div class="col-md-6">
                                                     <div class="info-label">STUDENT ID</div>
@@ -321,12 +349,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                                                 <div class="info-value"><?php echo $studentInfo['StudentName']; ?></div>
                                             </div>
                                             
-                                            <div class="mb-4">
+                                            <div class="col-md-6 mb-4">
                                                 <div class="info-label">STATUS</div>
                                                 <div>
                                                     <span class="status-badge <?php 
                                                         echo ($studentInfo['status'] == 'Present') ? 'status-present' : 
-                                                            (($studentInfo['status'] == 'Late') ? 'status-late' : 'status-absent'); 
+                                                            (($studentInfo['status'] == 'Late') ? 'status-late' : 
+                                                            (($studentInfo['status'] == 'Logged Out') ? 'status-loggedout' : 'status-absent')); 
                                                     ?>">
                                                         <?php echo $studentInfo['status']; ?>
                                                     </span>
@@ -336,8 +365,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                                             <div class="time-info d-flex align-items-center">
                                                 <span class="time-icon">⏱️</span>
                                                 <div>
-                                                    <div class="info-label">TIME RECORDED</div>
-                                                    <div class="info-value mb-0"><?php echo date('h:i:s A', strtotime($studentInfo['timeIn'])); ?></div>
+                                                    <div class="info-label">TIME IN</div>
+                                                    <div class="info-value"><?php echo date('h:i:s A', strtotime($studentInfo['timeIn'])); ?></div>
+                                                    
+                                                    <?php if(!empty($studentInfo['timeOut'])) : ?>
+                                                    <div class="info-label mt-2">TIME OUT</div>
+                                                    <div class="info-value mb-0"><?php echo date('h:i:s A', strtotime($studentInfo['timeOut'])); ?></div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </div>
                                         </div>
@@ -356,6 +390,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -382,6 +417,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['studentId'])) {
                     alerts.forEach(function(alert) {
                         alert.style.display = 'none';
                     });
+                }, 3000);
+            }
+
+            const studentInfo = document.getElementById('StudentInfoContent');
+            if (studentInfo) {
+                setTimeout(function() {
+                    studentInfo.classList.add('fade-out');
+
+                    setTimeout(function() {
+                        const studentInfoCard = document.getElementById('StudentInfoCard');
+                        studentInfoCard.innerHTML = `
+                            <div class="card-body placeholder-message" id="placeholderContent">
+                                <div class="placeholder-icon">🔍</div>
+                                <h4>No Information Available</h4>
+                                <p class="mb-0">Please scan your ID card or enter your student ID to view your attendance information.</p>
+                            </div>
+                        `;
+                    }, 500);
                 }, 3000);
             }
         });
