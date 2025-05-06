@@ -27,3 +27,5 @@ Alias /phpmyadmin "C:/xampp/phpMyAdmin/"
 
 If an error occur check ChatGPT
  Most likely Firewall and Typo Problems
+
+ Be sure to create a branch for own perspective Module!!

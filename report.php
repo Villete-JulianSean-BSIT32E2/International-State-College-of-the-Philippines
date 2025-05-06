@@ -44,9 +44,18 @@ $result = $conn->query("
 
 <h2>Student Admission Report</h2>
 
-<div class="buttons">
-    <button onclick="window.print()">🖨️ Print Report</button>
-    <button onclick="exportToPDF()">📄 Export to PDF</button>
+<div class="buttons" style="display: flex; justify-content: space-between;">
+    <a href="admission.php">
+        <button>🔙 Back to Dashboard</button>
+    </a>
+    <div>
+        <button onclick="window.print()">🖨️ Print Report</button>
+        <button onclick="exportToPDF()">📄 Export to PDF</button>
+        <a href="export_excel.php">
+        <button>📊 Export to Excel</button>
+</a>
+
+    </div>
 </div>
 
 <table>

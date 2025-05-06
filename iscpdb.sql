@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2025 at 09:11 AM
+-- Generation Time: May 05, 2025 at 03:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,10 +48,11 @@ CREATE TABLE `admission` (
 --
 
 INSERT INTO `admission` (`id`, `name`, `bdate`, `gender`, `nat`, `religion`, `curraddress`, `province`, `peraddress`, `zip`, `email`, `city`, `phoneno`) VALUES
-(47, 'ROSWELL GRECIA', '2025-04-10', '', 'asdasd', 'asdas', 'asdasdasd', 'asd', 'dasasd', '1231', 'fasdfasda@gmila.com', 'das', '0921237474'),
-(48, 'Lolo Bron', '2025-04-18', 'm', 'asdfasdf', 'asdfasdfadsf', 'asdfasdf', 'asdf', 'fasdf', '21313', 'Ampongs@yahoo.com', 'dsfadsdf', '0921237474'),
-(49, 'Kevin Dirhams', '2025-04-30', '', 'dfasdf', 'fasdfsa', 'fsdafasd', 'fasd', 'fasdfasdf', '2312312', 'Ampongs@yahoo.com', 'sdafs', '0921237474'),
-(50, 'Sung Jin-woo', '2025-04-11', '', 'asdfasda', 'asdfafas', 'ba talga to', 'fdasdfasd', 'dasasd', '12312312', 'SungjinWoo@gmail.com', 'sadas', '0921237474');
+(47, 'ROSWELL GRECIAs', '2025-04-10', '', 'asdasd', 'asdas', 'asdasdasd', 'asd', 'dasasd', '1231', 'fasdfasda@gmila.com', 'das', '0921237474'),
+(48, 'Lolo Bron', '2025-04-18', '', 'asdfasdf', 'asdfasdfadsf', 'asdfasdf', 'asdf', 'fasdf', '21313', 'Ampongs@yahoo.com', 'dsfadsdf', '0921237474'),
+(50, 'Sung Jin-woo', '2025-04-11', '', 'asdfasda', 'asdfafas', 'ba talga to', 'fdasdfasd', 'dasasd', '12312312', 'SungjinWoo@gmail.com', 'sadas', '0921237474'),
+(51, 'Ferdinand Botchog', '2025-04-03', 'f', 'xzcvxcv', 'xzcvzxcv', 'zxcvzxv', 'cvzxcv', 'xzcvzxcvzx', '213124', 'vczxzxcv', 'vxcvz', '091234234'),
+(52, 'Christpoer Damcxzvz', '2025-05-08', '', 'fasdf', 'adfsad', 'asfdasfa', 'fvdsvsdf', 'vsdfvs', '213124', 'hiraomongmahalin@gmail.com', 'dfasfaf', '091235342');
 
 -- --------------------------------------------------------
 
@@ -77,10 +78,11 @@ CREATE TABLE `guardian_info` (
 --
 
 INSERT INTO `guardian_info` (`id`, `fname`, `mname`, `foccu`, `moccu`, `fno`, `mno`, `gname`, `relationship`, `gno`) VALUES
-(43, 'vbxcbx', 'bxcvbx', 'cvbxc', 'vbxcvb', 'bxcvb', 'xcvbxcvb', 'cvbxcv', 'xcvbxcv', 'xcvbxcv'),
-(44, 'sdfafda', 'fadsf', 'asdfasdfas', 'asfd', 'adfasdfs', 'asdfasdf', 'dsfas', 'dfasdf', 'asfdasdf'),
-(45, 'vxzcvzx', 'zxcvz', 'xcvzxcvz', 'xzcvzcv', 'xzcvzcx', 'zxcvzx', 'cvzvzcv', 'xcvzxcv', 'cvxzv'),
-(46, 'afasdfa', 'sdfasfd', 'adsfasd', 'sfasfas', 'dfasdf', 'asdfasf', 'asdfa', 'fasdfa', 'asdfasdf');
+(47, 'xzcvzxcv', 'vzxcvz', 'xcvzxc', 'vzxcv', 'vxcvz', 'zvcxzv', 'zxcvxzc', 'zcxvzx', 'cvzxcvzx'),
+(48, 'vbxcbx', 'bxcvbx', 'cvbxc', 'vbxcvb', 'bxcvb', 'xcvbxcvb', 'cvbxcv', 'xcvbxcv', 'xcvbxcv'),
+(50, 'xvzxcvz', 'zxcvzxc', 'vzxc', 'vzcx', 'zxcvzxcv', 'zxcvzx', 'xcvzxcv', 'vzxcvz', 'cvzxcvxvc'),
+(51, 'xvzxcvzxcvzx', 'zxcvzxc', 'vzxc', 'vzcx', 'zxcvzxcv', 'zxcvzx', 'xcvzxcvzcxvzxcv', 'vzxcvz', 'cvzxcvxvc'),
+(52, 'lLALALSAD', 'zxcvzxc', 'vzxc', 'vzcx', 'zxcvzxcv', 'zxcvzx', 'xcvzxcvzcxvzxcvCVX', 'vzxcvz', 'cvzxcvxvc');
 
 -- --------------------------------------------------------
 
@@ -128,7 +130,8 @@ CREATE TABLE `new` (
 --
 
 INSERT INTO `new` (`id`, `name`) VALUES
-(8, 'ROSWELL GRECIA');
+(11, 'Christpoer Damcxzvz'),
+(12, 'ROSWELL GRECIAs');
 
 -- --------------------------------------------------------
 
@@ -146,7 +149,7 @@ CREATE TABLE `old` (
 --
 
 INSERT INTO `old` (`id`, `name`) VALUES
-(17, 'Kevin Dirhams');
+(19, 'Ferdinand Botchog');
 
 -- --------------------------------------------------------
 
@@ -180,7 +183,9 @@ INSERT INTO `student_documents` (`id`, `applying_grade`, `prevschool`, `last_gra
 (47, '3rd Year', '12dASDdasc', '2nd Year', 'BSIT', 'new', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_', 'uploads/1745907336_Report Acknowledgement.jfif', '2025-04-22', 1, '2025-04-29 06:15:36'),
 (48, '2nd Year', 'sdfadfasf', '1st Year', 'CTHM', 'transferee', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_', 'uploads/1745907478_Selected photo (1).jpg', '2025-04-29', 1, '2025-04-29 06:17:58'),
 (49, '4th Year', 'minybubomp2131', '3rd Year', 'BSCRIM', 'old', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_', 'uploads/1745907552_Selected photo (1).jfif', '2025-04-30', 1, '2025-04-29 06:19:12'),
-(50, '4th Year', '12dASDdasc', '1st Year', 'BSCS', 'irregular', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_Selected photo (1).jfif', '2025-04-30', 1, '2025-04-29 06:23:15');
+(50, '4th Year', '12dASDdasc', '1st Year', 'BSCS', 'irregular', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_', 'uploads/1745907795_Selected photo (1).jfif', '2025-04-30', 1, '2025-04-29 06:23:15'),
+(51, '4th Year', 'xcvzdqwdqw', '3rd Year', 'BSIT', 'old', 'uploads/1745977968_', 'uploads/1745977968_', 'uploads/1745977968_', 'uploads/1745977968_', 'uploads/1745977968_', 'uploads/1745977968_Report Acknowledgement.jfif', '2025-04-30', 1, '2025-04-30 01:52:48'),
+(52, '1st Year', 'Balfogda', '1st Year', 'BSIT', 'new', 'uploads/1746404237_', 'uploads/1746404237_', 'uploads/1746404237_', 'uploads/1746404237_', 'uploads/1746404237_', 'uploads/1746404237_Report Acknowledgement.jfif', '2025-05-28', 1, '2025-05-05 00:17:17');
 
 -- --------------------------------------------------------
 
@@ -198,7 +203,7 @@ CREATE TABLE `transferee` (
 --
 
 INSERT INTO `transferee` (`id`, `name`) VALUES
-(11, 'Lolo Bron');
+(12, 'Lolo Bron');
 
 -- --------------------------------------------------------
 
@@ -263,52 +268,43 @@ ALTER TABLE `transferee`
 -- AUTO_INCREMENT for table `admission`
 --
 ALTER TABLE `admission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `guardian_info`
 --
 ALTER TABLE `guardian_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `irregular`
 --
 ALTER TABLE `irregular`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `new`
 --
 ALTER TABLE `new`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `old`
 --
 ALTER TABLE `old`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `student_documents`
 --
 ALTER TABLE `student_documents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `transferee`
 --
 ALTER TABLE `transferee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
-DELIMITER $$
---
--- Events
---
-CREATE DEFINER=`root`@`localhost` EVENT `update_joined_students` ON SCHEDULE EVERY 1 HOUR STARTS '2025-04-24 16:15:14' ON COMPLETION NOT PRESERVE ENABLE DO INSERT INTO joined_students (name, applying_grade, course)
-  SELECT name, applying_grade, course FROM temp_admission$$
-
-DELIMITER ;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
