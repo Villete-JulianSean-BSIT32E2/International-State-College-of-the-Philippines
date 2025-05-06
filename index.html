@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>International School Landing Page</title>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
+
+    html {
+    scroll-behavior: smooth;
+  }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Open Sans', sans-serif; background: #f4f8fc; }
 
@@ -18,19 +23,22 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      font-size: 20px;
-      color: #2e5cfa;
-    }
+   .logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0b2f69;
+    z-index: 1000;
+  }
 
-    .logo-img {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
-    }
+  .logo-img {
+    height: 40px;
+    width: auto;
+  }
 
     nav ul {
       list-style: none;
@@ -286,7 +294,51 @@ body.dark-mode p {
 body.dark-mode .hero-text h1 {
   color: #3498db;
 }
+.icon-hover {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    display: inline-block;
+  }
 
+.icon-hover:hover {
+    transform: scale(1.2) rotate(5deg);
+    filter: brightness(1.2);
+  }
+
+  .faq-question {
+    background-color: #2e5cfa;
+    color: white;
+    cursor: pointer;
+    padding: 15px 20px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  .faq-question:hover {
+    background-color: #0b2f69;
+  }
+
+  .faq-answer {
+    padding: 15px 20px;
+    background-color: #f9f9f9;
+    display: none;
+    overflow: hidden;
+    border-left: 4px solid #2e5cfa;
+    border-radius: 0 0 5px 5px;
+  }
+
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+a:hover {
+    color: #3498db; /* Change to any color you want */
+    transform: scale(1.1); /* Optional: adds a slight zoom effect */
+  }
 
   </style>
 </head>
@@ -305,15 +357,16 @@ body.dark-mode .hero-text h1 {
     </div>
 
     <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#" onclick="showLogin()">Admission</a></li>
-        <li><a href="#">Registrar</a></li>
-        <li><a href="#">Cashier</a></li>
-        <li><a href="attendance-dashboard.php">Attendance</a></li>
-        <li><a href="#">FAQ</a></li>
-      </ul>
-    </nav>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#" onclick="showLogin()">Admission</a></li>
+    <li><a href="#">Registrar</a></li>
+    <li><a href="#">Cashier</a></li>
+    <li><a href="attendance-dashboard.php">Attendance</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
     <div style="margin-left: auto;">
       <label class="switch">
         <input type="checkbox" id="darkToggle" />
@@ -337,61 +390,141 @@ body.dark-mode .hero-text h1 {
   <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px;">
     <!-- Top Row -->
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🎓</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🎓</div>
       <h4 class="dark-mode-text" style="color: #333;">World-Class Faculty</h4>
-      <p class="dark-mode-text" style="color: #555;">Our faculty consists of leading experts from diverse fields, offering personalized attention to ensure every student thrives and reaches their full potential.</p>
+      <p class="dark-mode-text" style="color: #555;">Our faculty consists of leading experts from diverse fields, offering personalized attention to help students excel.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🌐</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🌐</div>
       <h4 class="dark-mode-text" style="color: #333;">Global Opportunities</h4>
-      <p class="dark-mode-text" style="color: #555;">Gain valuable international exposure through study abroad programs, global internships, and cross-border collaborations with renowned universities.</p>
+      <p class="dark-mode-text" style="color: #555;">Gain international exposure through study abroad, global internships, and partnerships with global institutions.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">💼</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">💼</div>
       <h4 class="dark-mode-text" style="color: #333;">Career Support</h4>
-      <p class="dark-mode-text" style="color: #555;">We provide career coaching, networking opportunities, internship placements, and resume building services, ensuring you are well-prepared for success in the workforce.</p>
+      <p class="dark-mode-text" style="color: #555;">We provide coaching, internships, resume building, and job support for a strong start to your career.</p>
     </div>
 
     <!-- Bottom Row -->
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">📝</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">📝</div>
       <h4 class="dark-mode-text" style="color: #333;">Cutting-Edge Facilities</h4>
-      <p class="dark-mode-text" style="color: #555;">Our modern campus is equipped with the latest technology, state-of-the-art laboratories, and collaborative spaces to enhance your learning experience.</p>
+      <p class="dark-mode-text" style="color: #555;">Study in a modern campus equipped with advanced labs, digital tools, and collaborative spaces.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🏆</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🏆</div>
       <h4 class="dark-mode-text" style="color: #333;">Student Achievements</h4>
-      <p class="dark-mode-text" style="color: #555;">Our students excel in academics, research, and extracurricular activities, winning prestigious awards and making impactful contributions to society.</p>
+      <p class="dark-mode-text" style="color: #555;">ISCP students are recognized nationally and globally for excellence in academics and innovation.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">💡</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">💡</div>
       <h4 class="dark-mode-text" style="color: #333;">Innovative Learning</h4>
-      <p class="dark-mode-text" style="color: #555;">Our curriculum is designed to blend theory with hands-on practice, giving students the tools and skills needed to innovate and lead in their chosen fields.</p>
+      <p class="dark-mode-text" style="color: #555;">Our programs combine theory and hands-on experience to foster creativity, problem-solving, and leadership.</p>
     </div>
   </div>
 </section>
 
+<!-- Vibrant Campus Life Section -->
 <section style="padding: 60px 10%; background: #f8f8f8;">
   <h2 style="text-align: center; color: #0b2f69; margin-bottom: 40px;">Vibrant Campus Life</h2>
   <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 40px;">
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🎉</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🎉</div>
       <h4 class="dark-mode-text" style="color: #333;">Exciting Events</h4>
-      <p class="dark-mode-text" style="color: #555;">Our campus hosts a wide range of events, from cultural festivals to student conferences and sports tournaments. There's always something happening at ISCP!</p>
+      <p class="dark-mode-text" style="color: #555;">From cultural shows to sports and academic fairs, ISCP hosts vibrant campus events year-round.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🤝</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🤝</div>
       <h4 class="dark-mode-text" style="color: #333;">Student Organizations</h4>
-      <p class="dark-mode-text" style="color: #555;">With over 50 student clubs and organizations, you’ll find a group that matches your passions, whether it’s for entrepreneurship, technology, arts, or social causes.</p>
+      <p class="dark-mode-text" style="color: #555;">With over 50 active clubs, students can pursue their passions, build networks, and lead projects.</p>
     </div>
     <div style="text-align: center; flex: 1; min-width: 250px; margin-bottom: 40px;">
-      <div style="font-size: 50px; margin-bottom: 10px;">🏫</div>
+      <div class="icon-hover" style="font-size: 50px; margin-bottom: 10px;">🏫</div>
       <h4 class="dark-mode-text" style="color: #333;">Social Spaces</h4>
-      <p class="dark-mode-text" style="color: #555;">Our campus is designed to encourage collaboration and socializing, with lounges, cafes, and recreational spaces where students can unwind and connect with peers.</p>
+      <p class="dark-mode-text" style="color: #555;">Relax and connect in cozy lounges, cafes, or green spaces designed for collaboration and fun.</p>
     </div>
   </div>
 </section>
 
+
+<!-- FAQ Section -->
+<section id="faq" class="faq-section" style="padding: 60px 10%; background: #fff;">
+  <h2 style="text-align: center; color: #0b2f69; margin-bottom: 40px;">Frequently Asked Questions</h2>
+  <div style="max-width: 900px; margin: auto;">
+    <div class="faq-item">
+      <button class="faq-question">What programs does ISCP offer?</button>
+      <div class="faq-answer">
+        <p>ISCP offers a wide range of undergraduate and graduate programs in fields such as Technology, Business, Science, and Liberal Arts</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">How do I apply for admission?</button>
+      <div class="faq-answer">
+        <p>You will be assisted by the Admission office or for online enrollment click the Enroll now button that you see on the website</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Is there financial aid or scholarship available?</button>
+      <div class="faq-answer">
+        <p>Yes, ISCP provides various scholarships and financial assistance programs based on merit and need. Please contact our financial aid office for more details.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">What is the tuition fee structure?</button>
+      <div class="faq-answer">
+        <p>Tuition fees vary by program and residency status. Visit the “Cashier” section or contact our office for a detailed breakdown.</p>
+      </div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-question">Is there on-campus housing?</button>
+      <div class="faq-answer">
+        <p>Yes, ISCP offers comfortable and secure on-campus dormitories for local and international students and we also have our friendly security guard "Manong Jemicho Ampong" Be sure to say hi and mano po whenever you meet him!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: #0b2f69; color: white; padding: 40px 10%; text-align: center;">
+  <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px;">
+    <!-- Quick Links -->
+    <div style="flex: 1; min-width: 200px;">
+      <h4 style="color: #fff;">Quick Links</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#" style="color: #fff; text-decoration: none; transition: color 0.3s ease;">Home</a></li>
+        <li><a href="#" style="color: #fff; text-decoration: none; transition: color 0.3s ease;">Admission</a></li>
+        <li><a href="#" style="color: #fff; text-decoration: none; transition: color 0.3s ease;">Registrar</a></li>
+        <li><a href="#" style="color: #fff; text-decoration: none; transition: color 0.3s ease;">Attendance</a></li>
+        <li><a href="#faq" style="color: #fff; text-decoration: none; transition: color 0.3s ease;">FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div style="flex: 1; min-width: 200px;">
+      <h4 style="color: #fff;">Contact Us</h4>
+      <p>Email: contact@iscp.edu.ph</p>
+      <p>Phone: +63 123 456 789</p>
+      <p>Address: Cubao Center of the Universe, Philippines</p>
+    </div>
+
+    <!-- Social Media -->
+    <div style="flex: 1; min-width: 200px;">
+  <h4 style="color: #fff;">Follow Us</h4>
+  <div style="display: flex; gap: 15px; justify-content: center;">
+    <a href="#" style="color: #fff; font-size: 20px; transition: color 0.3s ease; padding: 5px; border-radius: 50%;"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" style="color: #fff; font-size: 20px; transition: color 0.3s ease; padding: 5px; border-radius: 50%;"><i class="fab fa-twitter"></i></a>
+    <a href="#" style="color: #fff; font-size: 20px; transition: color 0.3s ease; padding: 5px; border-radius: 50%;"><i class="fab fa-instagram"></i></a>
+    <a href="#" style="color: #fff; font-size: 20px; transition: color 0.3s ease; padding: 5px; border-radius: 50%;"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+</div>
+
+  <div style="margin-top: 20px;">
+    <p>&copy; 2025 International State College of the Philippines. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- FontAwesome Icons (for social media icons) -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 
 
@@ -454,6 +587,14 @@ body.dark-mode .hero-text h1 {
     document.getElementById('darkToggle').addEventListener('change', function () {
       document.body.classList.toggle('dark-mode', this.checked);
     });
+
+
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const item = button.parentElement;
+      item.classList.toggle('active');
+    });
+  });
   </script>
 
 </body>
