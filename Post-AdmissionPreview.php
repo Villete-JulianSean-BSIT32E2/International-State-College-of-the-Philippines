@@ -214,9 +214,6 @@ $conn->close();
       <a href="admission.php">
         <button class="btn-back">Back to Dashboard</button>
       </a>
-      <a href="Personal-Information.php">
-        <button class="btn-next">Next</button>
-      </a>
     </div>
   </div>
 </body>

@@ -164,7 +164,8 @@ if ($conn && !$conn->connect_error) {
         </thead>
         <tbody>
           <?php foreach ($students as $student): ?>
-            <tr data-status="<?= strtolower(htmlspecialchars($student['status_std'] ?? 'unknown')) ?>">
+            <tr data-status="<?= strtolower(htmlspecialchars(isset($student['status_std']) ? $student['status_std'] : 'unknown')) ?>">
+
               <td><input type="text" value="<?= htmlspecialchars($student['name']) ?>" readonly></td>
               <td><input type="text" value="<?= htmlspecialchars($student['Course']) ?>" readonly></td>
               <td><input type="text" value="<?= htmlspecialchars($student['applying_grade']) ?>" readonly></td>
