@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 240px;
+    background: #0b2c4d;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.sidebar a {
+    color: white;
+    padding: 1rem;
+    display: block;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background: #1c3e64;
+}
+
+.sidebar a.active {
+    background: #16304c;
+    font-weight: bold;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: #f4f6f8;
+}
+.card.hover-shadow {
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card.hover-shadow:hover {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
