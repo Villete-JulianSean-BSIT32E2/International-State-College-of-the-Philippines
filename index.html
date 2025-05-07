@@ -360,10 +360,7 @@ a:hover {
     <nav>
   <ul>
     <li><a href="#">Home</a></li>
-    <li><a href="#" onclick="showLogin()">Admission</a></li>
-    <li><a href="#">Registrar</a></li>
-    <li><a href="#">Cashier</a></li>
-    <li><a href="attendance-dashboard.php">Attendance</a></li>
+    <li><a href="#" onclick="showLogin()">Login</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
 </nav>
@@ -556,7 +553,7 @@ a:hover {
     function checkPassword() {
       const input = document.getElementById("adminPassword").value;
       if (input === "admin123") {
-        window.location.href = "admission.php";
+        window.location.href = "main-dashboard.php";
       } else {
         alert("Incorrect password. Access denied.");
       }
