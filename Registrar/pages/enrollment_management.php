@@ -129,7 +129,7 @@ $result = $stmt->get_result();
     <table>
         <thead>
             <tr>
-                <th>ID</th>
+             
                 <th>Name</th>
                 <th>Course</th>
                 <th>Status</th>
@@ -140,7 +140,7 @@ $result = $stmt->get_result();
             <?php if ($result && $result->num_rows > 0): ?>
                 <?php while ($student = $result->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($student['id']) ?></td>
+                        
                         <td><?= htmlspecialchars($student['name']) ?></td>
                         <td><?= htmlspecialchars(isset($student['course']) ? $student['course'] : 'N/A') ?></td>
                         <td><?= htmlspecialchars(isset($student['status_std']) ? $student['status_std'] : 'N/A') ?></td>
