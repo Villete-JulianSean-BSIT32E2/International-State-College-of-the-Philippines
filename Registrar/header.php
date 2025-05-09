@@ -1,3 +1,31 @@
+<style>
+    
+    .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Adjust width as needed */
+    height: 100%;
+    background-color: #2b81bb;
+    color: white;
+    padding-top: 20px;
+}
+
+.sidebar .nav-item {
+    margin-bottom: 15px;
+}
+
+.sidebar .nav-link {
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #495057;
+}
+</style>
+
 <div class="sidebar p-3">
     <div class="text-center mb-4">
         <img src="assets/icons/logo.jpg" alt="Logo" width="80">
@@ -36,11 +64,6 @@
         <li class="nav-item">
             <a href="registrar.php?page=reports" class="nav-link text-white d-flex align-items-center gap-2">
                 <img src="assets/icons/report.png" width="20"> Reports
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="registrar.php?page=settings" class="nav-link text-white d-flex align-items-center gap-2">
-                <img src="assets/icons/settings.png" width="20"> Settings
             </a>
         </li>
     </ul>

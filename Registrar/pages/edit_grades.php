@@ -94,6 +94,20 @@ while ($row = $result->fetch_assoc()) {
         button:hover {
             background-color: #218838;
         }
+
+        .cancel{
+             padding: 8px 14px;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        
+        }
+        .cancel:hover{
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -131,7 +145,7 @@ while ($row = $result->fetch_assoc()) {
     <input type="text" name="remarks">
 
     <button type="submit">Save Grade</button>
-    <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=grades_transcripts">Cancel</a>
+    <a class="cancel" href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=grades_transcripts">Cancel</a>
 </form>
 
 </body>

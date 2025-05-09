@@ -13,13 +13,17 @@
         <div class="main-content p-4">
             <?php
                 $page = $_GET['page'] ?? 'dashboard';
-                $filepath = "pages/$page.php";
+$page_file = "pages/$page.php";
 
-                if (file_exists($filepath)) {
-                    include $filepath;
-                } else {
-                    echo "<h2 class='text-danger'>404 - Page '$page' not found.</h2>";
-                }
+
+if (file_exists($page_file)) {
+    include $page_file;
+} else {
+    echo "<h2>404 - Page '$page' not found.</h2>";
+}
+
+
+
             ?>
 
             <footer class="text-center mt-5">
