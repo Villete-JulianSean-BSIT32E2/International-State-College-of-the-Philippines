@@ -43,18 +43,17 @@ $result = $conn->query($sql);
 
     <!-- Filter by Course -->
     <form method="GET" action="registrar.php" style="margin-bottom: 15px;">
-    <input type="hidden" name="page" value="student_records">
-    <label><strong>Filter by Course:</strong></label>
-    <select name="course" onchange="this.form.submit()" style="padding: 5px;">
-        <option value="">-- All Courses --</option>
-        <?php foreach ($courses as $course): ?>
-            <option value="<?= htmlspecialchars($course) ?>" <?= $selected_course === $course ? 'selected' : '' ?>>
-                <?= htmlspecialchars($course) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</form>
-
+        <input type="hidden" name="page" value="student_records">
+        <label><strong>Filter by Course:</strong></label>
+        <select name="course" onchange="this.form.submit()" style="padding: 5px;">
+            <option value="">-- All Courses --</option>
+            <?php foreach ($courses as $course): ?>
+                <option value="<?= htmlspecialchars($course) ?>" <?= $selected_course === $course ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($course) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
 
     <table class="table table-bordered table-hover">
         <thead class="table-light">
@@ -72,9 +71,12 @@ $result = $conn->query($sql);
         <tbody>
             <?php if ($result && $result->num_rows > 0): ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
+                    <?php
+                        $row['course'] = isset($row['course']) ? $row['course'] : 'N/A';
+                    ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['course'] ?? 'N/A') ?></td>
+                        <td><?= htmlspecialchars(isset($row['name']) ? $row['name'] : 'N/A') ?></td>
+                        <td><?= htmlspecialchars($row['course']) ?></td>
                         <td><span class="<?= !empty($row['birth_cert_path']) ? 'cleared' : 'pending' ?>">
                             <?= !empty($row['birth_cert_path']) ? 'Cleared' : 'Pending' ?></span></td>
                         <td><span class="<?= !empty($row['form137_path']) ? 'cleared' : 'pending' ?>">
@@ -86,7 +88,7 @@ $result = $conn->query($sql);
                         <td><span class="<?= !empty($row['honorable_dismissal_path']) ? 'cleared' : 'pending' ?>">
                             <?= !empty($row['honorable_dismissal_path']) ? 'Cleared' : 'Pending' ?></span></td>
                         <td>
-                            <a href="registrar.php?page=edit_studentrecords&id=<?= $row['id'] ?>">Edit</a>
+                            <a href="registrar.php?page=edit_studentrecords&id=<?= isset($row['id']) ? $row['id'] : '' ?>">Edit</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>
@@ -108,14 +110,12 @@ $result = $conn->query($sql);
         color: red;
         font-weight: bold;
     }
-
-        a {
-            color: #0b90d0;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
+    a {
+        color: #0b90d0;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
 </style>

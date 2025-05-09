@@ -12,7 +12,8 @@
 
         <div class="main-content p-4">
             <?php
-                $page = $_GET['page'] ?? 'dashboard';
+                $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+
 $page_file = "pages/$page.php";
 
 

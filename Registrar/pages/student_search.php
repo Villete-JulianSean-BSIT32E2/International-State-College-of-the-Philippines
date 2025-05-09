@@ -7,7 +7,8 @@ if ($conn->connect_error) {
 $searchResults = [];
 
 if (isset($_GET['q']) && !empty($_GET['q'])) {
-    $search = $conn->real_escape_string($_GET['q']);
+    $search = isset($_GET['q']) ? $conn->real_escape_string($_GET['q']) : '';
+
 
     $sql = "SELECT 
                 admission.id, admission.name, admission.email, admission.gender,
@@ -21,8 +22,9 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 
     while ($row = $result->fetch_assoc()) {
         // Fill empty course/grade with 'N/A' if not present
-        $row['course'] = $row['course'] ?? 'N/A';
-        $row['applying_grade'] = $row['applying_grade'] ?? 'N/A';
+        $row['course'] = isset($row['course']) ? $row['course'] : 'N/A';
+        $row['applying_grade'] = isset($row['applying_grade']) ? $row['applying_grade'] : 'N/A';
+        
 
         $searchResults[] = $row;
     }
@@ -35,7 +37,8 @@ if (isset($_GET['q']) && !empty($_GET['q'])) {
 
     <form method="GET" action="registrar.php" class="mb-4 d-flex gap-2">
         <input type="hidden" name="page" value="student_search">
-        <input type="text" name="q" class="form-control" placeholder="Search by name or email" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+        <input type="text" name="q" class="form-control" placeholder="Search by name or email" value="<?= htmlspecialchars(isset($_GET['q']) ? $_GET['q'] : '') ?>">
+
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 

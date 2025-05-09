@@ -81,15 +81,20 @@ $students = $conn->query($sql);
             <?php while ($row = $students->fetch_assoc()): ?>
             <tr>
                 <td><?= htmlspecialchars($row['name']) ?></td>
-                <td><?= htmlspecialchars($row['course'] ?? 'N/A') ?></td>
+                <td><?= htmlspecialchars(isset($row['course']) ? $row['course'] : 'N/A') ?></td>
+
                 <td><span class="<?= $row['library_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
-                    <?= $row['library_clearance'] ?? 'Pending' ?></span></td>
-                <td><span class="<?= $row['accounting_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
-                    <?= $row['accounting_clearance'] ?? 'Pending' ?></span></td>
-                <td><span class="<?= $row['dept_head_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
-                    <?= $row['dept_head_clearance'] ?? 'Pending' ?></span></td>
-                <td><span class="<?= $row['final_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
-                    <?= $row['final_clearance'] ?? 'Pending' ?></span></td>
+                <?= isset($row['library_clearance']) ? $row['library_clearance'] : 'Pending' ?></span></td>
+
+                <td><span class="<?= isset($row['accounting_clearance']) && $row['accounting_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
+    <?= isset($row['accounting_clearance']) ? $row['accounting_clearance'] : 'Pending' ?></span></td>
+
+<td><span class="<?= isset($row['dept_head_clearance']) && $row['dept_head_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
+    <?= isset($row['dept_head_clearance']) ? $row['dept_head_clearance'] : 'Pending' ?></span></td>
+
+<td><span class="<?= isset($row['final_clearance']) && $row['final_clearance'] === 'Cleared' ? 'cleared' : 'pending' ?>">
+    <?= isset($row['final_clearance']) ? $row['final_clearance'] : 'Pending' ?></span></td>
+
                 <td><a href="registrar.php?page=edit_clearance&id=<?= $row['id'] ?>">Update</a></td>
             </tr>
             <?php endwhile; ?>
