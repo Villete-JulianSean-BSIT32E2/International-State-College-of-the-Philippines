@@ -85,19 +85,19 @@ while ($row = $result->fetch_assoc()) {
         }
         button {
             padding: 8px 14px;
-            background-color: #28a745;
+          background-color: #007bff;
             border: none;
             color: white;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
 
         .cancel{
              padding: 8px 14px;
-            background-color: #28a745;
+            background-color: #007bff;
             border: none;
             color: white;
             border-radius: 4px;
@@ -106,7 +106,7 @@ while ($row = $result->fetch_assoc()) {
         
         }
         .cancel:hover{
-            background-color: #218838;
+            background-color: #0056b3;
         }
     </style>
 </head>

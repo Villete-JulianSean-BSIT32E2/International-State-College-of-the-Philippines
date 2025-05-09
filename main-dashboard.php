@@ -93,7 +93,7 @@
         <span>Admissions</span>
       </a>
 
-      <a href="#" class="tile">
+      <a href="Registrar/registrar.php" class="tile">
         <i class="fas fa-building-columns"></i>
         <span>Registrar</span>
       </a>

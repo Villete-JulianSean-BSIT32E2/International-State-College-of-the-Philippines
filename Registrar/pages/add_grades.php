@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $remarks = $_POST['remarks'];
 
     $stmt = $conn->prepare("INSERT INTO student_grades (student_id, subject, grade, semester, school_year, remarks) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("issss", $student_id, $subject, $grade, $semester, $school_year, $remarks);
+    $stmt->bind_param("isssss", $student_id, $subject, $grade, $semester, $school_year, $remarks);
 
     if ($stmt->execute()) {
         $message = "Grade successfully added.";
@@ -98,6 +98,23 @@ $students = $conn->query("SELECT id, name FROM admission ORDER BY name ASC");
             background-color: #0056b3;
         }
 
+        a{
+              padding: 10px 15px;
+            background-color: #007bff; /* Light blue */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;x
+        }
+
+        a:hover{
+            background-color: #0056b3;
+
+        }
+
         /* Success Message */
         .message {
             color: #28a745; /* Green */
@@ -152,8 +169,8 @@ $students = $conn->query("SELECT id, name FROM admission ORDER BY name ASC");
             <input type="text" name="remarks" required>
 
 
-            <button type="submit">Save Grade</button>
-            <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=grades_transcripts">Cancel</a>
+            <button type="submit">Save Grade</button><br>
+            <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=grades_transcripts">Back</a>
         </form>
 
         

@@ -126,14 +126,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="status_std">Status:</label>
         <select name="status_std" id="status_std" required>
             <option value="">-- Select Status --</option>
-            <option value="New" <?= $student['status_std'] == 'New' ? 'selected' : '' ?>>New</option>
-            <option value="Transferee" <?= $student['status_std'] == 'Transferee' ? 'selected' : '' ?>>Transferee</option>
-            <option value="Old" <?= $student['status_std'] == 'Old' ? 'selected' : '' ?>>Old</option>
-            <option value="Irregular" <?= $student['status_std'] == 'Irregular' ? 'selected' : '' ?>>Irregular</option>
+            <option value="New" <?= $student['status_std'] == 'New' ? 'selected' : '' ?>>new</option>
+            <option value="Transferee" <?= $student['status_std'] == 'Transferee' ? 'selected' : '' ?>>transferee</option>
+            <option value="Old" <?= $student['status_std'] == 'Old' ? 'selected' : '' ?>>old</option>
+            <option value="Irregular" <?= $student['status_std'] == 'Irregular' ? 'selected' : '' ?>>irregular</option>
         </select><br><br>
 
         <button type="submit">Save Changes</button>
-        <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=enrollment_management">Cancel</a>
+        <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=enrollment_management">Back</a>
     </form>
 <?php else: ?>
     <p>Student not found.</p>
