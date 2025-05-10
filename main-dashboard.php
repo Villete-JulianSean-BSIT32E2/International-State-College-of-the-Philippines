@@ -107,6 +107,11 @@
         <i class="fas fa-user-graduate"></i>
         <span>Student Management</span>
       </a>
+      
+      <a href="Cashier/homepage.html" class="tile">
+      <i class="fa-solid fa-circle-dollar-to-slot"></i>
+        <span>Cashier</span>
+      </a>
     </div>
   </div>
 
