@@ -1,4 +1,23 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+// Save posted form data to session
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $_SESSION['fathers_name'] = $_POST['fathers_name'] ?? '';
+  $_SESSION['mothers_name'] = $_POST['mothers_name'] ?? '';
+  $_SESSION['fathers_occupation'] = $_POST['fathers_occupation'] ?? '';
+  $_SESSION['mothers_occupation'] = $_POST['mothers_occupation'] ?? '';
+  $_SESSION['father_contact'] = $_POST['father_contact'] ?? '';
+  $_SESSION['mother_contact'] = $_POST['mother_contact'] ?? '';
+  $_SESSION['guardian_name'] = $_POST['guardian_name'] ?? '';
+  $_SESSION['guardian_relationship'] = $_POST['guardian_relationship'] ?? '';
+  $_SESSION['guardian_contact'] = $_POST['guardian_contact'] ?? '';
+
+   // Redirect to academic info form
+  header("Location: Admission-AcademicInfo.php");
+  exit();
+}
+?>
 
 
 <!DOCTYPE html>
@@ -75,7 +94,12 @@
       flex-direction: column;
     }
 
+    #InCase {
+      margin-top: 50px;
+    }
+
     .form-grid1 {
+  
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0px 50px; /* reduce the column gap */
@@ -108,7 +132,10 @@
       border-radius: 4px;
     }
 
-    
+    form {
+      width: 100%;
+      display: contents; /* Prevent layout interference */
+    }
     .mothers-group {
       margin-left: -400px; /* adjust to pull left */
     }
@@ -168,74 +195,77 @@
     </nav>
   </div>
 
-
+<form method="POST">
  <!-- Fathers Name  -->
   <div class="main">
     <h2>Parent Information</h2>
     <div class="form-grid">
       <div class="form-group fathers-group">
       <label>Father's Full Name</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['fathers_name'] ?? '' ?>" /> />
+        <input type="text" id="textbox" name="fathers_name" value="<?= $_SESSION['fathers_name'] ?? '' ?>" />
       </div>
 
       <!-- Mothers Name  -->
       <div class="form-group mothers-group">
         <label>Mother's Full Name</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['mothers_name'] ?? '' ?>" /> />
+       <input type="text" id="textbox" name="mothers_name" value="<?= $_SESSION['mothers_name'] ?? '' ?>" />
       </div>
 
 
       <!-- Fathers Occupation  -->
       <div class="form-group">
       <label>Occupation</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['fathers_occupation'] ?? '' ?>" /> />
+       <input type="text" id="textbox" name="fathers_occupation" value="<?= $_SESSION['fathers_occupation'] ?? '' ?>" /> 
       </div>
 
        <!-- Mothers Occupation  -->
        <div class="form-group mothers-group">
       <label>Occupation</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['mothers_occupation'] ?? '' ?>" /> />
+        <input type="text" id="textbox" name="mothers_occupation" value="<?= $_SESSION['mothers_occupation'] ?? '' ?>" />
       </div>
 
       <!-- Fathers Contact Number  -->
       <div class="form-group fathers-group">
         <label>Contact Number</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['nationality'] ?? '' ?>" /> />
+        <input type="text" id="textbox" name="father_contact" value="<?= $_SESSION['father_contact'] ?? '' ?>" />
       </div>
 
        <!-- Mothers Contact Number  -->
        <div class="form-group mothers-group">
         <label>Contact Number</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['nationality'] ?? '' ?>" /> />
+        <input type="text" id="textbox" name="mother_contact" value="<?= $_SESSION['mother_contact'] ?? '' ?>" />
       </div>
 
-    <h2>In Case of Emergency</h2>
+    <h2 id="InCase">In Case of Emergency</h2>
     <br><br>
     <!-- Guardian Name  -->
     <div class="form-grid1">
       <div class="form-group1">
         <label>Guardian's Name</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['address'] ?? '' ?>" /> />
+        <input type="text" id="textbox" name="guardian_name" value="<?= $_SESSION['guardian_name'] ?? '' ?>" />
       </div>
 
       <!-- Relationship to Student  -->
       <div class="form-group1">
         <label>Relationship to Student</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['province'] ?? '' ?>" /> />
+       <input type="text" id="textbox" name="guardian_relationship" value="<?= $_SESSION['guardian_relationship'] ?? '' ?>" />
       </div>
 
       <!-- Contact Number  -->
       <div class="form-group1">
         <label>Guardian Contact Number</label>
-        <input type="text" id="textbox" value="<?= $_SESSION['zip'] ?? '' ?>" />/>
+        <input type="text" id="textbox" name="guardian_contact" value="<?= $_SESSION['guardian_contact'] ?? '' ?>" />
       </div>
 
        <!-- Button Container -->
     <div class="button-container">
-        <input type="submit" class="btn-previous" value="Previous" />
+        <a href="Admission-AddStudent.php">
+            <input type="button" class="btn-previous" value="Previous" />
+        </a>
         <input type="submit" class="btn-next" value="Next" />
     </div>
 
   </div>
+  </form>
 </body>
 </html>

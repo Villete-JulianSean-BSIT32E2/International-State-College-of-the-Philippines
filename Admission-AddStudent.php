@@ -1,4 +1,38 @@
-<?php session_start(); ?>
+<?php
+session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $_SESSION['full_name'] = $_POST['full_name'] ?? '';
+    $_SESSION['date'] = $_POST['date'] ?? '';
+    $_SESSION['gender'] = $_POST['gender'] ?? '';
+    $_SESSION['nationality'] = $_POST['nationality'] ?? '';
+    $_SESSION['religion'] = $_POST['religion'] ?? '';
+    $_SESSION['address'] = $_POST['address'] ?? '';
+    $_SESSION['province'] = $_POST['province'] ?? '';
+    $_SESSION['zip'] = $_POST['zip'] ?? '';
+    $_SESSION['city'] = $_POST['city'] ?? '';
+    $_SESSION['email'] = $_POST['email'] ?? '';
+    $_SESSION['phone'] = $_POST['phone'] ?? '';
+
+    // Handle photo upload
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
+        $tmpName = $_FILES['photo']['tmp_name'];
+        $photoName = uniqid() . '_' . basename($_FILES['photo']['name']);
+        $destination = 'uploads/' . $photoName;
+
+        if (!file_exists('uploads')) {
+            mkdir('uploads', 0777, true);
+        }
+
+        move_uploaded_file($tmpName, $destination);
+        $_SESSION['photo'] = $destination;
+    }
+
+    // To this:
+    header("Location: Admission-GuardianInfo.php");
+    exit;
+}
+?>
 
 
 <!DOCTYPE html>
@@ -20,6 +54,11 @@
       min-height: 100vh;
       background-color: #f5f6fa;
     }
+
+    form {
+  width: 100%;
+  display: contents; /* Prevent layout interference */
+}
 
     .sidebar {
       width: 240px;
@@ -211,6 +250,7 @@
       justify-content: center;
       margin: 0 auto 10px;
       background-color: #eee;
+      margin-bottom: 20px;
     }
 
     .upload-box img {
@@ -218,6 +258,7 @@
     }
 
     .btn-upload {
+      
       padding: 10px 20px;
       border: none;
       border-radius: 6px;
@@ -276,98 +317,86 @@
     </nav>
   </div>
 
-
- <!-- Full Name  -->
-  <div class="main">
-    <h2>Personal Information</h2>
-    <div class="form-grid">
-      <div class="form-group">
-      <label>Full Name</label>
-        <input type="text" id="full-name" value="<?= $_SESSION['full_name'] ?? '' ?>" /> 
-      </div>
-
-      <!-- Birthday  -->
-      <div class="form-group birthdate-group">
-        <label>Birthdate</label>
-        <input type="date" id="date" value="<?= $_SESSION['date'] ?? '' ?>" />
-      </div>
-
-
-      <!-- Gender  -->
-      <div class="form-group">
-        <label>Gender</label>
-        <select id="gender">
-        <option <?= (!isset($_SESSION['gender']) || $_SESSION['gender'] === 'Gender') ? 'selected' : '' ?>>Gender</option>
-          <option>Male</option>
-          <option>Female</option>
-        </select>
-      </div>
-
-      <!-- Nationality  -->
-      <div class="form-group birthdate-group">
-        <label>Nationality</label>
-        <input type="text" id="nationality" value="<?= $_SESSION['nationality'] ?? '' ?>" /> 
-      </div>
-
-      <!-- Religion  -->
-      <div class="form-group">
-        <label>Religion</label>
-        <input type="text" id="religion" value="<?= $_SESSION['religion'] ?? '' ?>" />
-      </div>
-      
-      <!-- Photo  -->
-      <div class="upload-section photo-group">
-        <div class="upload-box">
-          <img src="camera-icon.png" alt="Upload" value="<?= $_SESSION['full_name'] ?? '' ?>" />
+  <!-- ✅ WRAPPED EVERYTHING IN <form> TAG -->
+  <form method="POST" enctype="multipart/form-data" action="">
+    <div class="main">
+      <h2>Personal Information</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="full_name" id="full-name" value="<?= $_SESSION['full_name'] ?? '' ?>" />
         </div>
-        <button class="btn-upload">Upload</button>
+
+        <div class="form-group birthdate-group">
+          <label>Birthdate</label>
+          <input type="date" name="date" id="date" value="<?= $_SESSION['date'] ?? '' ?>" />
+        </div>
+
+        <div class="form-group">
+          <label>Gender</label>
+          <select name="gender" id="gender">
+            <option <?= (!isset($_SESSION['gender']) || $_SESSION['gender'] === 'Gender') ? 'selected' : '' ?>>Gender</option>
+            <option <?= ($_SESSION['gender'] ?? '') == 'Male' ? 'selected' : '' ?>>Male</option>
+            <option <?= ($_SESSION['gender'] ?? '') == 'Female' ? 'selected' : '' ?>>Female</option>
+          </select>
+        </div>
+
+        <div class="form-group birthdate-group">
+          <label>Nationality</label>
+          <input type="text" name="nationality" id="nationality" value="<?= $_SESSION['nationality'] ?? '' ?>" />
+        </div>
+
+        <div class="form-group">
+          <label>Religion</label>
+          <input type="text" name="religion" id="religion" value="<?= $_SESSION['religion'] ?? '' ?>" />
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="upload-section photo-group">
+          <div class="upload-box">
+            <?php if (!empty($_SESSION['photo'])): ?>
+              <img src="<?= $_SESSION['photo'] ?>" alt="Uploaded Photo" width="100" />
+            <?php else: ?>
+              <img src="camera-icon.png" alt="Upload" />
+            <?php endif; ?>
+          </div>
+          <input type="file" name="photo" id="photo-input" style="display: none;" />
+          <label for="photo-input" class="btn-upload">Upload</label>
+        </div>
       </div>
-    </div>
 
-    <h2>Contact Information</h2>
-
-    <!-- Address  -->
-    <div class="form-grid">
-      <div class="form-group">
-        <label>Streets/Block/Barangay</label>
-        <input type="text" id="address" value="<?= $_SESSION['address'] ?? '' ?>" /> 
+      <h2>Contact Information</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Streets/Block/Barangay</label>
+          <input type="text" name="address" id="address" value="<?= $_SESSION['address'] ?? '' ?>" />
+        </div>
+        <div class="form-group birthdate-group">
+          <label>Province</label>
+          <input type="text" name="province" id="province" value="<?= $_SESSION['province'] ?? '' ?>" />
+        </div>
+        <div class="form-group">
+          <label>ZIP</label>
+          <input type="text" name="zip" id="zip" value="<?= $_SESSION['zip'] ?? '' ?>" />
+        </div>
+        <div class="form-group birthdate-group">
+          <label>City</label>
+          <input type="text" name="city" id="city" value="<?= $_SESSION['city'] ?? '' ?>" />
+        </div>
+        <div class="form-group">
+          <label>Email ID</label>
+          <input type="email" name="email" id="email" value="<?= $_SESSION['email'] ?? '' ?>" />
+        </div>
+        <div class="form-group birthdate-group">
+          <label>Phone Number</label>
+          <input type="text" name="phone" id="phone" value="<?= $_SESSION['phone'] ?? '' ?>" />
+        </div>
       </div>
 
-      <!-- Province  -->
-      <div class="form-group birthdate-group">
-        <label>Province</label>
-        <input type="text" id="province" value="<?= $_SESSION['province'] ?? '' ?>" /> 
-      </div>
-
-      <!-- Zip  -->
-      <div class="form-group">
-        <label>ZIP</label>
-        <input type="text" id="zip" value="<?= $_SESSION['zip'] ?? '' ?>" />
-      </div>
-
-      <!-- City  -->
-      <div class="form-group birthdate-group">
-        <label>City</label>
-        <input type="text" id="city" value="<?= $_SESSION['city'] ?? '' ?>" />
-      </div>
-
-      <!-- Email  -->
-      <div class="form-group">
-        <label>Email ID</label>
-        <input type="email" id="email" value="<?= $_SESSION['email'] ?? '' ?>" /> 
-      </div>
-
-      <!-- Phone  -->
-      <div class="form-group birthdate-group">
-        <label>Phone Number</label>
-        <input type="text" id="phone" value="<?= $_SESSION['phone'] ?? '' ?>" /> 
-      </div>
-    </div>
-
-      <!-- Button Container -->
       <div class="button-container">
         <input type="submit" class="btn-next" value="Next" />
+      </div>
     </div>
-  </div>
+  </form>
 </body>
 </html>
