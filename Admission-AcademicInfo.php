@@ -1,47 +1,105 @@
 <?php
 session_start();
+require_once 'connect.php';  // Make sure to include the database connection file
 
 // Save form data to session
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-$_SESSION['applying_grade'] = $_POST['applying_grade'];
-$_SESSION['prevschool'] = $_POST['prevschool'];
-$_SESSION['last_grade'] = $_POST['last_grade'];
-$_SESSION['Course'] = $_POST['Course'];
-$_SESSION['Student_status'] = $_POST['Student_status'];
-$_SESSION['confirm'] = $_POST['confirm'];
-$_SESSION['sigdate'] = $_POST['sigdate'];
+    $_SESSION['applying_grade'] = isset($_POST['applying_grade']) ? $_POST['applying_grade'] : '';
+    $_SESSION['prevschool'] = isset($_POST['prevschool']) ? $_POST['prevschool'] : '';
+    $_SESSION['last_grade'] = isset($_POST['last_grade']) ? $_POST['last_grade'] : '';
+    $_SESSION['Course'] = isset($_POST['Course']) ? $_POST['Course'] : '';
+    $_SESSION['Student_status'] = isset($_POST['Student_status']) ? $_POST['Student_status'] : '';
+    $_SESSION['confirm'] = isset($_POST['confirm']) ? $_POST['confirm'] : '';
+    $_SESSION['sigdate'] = isset($_POST['sigdate']) ? $_POST['sigdate'] : '';
 
-// Upload directory
-$upload_dir = "uploads/";
-if (!is_dir($upload_dir)) {
-    mkdir($upload_dir, 0777, true);
-}
-
-$documents = [];
-for ($i = 1; $i <= 5; $i++) {
-    if (isset($_FILES["doc$i"]) && $_FILES["doc$i"]['error'] == 0) {
-        $filename = basename($_FILES["doc$i"]["name"]);
-        $target_path = $upload_dir . time() . "_$filename";
-        move_uploaded_file($_FILES["doc$i"]["tmp_name"], $target_path);
-        $documents[] = $target_path;
-    } else {
-        $documents[] = null; // Save as null if not uploaded
+    // Upload directory
+    $upload_dir = "uploads/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
     }
+
+    $documents = [];
+    for ($i = 1; $i <= 5; $i++) {
+        if (isset($_FILES["doc$i"]) && $_FILES["doc$i"]['error'] == 0) {
+            $filename = basename($_FILES["doc$i"]["name"]);
+            $target_path = $upload_dir . time() . "_$filename";
+            move_uploaded_file($_FILES["doc$i"]["tmp_name"], $target_path);
+            $documents[] = $target_path;
+        } else {
+            $documents[] = null;
+        }
+    }
+    $_SESSION['documents'] = $documents;
+
+    // Signature upload
+    if (isset($_FILES["signature"]) && $_FILES["signature"]['error'] == 0) {
+        $filename = basename($_FILES["signature"]["name"]);
+        $sig_path = $upload_dir . time() . "_signature_$filename";
+        move_uploaded_file($_FILES["signature"]["tmp_name"], $sig_path);
+        $_SESSION['signature'] = $sig_path;
+    }
+
+    // Insert data into tbladmission_addstudent table
+    $applying_grade = $_SESSION['applying_grade'];
+    $prevschool = $_SESSION['prevschool'];
+    $last_grade = $_SESSION['last_grade'];
+    $course = $_SESSION['Course'];
+    $student_status = $_SESSION['Student_status'];
+    $confirm = $_SESSION['confirm'];
+    $sigdate = $_SESSION['sigdate'];
+    $documents_json = json_encode($documents);  // Store document paths as JSON
+
+    $query = "INSERT INTO tbladmission_addstudent (applying_grade, prevschool, last_grade, course, student_status, confirm, sigdate, documents, signature)
+              VALUES ('$applying_grade', '$prevschool', '$last_grade', '$course', '$student_status', '$confirm', '$sigdate', '$documents_json', '$sig_path')";
+
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['insert_status'] = "Data inserted successfully!";
+    } else {
+        $_SESSION['insert_status'] = "Error inserting data: " . mysqli_error($conn);
+    }
+
+    header("Location: Admission-Overview.php");
+    exit();
 }
-$_SESSION['documents'] = $documents;
+// Save form data to session
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $_SESSION['applying_grade'] = $_POST['applying_grade'];
+    $_SESSION['prevschool'] = $_POST['prevschool'];
+    $_SESSION['last_grade'] = $_POST['last_grade'];
+    $_SESSION['Course'] = $_POST['Course'];
+    $_SESSION['Student_status'] = $_POST['Student_status'];
+    $_SESSION['confirm'] = $_POST['confirm'];
+    $_SESSION['sigdate'] = $_POST['sigdate'];
 
-// Handle signature upload
-if (isset($_FILES["signature"]) && $_FILES["signature"]['error'] == 0) {
-    $filename = basename($_FILES["signature"]["name"]);
-    $sig_path = $upload_dir . time() . "_signature_$filename";
-    move_uploaded_file($_FILES["signature"]["tmp_name"], $sig_path);
-    $_SESSION['signature'] = $sig_path;
-}
+    // Upload directory
+    $upload_dir = "uploads/";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
+    }
 
-// // Redirect to overview
-header("Location: Admission-Overview.php");
-exit();
+    $documents = [];
+    for ($i = 1; $i <= 5; $i++) {
+        if (isset($_FILES["doc$i"]) && $_FILES["doc$i"]['error'] == 0) {
+            $filename = basename($_FILES["doc$i"]["name"]);
+            $target_path = $upload_dir . time() . "_$filename";
+            move_uploaded_file($_FILES["doc$i"]["tmp_name"], $target_path);
+            $documents[] = $target_path;
+        } else {
+            $documents[] = null;
+        }
+    }
+    $_SESSION['documents'] = $documents;
 
+    // Signature upload
+    if (isset($_FILES["signature"]) && $_FILES["signature"]['error'] == 0) {
+        $filename = basename($_FILES["signature"]["name"]);
+        $sig_path = $upload_dir . time() . "_signature_$filename";
+        move_uploaded_file($_FILES["signature"]["tmp_name"], $sig_path);
+        $_SESSION['signature'] = $sig_path;
+    }
+
+    header("Location: Admission-Overview.php");
+    exit();
 }
 ?>
 
@@ -204,7 +262,7 @@ exit();
     </nav>
   </div>
 
-<div class="main">
+  <div class="main">
     <h2>Academic Information</h2>
     <form action="" method="POST" enctype="multipart/form-data">
       <div class="form-grid">
@@ -212,26 +270,26 @@ exit();
           <label>Applying For Class/Grade</label>
           <select name="applying_grade" required>
             <option value="">Select Grade</option>
-            <option value="1st Year" <?= ($_SESSION['applying_grade'] ?? '') == '1st Year' ? 'selected' : '' ?>>1st Year</option>
-            <option value="2nd Year" <?= ($_SESSION['applying_grade'] ?? '') == '2nd Year' ? 'selected' : '' ?>>2nd Year</option>
-            <option value="3rd Year" <?= ($_SESSION['applying_grade'] ?? '') == '3rd Year' ? 'selected' : '' ?>>3rd Year</option>
-            <option value="4th Year" <?= ($_SESSION['applying_grade'] ?? '') == '4th Year' ? 'selected' : '' ?>>4th Year</option>
+            <option value="1st Year" <?php if ((isset($_SESSION['applying_grade']) && $_SESSION['applying_grade'] == '1st Year')) echo 'selected'; ?>>1st Year</option>
+            <option value="2nd Year" <?php if ((isset($_SESSION['applying_grade']) && $_SESSION['applying_grade'] == '2nd Year')) echo 'selected'; ?>>2nd Year</option>
+            <option value="3rd Year" <?php if ((isset($_SESSION['applying_grade']) && $_SESSION['applying_grade'] == '3rd Year')) echo 'selected'; ?>>3rd Year</option>
+            <option value="4th Year" <?php if ((isset($_SESSION['applying_grade']) && $_SESSION['applying_grade'] == '4th Year')) echo 'selected'; ?>>4th Year</option>
           </select>
         </div>
 
         <div class="form-group">
           <label>Previous School Name</label>
-          <input type="text" name="prevschool" value="<?= $_SESSION['prevschool'] ?? '' ?>" required />
+          <input type="text" name="prevschool" value="<?php echo isset($_SESSION['prevschool']) ? $_SESSION['prevschool'] : ''; ?>" required />
         </div>
 
         <div class="form-group">
           <label>Last Grade Completed</label>
           <select name="last_grade" required>
             <option value="">Select Grade</option>
-            <option value="1st Year" <?= ($_SESSION['last_grade'] ?? '') == '1st Year' ? 'selected' : '' ?>>1st Year</option>
-            <option value="2nd Year" <?= ($_SESSION['last_grade'] ?? '') == '2nd Year' ? 'selected' : '' ?>>2nd Year</option>
-            <option value="3rd Year" <?= ($_SESSION['last_grade'] ?? '') == '3rd Year' ? 'selected' : '' ?>>3rd Year</option>
-            <option value="4th Year" <?= ($_SESSION['last_grade'] ?? '') == '4th Year' ? 'selected' : '' ?>>4th Year</option>
+            <option value="1st Year" <?php if ((isset($_SESSION['last_grade']) && $_SESSION['last_grade'] == '1st Year')) echo 'selected'; ?>>1st Year</option>
+            <option value="2nd Year" <?php if ((isset($_SESSION['last_grade']) && $_SESSION['last_grade'] == '2nd Year')) echo 'selected'; ?>>2nd Year</option>
+            <option value="3rd Year" <?php if ((isset($_SESSION['last_grade']) && $_SESSION['last_grade'] == '3rd Year')) echo 'selected'; ?>>3rd Year</option>
+            <option value="4th Year" <?php if ((isset($_SESSION['last_grade']) && $_SESSION['last_grade'] == '4th Year')) echo 'selected'; ?>>4th Year</option>
           </select>
         </div>
 
@@ -239,12 +297,12 @@ exit();
           <label>Course</label>
           <select name="Course" required>
             <option value="">Select</option>
-            <option value="BSIT" <?= ($_SESSION['Course'] ?? '') == 'BSIT' ? 'selected' : '' ?>>BSIT</option>
-            <option value="BSCRIM" <?= ($_SESSION['Course'] ?? '') == 'BSCRIM' ? 'selected' : '' ?>>BSCRIM</option>
-            <option value="BSED" <?= ($_SESSION['Course'] ?? '') == 'BSED' ? 'selected' : '' ?>>BSED</option>
-            <option value="BSCS" <?= ($_SESSION['Course'] ?? '') == 'BSCS' ? 'selected' : '' ?>>BSCS</option>
-            <option value="CTHM" <?= ($_SESSION['Course'] ?? '') == 'CTHM' ? 'selected' : '' ?>>CTHM</option>
-            <option value="BSA" <?= ($_SESSION['Course'] ?? '') == 'BSA' ? 'selected' : '' ?>>BSA</option>
+            <option value="BSIT" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'BSIT')) echo 'selected'; ?>>BSIT</option>
+            <option value="BSCRIM" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'BSCRIM')) echo 'selected'; ?>>BSCRIM</option>
+            <option value="BSED" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'BSED')) echo 'selected'; ?>>BSED</option>
+            <option value="BSCS" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'BSCS')) echo 'selected'; ?>>BSCS</option>
+            <option value="CTHM" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'CTHM')) echo 'selected'; ?>>CTHM</option>
+            <option value="BSA" <?php if ((isset($_SESSION['Course']) && $_SESSION['Course'] == 'BSA')) echo 'selected'; ?>>BSA</option>
           </select>
         </div>
 
@@ -252,9 +310,9 @@ exit();
           <label>Student Type</label>
           <select name="Student_status" required>
             <option value="">Select</option>
-            <option value="old" <?= ($_SESSION['Student_status'] ?? '') == 'old' ? 'selected' : '' ?>>Old</option>
-            <option value="irregular" <?= ($_SESSION['Student_status'] ?? '') == 'irregular' ? 'selected' : '' ?>>Irregular</option>
-            <option value="new" <?= ($_SESSION['Student_status'] ?? '') == 'new' ? 'selected' : '' ?>>New</option>
+            <option value="old" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'old')) echo 'selected'; ?>>Old</option>
+            <option value="irregular" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'irregular')) echo 'selected'; ?>>Irregular</option>
+            <option value="new" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'new')) echo 'selected'; ?>>New</option>
           </select>
         </div>
       </div>
@@ -276,7 +334,7 @@ exit();
       <div class="form-grid1">
         <div class="form-group1">
           <label id="I_confirm">
-            <input type="radio" name="confirm" value="yes" <?= ($_SESSION['confirm'] ?? '') == 'yes' ? 'checked' : '' ?> required>
+            <input type="radio" name="confirm" value="yes" <?php if ((isset($_SESSION['confirm']) && $_SESSION['confirm'] == 'yes')) echo 'checked'; ?> required>
             I confirm all the information provided is true.
           </label>
         </div>
@@ -288,7 +346,7 @@ exit();
 
         <div class="form-group1">
           <label>Date</label>
-          <input type="date" id="date1" name="sigdate" value="<?= $_SESSION['sigdate'] ?? '' ?>" required />
+          <input type="date" id="date1" name="sigdate" value="<?php echo isset($_SESSION['sigdate']) ? $_SESSION['sigdate'] : ''; ?>" required />
         </div>
       </div>
 
