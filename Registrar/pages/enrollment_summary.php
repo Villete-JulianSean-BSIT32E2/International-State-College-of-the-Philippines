@@ -4,20 +4,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$total_students = $conn->query("SELECT COUNT(*) AS total FROM admission")->fetch_assoc()['total'];
+// Get total students from tbladmission_addstudent
+$total_students = $conn->query("SELECT COUNT(*) AS total FROM tbladmission_addstudent")->fetch_assoc()['total'];
 
+// Get course summary from tbladmission_addstudent
 $course_summary = $conn->query("
     SELECT course, COUNT(*) AS total 
-    FROM student_documents 
-    WHERE course IS NOT NULL 
+    FROM tbladmission_addstudent 
+    WHERE course IS NOT NULL AND course != ''
     GROUP BY course
 ");
 
+// Get status summary (using StudentType from tbladmission_studenttype)
 $status_summary = $conn->query("
-    SELECT status_std, COUNT(*) AS total 
-    FROM student_documents 
-    WHERE status_std IS NOT NULL 
-    GROUP BY status_std
+    SELECT s.StudentType AS status_std, COUNT(*) AS total
+    FROM tbladmission_addstudent a
+    JOIN tbladmission_studenttype s ON a.Admission_ID = s.Admission_ID
+    GROUP BY s.StudentType
 ");
 ?>
 
@@ -26,14 +29,14 @@ $status_summary = $conn->query("
     <p>Overview of enrollment statistics.</p>
 
     <div class="card p-3 my-3">
-        <h4>Total Students: <?= $total_students ?></h4>
+        <h4>Total Students: <?php echo $total_students; ?></h4>
     </div>
 
     <div class="card p-3 my-3">
         <h5>📚 Students by Course</h5>
         <ul>
             <?php while ($row = $course_summary->fetch_assoc()): ?>
-                <li><strong><?= htmlspecialchars($row['course']) ?>:</strong> <?= $row['total'] ?></li>
+                <li><strong><?php echo htmlspecialchars($row['course']); ?>:</strong> <?php echo $row['total']; ?></li>
             <?php endwhile; ?>
         </ul>
     </div>
@@ -42,7 +45,7 @@ $status_summary = $conn->query("
         <h5>📌 Students by Status</h5>
         <ul>
             <?php while ($row = $status_summary->fetch_assoc()): ?>
-                <li><strong><?= htmlspecialchars($row['status_std']) ?>:</strong> <?= $row['total'] ?></li>
+                <li><strong><?php echo htmlspecialchars(ucfirst($row['status_std'])); ?>:</strong> <?php echo $row['total']; ?></li>
             <?php endwhile; ?>
         </ul>
     </div>
