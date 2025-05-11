@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['date'] = isset($_POST['date']) ? sanitizeInput($_POST['date']) : '';
     $_SESSION['gender'] = isset($_POST['gender']) ? sanitizeInput($_POST['gender']) : '';
     $_SESSION['nationality'] = isset($_POST['nationality']) ? sanitizeInput($_POST['nationality']) : '';
+    $_SESSION['religion'] = isset($_POST['religion']) ? sanitizeInput($_POST['religion']) : '';
     $_SESSION['address'] = isset($_POST['address']) ? sanitizeInput($_POST['address']) : '';
     $_SESSION['province'] = isset($_POST['province']) ? sanitizeInput($_POST['province']) : '';
     $_SESSION['zip'] = isset($_POST['zip']) ? sanitizeInput($_POST['zip']) : '';
@@ -45,47 +46,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Insert data into tbladmission_addstudent
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-    $stmt = $conn->prepare("INSERT INTO tbladmission_addstudent 
-            (Name, Birthdate, Gender, Nationality, Address, Province, City, ZIP, Email, Phone_Number, `2x2Photo`) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-    if ($stmt === false) {
-        die('MySQL prepare error: ' . $conn->error);
-    }
-    
-    $photo = isset($_SESSION['photo']) ? $_SESSION['photo'] : null;
-    
-    $stmt->bind_param(
-        "sssssssssss",
-        $_SESSION['full_name'],
-        $_SESSION['date'],
-        $_SESSION['gender'],
-        $_SESSION['nationality'],
-        $_SESSION['address'],
-        $_SESSION['province'],
-        $_SESSION['city'],
-        $_SESSION['zip'],
-        $_SESSION['email'],
-        $_SESSION['phone'],
-        $photo
-    );
-    
-    if ($stmt->execute()) {
-        $_SESSION['student_id'] = $stmt->insert_id;
-        $stmt->close();
-        header("Location: Admission-GuardianInfo.php");
-        exit;
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+    // Redirect to next page without database insertion
+    header("Location: Admission-GuardianInfo.php");
+    exit;
 }
 ?>
-<!-- HTML & CSS -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -289,6 +255,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <input type="text" name="nationality" id="nationality" value="<?php echo isset($_SESSION['nationality']) ? $_SESSION['nationality'] : ''; ?>" />
         </div>
 
+        <!-- New Religion Field -->
+        <div class="form-group">
+          <label>Religion</label>
+          <input type="text" name="religion" id="religion" value="<?php echo isset($_SESSION['religion']) ? $_SESSION['religion'] : ''; ?>" />
+        </div>
+
         <div class="upload-section photo-group">
           <div class="upload-box">
             <?php if (!empty($_SESSION['photo'])): ?>
@@ -333,7 +305,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="button-container">
         <input type="submit" class="btn-next" value="Next" />
      </div>
-     </div>
-     </form>
-     </body>
-     </html>
+    </div>
+  </form>
+</body>
+</html>

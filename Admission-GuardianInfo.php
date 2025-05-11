@@ -1,6 +1,11 @@
 <?php
 session_start();
-include("connect.php"); // assumes you have a working connect.php
+include("connect.php");
+
+// Debugging: Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Save posted form data to session with sanitization
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -8,17 +13,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return htmlspecialchars(trim($data));
     }
 
-    $fathers_name = isset($_POST['fathers_name']) ? sanitizeInput($_POST['fathers_name']) : '';
-    $mothers_name = isset($_POST['mothers_name']) ? sanitizeInput($_POST['mothers_name']) : '';
-    $fathers_occupation = isset($_POST['fathers_occupation']) ? sanitizeInput($_POST['fathers_occupation']) : '';
-    $mothers_occupation = isset($_POST['mothers_occupation']) ? sanitizeInput($_POST['mothers_occupation']) : '';
-    $father_contact = isset($_POST['father_contact']) ? preg_replace('/[^0-9]/', '', $_POST['father_contact']) : '';
-    $mother_contact = isset($_POST['mother_contact']) ? preg_replace('/[^0-9]/', '', $_POST['mother_contact']) : '';
-    $guardian_name = isset($_POST['guardian_name']) ? sanitizeInput($_POST['guardian_name']) : '';
-    $guardian_relationship = isset($_POST['guardian_relationship']) ? sanitizeInput($_POST['guardian_relationship']) : '';
-    $guardian_contact = isset($_POST['guardian_contact']) ? preg_replace('/[^0-9]/', '', $_POST['guardian_contact']) : '';
+    // Get and sanitize all form inputs
+    $fathers_name = isset($_POST['Fathers_Name']) ? sanitizeInput($_POST['Fathers_Name']) : '';
+    $mothers_name = isset($_POST['Mothers_Name']) ? sanitizeInput($_POST['Mothers_Name']) : '';
+    $fathers_occupation = isset($_POST['Fathers_Occupation']) ? sanitizeInput($_POST['Fathers_Occupation']) : '';
+    $mothers_occupation = isset($_POST['Mothers_Occupation']) ? sanitizeInput($_POST['Mothers_Occupation']) : '';
+    $father_contact = isset($_POST['Fathers_Contact']) ? preg_replace('/[^0-9]/', '', $_POST['Fathers_Contact']) : '';
+    $mother_contact = isset($_POST['Mothers_Contact']) ? preg_replace('/[^0-9]/', '', $_POST['Mothers_Contact']) : '';
+    $guardian_name = isset($_POST['Guardian_Name']) ? sanitizeInput($_POST['Guardian_Name']) : '';
+    $guardian_relationship = isset($_POST['Guardian_Relationship']) ? sanitizeInput($_POST['Guardian_Relationship']) : '';
+    $guardian_contact = isset($_POST['Guardian_Contact']) ? preg_replace('/[^0-9]/', '', $_POST['Guardian_Contact']) : '';
 
-    // Save to session
+    // Save to session (using lowercase keys to match overview page)
     $_SESSION['fathers_name'] = $fathers_name;
     $_SESSION['mothers_name'] = $mothers_name;
     $_SESSION['fathers_occupation'] = $fathers_occupation;
@@ -29,32 +35,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['guardian_relationship'] = $guardian_relationship;
     $_SESSION['guardian_contact'] = $guardian_contact;
 
-    // Insert into tbladmission_addstudent
-    $stmt = $conn->prepare("INSERT INTO tbladmission_addstudent 
-        (fathers_name, mothers_name, fathers_occupation, mothers_occupation, father_contact, mother_contact, guardian_name, guardian_relationship, guardian_contact) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    // Debug: Uncomment to check session data before redirect
+    // echo "<pre>Session data:\n";
+    // print_r($_SESSION);
+    // echo "</pre>";
+    // exit();
 
-    $stmt->bind_param("sssssssss", 
-        $fathers_name, 
-        $mothers_name, 
-        $fathers_occupation, 
-        $mothers_occupation, 
-        $father_contact, 
-        $mother_contact, 
-        $guardian_name, 
-        $guardian_relationship, 
-        $guardian_contact
-    );
-
-    if ($stmt->execute()) {
-        header("Location: Admission-AcademicInfo.php");
-        exit();
-    } else {
-        echo "<script>alert('Error saving data: " . $stmt->error . "');</script>";
-    }
-
-    $stmt->close();
-    $conn->close();
+    // Redirect to next page
+    header("Location: Admission-AcademicInfo.php");
+    exit();
 }
 ?>
 
@@ -232,27 +221,27 @@ form {
     <div class="form-grid">
       <div class="form-group fathers-group">
         <label>Father's Full Name</label>
-        <input type="text" id="textbox" name="fathers_name" value="<?php echo isset($_SESSION['fathers_name']) ? htmlspecialchars($_SESSION['fathers_name']) : ''; ?>" />
+        <input type="text" id="textbox" name="Fathers_Name" value="<?= isset($_SESSION['fathers_name']) ? htmlspecialchars($_SESSION['fathers_name']) : '' ?>" />
       </div>
       <div class="form-group mothers-group">
         <label>Mother's Full Name</label>
-        <input type="text" id="textbox" name="mothers_name" value="<?php echo isset($_SESSION['mothers_name']) ? htmlspecialchars($_SESSION['mothers_name']) : ''; ?>" />
+        <input type="text" id="textbox" name="Mothers_Name" value="<?= isset($_SESSION['mothers_name']) ? htmlspecialchars($_SESSION['mothers_name']) : '' ?>" />
       </div>
       <div class="form-group">
         <label>Occupation</label>
-        <input type="text" id="textbox" name="fathers_occupation" value="<?php echo isset($_SESSION['fathers_occupation']) ? htmlspecialchars($_SESSION['fathers_occupation']) : ''; ?>" /> 
+        <input type="text" id="textbox" name="Fathers_Occupation" value="<?= isset($_SESSION['fathers_occupation']) ? htmlspecialchars($_SESSION['fathers_occupation']) : '' ?>" /> 
       </div>
       <div class="form-group mothers-group">
         <label>Occupation</label>
-        <input type="text" id="textbox" name="mothers_occupation" value="<?php echo isset($_SESSION['mothers_occupation']) ? htmlspecialchars($_SESSION['mothers_occupation']) : ''; ?>" />
+        <input type="text" id="textbox" name="Mothers_Occupation" value="<?= isset($_SESSION['mothers_occupation']) ? htmlspecialchars($_SESSION['mothers_occupation']) : '' ?>" />
       </div>
       <div class="form-group fathers-group">
         <label>Contact Number</label>
-        <input type="text" id="textbox" name="father_contact" value="<?php echo isset($_SESSION['father_contact']) ? htmlspecialchars($_SESSION['father_contact']) : ''; ?>" />
+        <input type="text" id="textbox" name="Fathers_Contact" value="<?= isset($_SESSION['father_contact']) ? htmlspecialchars($_SESSION['father_contact']) : '' ?>" />
       </div>
       <div class="form-group mothers-group">
         <label>Contact Number</label>
-        <input type="text" id="textbox" name="mother_contact" value="<?php echo isset($_SESSION['mother_contact']) ? htmlspecialchars($_SESSION['mother_contact']) : ''; ?>" />
+        <input type="text" id="textbox" name="Mothers_Contact" value="<?= isset($_SESSION['mother_contact']) ? htmlspecialchars($_SESSION['mother_contact']) : '' ?>" />
       </div>
     </div>
 
@@ -261,15 +250,15 @@ form {
     <div class="form-grid1">
       <div class="form-group1">
         <label>Guardian's Name</label>
-        <input type="text" id="textbox" name="guardian_name" value="<?php echo isset($_SESSION['guardian_name']) ? htmlspecialchars($_SESSION['guardian_name']) : ''; ?>" />
+        <input type="text" id="textbox" name="Guardian_Name" value="<?= isset($_SESSION['guardian_name']) ? htmlspecialchars($_SESSION['guardian_name']) : '' ?>" />
       </div>
       <div class="form-group1">
         <label>Relationship to Student</label>
-        <input type="text" id="textbox" name="guardian_relationship" value="<?php echo isset($_SESSION['guardian_relationship']) ? htmlspecialchars($_SESSION['guardian_relationship']) : ''; ?>" />
+        <input type="text" id="textbox" name="Guardian_Relationship" value="<?= isset($_SESSION['guardian_relationship']) ? htmlspecialchars($_SESSION['guardian_relationship']) : '' ?>" />
       </div>
       <div class="form-group1">
         <label>Guardian Contact Number</label>
-        <input type="text" id="textbox" name="guardian_contact" value="<?php echo isset($_SESSION['guardian_contact']) ? htmlspecialchars($_SESSION['guardian_contact']) : ''; ?>" />
+        <input type="text" id="textbox" name="Guardian_Contact" value="<?= isset($_SESSION['guardian_contact']) ? htmlspecialchars($_SESSION['guardian_contact']) : '' ?>" />
       </div>
     </div>
 

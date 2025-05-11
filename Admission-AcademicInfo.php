@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $_SESSION['prevschool'] = isset($_POST['prevschool']) ? $_POST['prevschool'] : '';
     $_SESSION['last_grade'] = isset($_POST['last_grade']) ? $_POST['last_grade'] : '';
     $_SESSION['Course'] = isset($_POST['Course']) ? $_POST['Course'] : '';
-    $_SESSION['Student_status'] = isset($_POST['Student_status']) ? $_POST['Student_status'] : '';
+    $_SESSION['student_type'] = isset($_POST['student_type']) ? $_POST['student_type'] : '';
     $_SESSION['confirm'] = isset($_POST['confirm']) ? $_POST['confirm'] : '';
     $_SESSION['sigdate'] = isset($_POST['sigdate']) ? $_POST['sigdate'] : '';
 
@@ -39,64 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['signature'] = $sig_path;
     }
 
-    // Insert data into tbladmission_addstudent table
+    // The insert logic is disabled for now
+    /*
     $applying_grade = $_SESSION['applying_grade'];
     $prevschool = $_SESSION['prevschool'];
     $last_grade = $_SESSION['last_grade'];
     $course = $_SESSION['Course'];
-    $student_status = $_SESSION['Student_status'];
+    $student_type = $_SESSION['student_type'];
     $confirm = $_SESSION['confirm'];
     $sigdate = $_SESSION['sigdate'];
-    $documents_json = json_encode($documents);  // Store document paths as JSON
+    $documents_json = json_encode($documents);
 
-    $query = "INSERT INTO tbladmission_addstudent (applying_grade, prevschool, last_grade, course, student_status, confirm, sigdate, documents, signature)
-              VALUES ('$applying_grade', '$prevschool', '$last_grade', '$course', '$student_status', '$confirm', '$sigdate', '$documents_json', '$sig_path')";
+    $query = "INSERT INTO tbladmission_addstudent (applying_grade, prevschool, last_grade, course, student_type, confirm, sigdate, documents, signature)
+              VALUES ('$applying_grade', '$prevschool', '$last_grade', '$course', '$student_type', '$confirm', '$sigdate', '$documents_json', '$sig_path')";
 
     if (mysqli_query($conn, $query)) {
         $_SESSION['insert_status'] = "Data inserted successfully!";
     } else {
         $_SESSION['insert_status'] = "Error inserting data: " . mysqli_error($conn);
     }
-
-    header("Location: Admission-Overview.php");
-    exit();
-}
-// Save form data to session
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['applying_grade'] = $_POST['applying_grade'];
-    $_SESSION['prevschool'] = $_POST['prevschool'];
-    $_SESSION['last_grade'] = $_POST['last_grade'];
-    $_SESSION['Course'] = $_POST['Course'];
-    $_SESSION['Student_status'] = $_POST['Student_status'];
-    $_SESSION['confirm'] = $_POST['confirm'];
-    $_SESSION['sigdate'] = $_POST['sigdate'];
-
-    // Upload directory
-    $upload_dir = "uploads/";
-    if (!is_dir($upload_dir)) {
-        mkdir($upload_dir, 0777, true);
-    }
-
-    $documents = [];
-    for ($i = 1; $i <= 5; $i++) {
-        if (isset($_FILES["doc$i"]) && $_FILES["doc$i"]['error'] == 0) {
-            $filename = basename($_FILES["doc$i"]["name"]);
-            $target_path = $upload_dir . time() . "_$filename";
-            move_uploaded_file($_FILES["doc$i"]["tmp_name"], $target_path);
-            $documents[] = $target_path;
-        } else {
-            $documents[] = null;
-        }
-    }
-    $_SESSION['documents'] = $documents;
-
-    // Signature upload
-    if (isset($_FILES["signature"]) && $_FILES["signature"]['error'] == 0) {
-        $filename = basename($_FILES["signature"]["name"]);
-        $sig_path = $upload_dir . time() . "_signature_$filename";
-        move_uploaded_file($_FILES["signature"]["tmp_name"], $sig_path);
-        $_SESSION['signature'] = $sig_path;
-    }
+    */
 
     header("Location: Admission-Overview.php");
     exit();
@@ -308,15 +270,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="form-group">
           <label>Student Type</label>
-          <select name="Student_status" required>
+          <select name="student_type" required>
             <option value="">Select</option>
-            <option value="old" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'old')) echo 'selected'; ?>>Old</option>
-            <option value="irregular" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'irregular')) echo 'selected'; ?>>Irregular</option>
-            <option value="new" <?php if ((isset($_SESSION['Student_status']) && $_SESSION['Student_status'] == 'new')) echo 'selected'; ?>>New</option>
+            <option value="old" <?php if ((isset($_SESSION['student_type']) && $_SESSION['student_type'] == 'old')) echo 'selected'; ?>>Old</option>
+            <option value="irregular" <?php if ((isset($_SESSION['student_type']) && $_SESSION['student_type'] == 'irregular')) echo 'selected'; ?>>Irregular</option>
+            <option value="new" <?php if ((isset($_SESSION['student_type']) && $_SESSION['student_type'] == 'new')) echo 'selected'; ?>>New</option>
           </select>
         </div>
       </div>
-
+      
       <h2>Documents</h2>
       <div class="form-grid">
         <?php

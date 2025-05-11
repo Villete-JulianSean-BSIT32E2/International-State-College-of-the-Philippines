@@ -119,7 +119,7 @@ if (!isset($_SESSION['full_name'])) {
             <p><strong>Birthdate:</strong> <?= htmlspecialchars($_SESSION['date']); ?></p>
             <p><strong>Gender:</strong> <?= htmlspecialchars($_SESSION['gender']); ?></p>
             <p><strong>Nationality:</strong> <?= htmlspecialchars($_SESSION['nationality']); ?></p>
-            <p><strong>Religion:</strong> <?= htmlspecialchars($_SESSION['religion']); ?></p>
+            <p><strong>Religion:</strong> <?= isset($_SESSION['religion']) ? htmlspecialchars($_SESSION['religion']) : 'Not specified'; ?></p>
             <p><strong>Address:</strong> <?= htmlspecialchars($_SESSION['address']); ?></p>
             <p><strong>Province:</strong> <?= htmlspecialchars($_SESSION['province']); ?></p>
             <p><strong>ZIP Code:</strong> <?= htmlspecialchars($_SESSION['zip']); ?></p>
@@ -136,15 +136,15 @@ if (!isset($_SESSION['full_name'])) {
 
         <div class="overview-box">
             <h3>Guardian Information</h3>
-            <p><strong>Father's Name:</strong> <?= htmlspecialchars($_SESSION['fathers_name']); ?></p>
-            <p><strong>Father's Occupation:</strong> <?= htmlspecialchars($_SESSION['fathers_occupation']); ?></p>
-            <p><strong>Father's Contact:</strong> <?= htmlspecialchars($_SESSION['father_contact']); ?></p>
-            <p><strong>Mother's Name:</strong> <?= htmlspecialchars($_SESSION['mothers_name']); ?></p>
-            <p><strong>Mother's Occupation:</strong> <?= htmlspecialchars($_SESSION['mothers_occupation']); ?></p>
-            <p><strong>Mother's Contact:</strong> <?= htmlspecialchars($_SESSION['mother_contact']); ?></p>
-            <p><strong>Guardian's Name:</strong> <?= htmlspecialchars($_SESSION['guardian_name']); ?></p>
-            <p><strong>Guardian's Relationship:</strong> <?= htmlspecialchars($_SESSION['guardian_relationship']); ?></p>
-            <p><strong>Guardian's Contact:</strong> <?= htmlspecialchars($_SESSION['guardian_contact']); ?></p>
+            <p><strong>Father's Name:</strong> <?= isset($_SESSION['fathers_name']) ? htmlspecialchars($_SESSION['fathers_name']) : 'Not specified'; ?></p>
+<p><strong>Father's Occupation:</strong> <?= isset($_SESSION['fathers_occupation']) ? htmlspecialchars($_SESSION['fathers_occupation']) : 'Not specified'; ?></p>
+<p><strong>Father's Contact:</strong> <?= isset($_SESSION['father_contact']) ? htmlspecialchars($_SESSION['father_contact']) : 'Not specified'; ?></p>
+<p><strong>Mother's Name:</strong> <?= isset($_SESSION['mothers_name']) ? htmlspecialchars($_SESSION['mothers_name']) : 'Not specified'; ?></p>
+<p><strong>Mother's Occupation:</strong> <?= isset($_SESSION['mothers_occupation']) ? htmlspecialchars($_SESSION['mothers_occupation']) : 'Not specified'; ?></p>
+<p><strong>Mother's Contact:</strong> <?= isset($_SESSION['mother_contact']) ? htmlspecialchars($_SESSION['mother_contact']) : 'Not specified'; ?></p>
+<p><strong>Guardian's Name:</strong> <?= isset($_SESSION['guardian_name']) ? htmlspecialchars($_SESSION['guardian_name']) : 'Not specified'; ?></p>
+<p><strong>Guardian's Relationship:</strong> <?= isset($_SESSION['guardian_relationship']) ? htmlspecialchars($_SESSION['guardian_relationship']) : 'Not specified'; ?></p>
+<p><strong>Guardian's Contact:</strong> <?= isset($_SESSION['guardian_contact']) ? htmlspecialchars($_SESSION['guardian_contact']) : 'Not specified'; ?></p>
         </div>
 
         <div class="overview-box">
@@ -153,7 +153,18 @@ if (!isset($_SESSION['full_name'])) {
             <p><strong>Previous School Name:</strong> <?= htmlspecialchars($_SESSION['prevschool']); ?></p>
             <p><strong>Last Grade Completed:</strong> <?= htmlspecialchars($_SESSION['last_grade']); ?></p>
             <p><strong>Course:</strong> <?= htmlspecialchars($_SESSION['Course']); ?></p>
-            <p><strong>Student Type:</strong> <?= htmlspecialchars($_SESSION['Student_status']); ?></p>
+            <?php
+    $typeLabels = [
+        'new' => 'New Student',
+        'old' => 'Returning Student',
+        'irregular' => 'Irregular Student'
+    ];
+    $studentType = isset($_SESSION['student_type']) ? 
+        strtolower($_SESSION['student_type']) : 'new';
+    ?>
+    <p><strong>Student Type:</strong> 
+        <?= htmlspecialchars($typeLabels[$studentType]) ?>
+    </p>
         </div>
 
         <div class="overview-box">
