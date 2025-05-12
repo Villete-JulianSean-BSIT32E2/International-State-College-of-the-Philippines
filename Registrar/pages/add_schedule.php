@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch unique courses from student_documents
-$courses = $conn->query("SELECT DISTINCT course FROM student_documents WHERE course IS NOT NULL AND course != '' ORDER BY course ASC");
+$courses = $conn->query("SELECT DISTINCT course FROM tbladmission_addstudent WHERE course IS NOT NULL AND course != '' ORDER BY course ASC");
 ?>
 
 <h2>Add Class Schedule</h2>

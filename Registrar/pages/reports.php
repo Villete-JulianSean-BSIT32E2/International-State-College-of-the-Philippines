@@ -5,13 +5,13 @@ if ($conn->connect_error) {
 }
 
 // Total students
-$total_students = $conn->query("SELECT COUNT(*) AS total FROM admission")->fetch_assoc()['total'];
+$total_students = $conn->query("SELECT COUNT(*) AS total FROM tbladmission_addstudent")->fetch_assoc()['total'];
 
 // Students per course
 $courses = $conn->query("
     SELECT course, COUNT(*) AS count 
-    FROM student_documents 
-    WHERE course IS NOT NULL 
+    FROM tbladmission_addstudent 
+    WHERE course IS NOT NULL AND course != ''
     GROUP BY course
 ");
 
@@ -26,8 +26,8 @@ $cleared = $conn->query("
 $complete_docs = $conn->query("
     SELECT COUNT(*) AS complete 
     FROM student_documents 
-    WHERE birth_cert_path != '' AND form137_path != '' AND tor_path != '' 
-    AND good_moral_path != '' AND honorable_dismissal_path != ''
+    WHERE birth_cert != '' AND form137 != '' AND tor != '' 
+    AND good_moral != '' AND honorable_dismissal != ''
 ")->fetch_assoc()['complete'];
 ?>
 
@@ -102,8 +102,8 @@ $complete_docs = $conn->query("
         data: {
             labels: <?= json_encode(array_column(iterator_to_array($courses = $conn->query("
                 SELECT course, COUNT(*) AS count 
-                FROM student_documents 
-                WHERE course IS NOT NULL 
+                FROM tbladmission_addstudent 
+                WHERE course IS NOT NULL AND course != ''
                 GROUP BY course
             ")), 'course')) ?>,
             datasets: [{
@@ -126,8 +126,4 @@ $complete_docs = $conn->query("
         }
     });
 </script>
-
-
-
-
 

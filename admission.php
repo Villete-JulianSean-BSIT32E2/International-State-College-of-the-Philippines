@@ -124,14 +124,25 @@ if ($conn && !$conn->connect_error) {
     .dropdown:hover .dropdown-content {
         display: block;
     }
+    .sidebar a.nav-item {
+  color: white;
+  text-decoration: none;
+  display: block;
+}
+.sidebar a.nav-item:hover,
+.sidebar a.nav-item.active {
+  background-color: #1a3d7c;
+}
+
   </style>
 </head>
 <body>
   <div class="sidebar">
     <img src="img/LOGO.png" alt="College Logo" />
     <div class="nav-item active">Admission</div>
-    <div class="nav-item">Registrar</div>
-    <div class="nav-item">Cashier</div>
+    <a href="main-dashboard.php" class="nav-item">Main Dashboard</a>
+
+
   </div>
 
   <div class="main-content">

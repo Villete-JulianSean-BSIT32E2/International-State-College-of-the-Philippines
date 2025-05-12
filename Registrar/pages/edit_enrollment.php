@@ -13,11 +13,10 @@ if ($conn->connect_error) {
 // Get student ID from URL
 $student_id = isset($_GET['student_id']) ? (int)$_GET['student_id'] : 0;
 
-// Fetch student data (only name from `admission`, course/status from `student_documents`)
-$sql = "SELECT a.id, a.name, d.course, d.status_std 
-        FROM admission a
-        LEFT JOIN student_documents d ON a.id = d.id
-        WHERE a.id = $student_id
+// Fetch student data from tbladmission_addstudent
+$sql = "SELECT Admission_ID, full_name, course, student_type 
+        FROM tbladmission_addstudent
+        WHERE Admission_ID = $student_id
         LIMIT 1";
 $result = $conn->query($sql);
 $student = $result->fetch_assoc();
@@ -25,23 +24,23 @@ $student = $result->fetch_assoc();
 // Handle update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $course = $conn->real_escape_string($_POST['course']);
-    $status_std = $conn->real_escape_string($_POST['status_std']);
+    $student_type = $conn->real_escape_string($_POST['student_type']);
 
-    // Check if record exists in student_documents
-    $check = $conn->query("SELECT * FROM student_documents WHERE id = $student_id");
-    if ($check->num_rows > 0) {
-        // Update
-        $conn->query("UPDATE student_documents SET course = '$course', status_std = '$status_std' WHERE id = $student_id");
+    // Update record in tbladmission_addstudent
+    $update_sql = "UPDATE tbladmission_addstudent 
+                  SET course = '$course', 
+                      student_type = '$student_type' 
+                  WHERE Admission_ID = $student_id";
+    
+    if ($conn->query($update_sql)) {
+        echo "<p style='color: green;'>Enrollment updated successfully.</p>";
+        
+        // Reload updated student data
+        $result = $conn->query($sql);
+        $student = $result->fetch_assoc();
     } else {
-        // Insert
-        $conn->query("INSERT INTO student_documents (id, course, status_std) VALUES ($student_id, '$course', '$status_std')");
+        echo "<p style='color: red;'>Error updating record: " . $conn->error . "</p>";
     }
-
-    echo "<p style='color: green;'>Enrollment updated successfully.</p>";
-
-    // Reload student data
-    $result = $conn->query($sql);
-    $student = $result->fetch_assoc();
 }
 ?>
 
@@ -113,24 +112,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 </style>
 
-
 <h2>Edit Enrollment</h2>
 
 <?php if ($student): ?>
     <form method="POST">
-        <p><strong>Name:</strong> <?= htmlspecialchars($student['name']) ?></p>
+        <p><strong>Name:</strong> <?= htmlspecialchars($student['full_name']) ?></p>
 
         <label for="course">Course:</label>
-        <input type="text" name="course" id="course" value="<?= htmlspecialchars($student['course']) ?>" required><br><br>
+        <input type="text" name="course" id="course" value="<?= htmlspecialchars(isset($student['course']) ? $student['course'] : '') ?>" required>
 
-        <label for="status_std">Status:</label>
-        <select name="status_std" id="status_std" required>
-            <option value="">-- Select Status --</option>
-            <option value="New" <?= $student['status_std'] == 'New' ? 'selected' : '' ?>>new</option>
-            <option value="Transferee" <?= $student['status_std'] == 'Transferee' ? 'selected' : '' ?>>transferee</option>
-            <option value="Old" <?= $student['status_std'] == 'Old' ? 'selected' : '' ?>>old</option>
-            <option value="Irregular" <?= $student['status_std'] == 'Irregular' ? 'selected' : '' ?>>irregular</option>
-        </select><br><br>
+        <label for="student_type">Student Type:</label>
+        <select name="student_type" id="student_type" required>
+            <option value="">-- Select Type --</option>
+            <option value="New" <?= isset($student['student_type']) && $student['student_type'] == 'New' ? 'selected' : '' ?>>New</option>
+<option value="Old" <?= isset($student['student_type']) && $student['student_type'] == 'Old' ? 'selected' : '' ?>>Old</option>
+<option value="Irregular" <?= isset($student['student_type']) && $student['student_type'] == 'Irregular' ? 'selected' : '' ?>>Irregular</option>
+        </select>
 
         <button type="submit">Save Changes</button>
         <a href="/International-State-College-of-the-Philippines/Registrar/registrar.php?page=enrollment_management">Back</a>

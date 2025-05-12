@@ -88,7 +88,7 @@
 
     <!-- Dashboard Section -->
     <div class="dashboard">
-      <a href="Admission-AddStudent.php" class="tile">
+      <a href="admission.php" class="tile">
         <i class="fas fa-user-plus"></i>
         <span>Admissions</span>
       </a>
