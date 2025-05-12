@@ -25,88 +25,194 @@ $conn->close();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Welcome to ISCP!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: #003865;
+      color: white;
+      width: 250px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .sidebar img {
+      width: 100px;
+      border-radius: 50%;
+      margin-bottom: 40px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      width: 100%;
+    }
+
+    .sidebar li {
+      padding: 12px 0;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      padding-left: 10px;
+      color: #00bfff;
+    }
+
+    /* Main Content */
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+    }
+
+    .main h1 {
+      color: #003865;
+      margin-bottom: 20px;
+    }
+
+    .profile-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-card:hover {
+      transform: scale(1.02);
+    }
+
+    .profile-card img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+      border: 4px solid #007bff;
+    }
+
+    .profile-card h2 {
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .profile-card p {
+      color: #777;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .buttons a button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-back {
+      background-color: white;
+      border: 2px solid #007bff;
+      color: #007bff;
+    }
+
+    .btn-back:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .btn-next {
+      background-color: #007bff;
+      border: none;
+      color: white;
+    }
+
+    .btn-next:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+        justify-content: space-around;
+      }
+      .main {
+        padding: 20px;
+      }
+    }
+
+    .welcome-title {
+  text-align: center;
+  color: #003865;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.welcome-title:hover {
+  color: #007bff;
+  text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+}
+
+  </style>
 </head>
-<body style="font-family: sans-serif; margin: 0; background-color: #f4f4f4; display: flex;">
+<body>
   <!-- Sidebar -->
-  <div style="background-color: #003865; color: white; width: 250px; height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: flex-start;">
-    <div style="margin-bottom: 40px;">
-      <img src="logo.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-    </div>
-    <ul style="list-style: none; padding: 0; width: 100%;">
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center;">
-          
-          Dashboard
-        </a>
-      </li>
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center; justify-content: space-between;">
-          <div style="display: flex; align-items: center;">
-            
-            Admission
-          </div>
-          <span style="margin-left: 10px;"></span>
-        </a>
-      </li>
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center;">
-         
-          Registrar
-        </a>
-      </li>
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center;">
-          
-          Cashier
-        </a>
-      </li>
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center;">
-          
-          Settings and profile
-        </a>
-      </li>
-      <li style="padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; display: flex; align-items: center;">
-          
-          Exams
-        </a>
-      </li>
+  <div class="sidebar">
+    <img src="logo.png" alt="Logo">
+    <ul>
+      <li><a href="#">Dashboard</a></li>
+      <li><a href="#">Admission</a></li>
+      <li><a href="#">Registrar</a></li>
+      <li><a href="#">Cashier</a></li>
     </ul>
-    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); width: 100%;">
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; font-size: 14px;">Features</a>
-        <span style="background-color: #ffc107; color: #003865; border-radius: 5px; padding: 2px 5px; font-size: 10px;">NEW</span>
-      </div>
-    </div>
   </div>
 
   <!-- Main Content -->
-  <div style="flex-grow: 1; padding: 40px;">
-    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 30px;">
-      <a href="#" style="text-decoration: none; color: #555; margin-left: 20px; display: flex; align-items: center;">
-        <img src="notification-icon.png" alt="Notification" style="width: 20px; height: 20px; margin-right: 5px; opacity: 0.7;">
-      </a>
-      <a href="#" style="text-decoration: none; color: #555; margin-left: 20px;">Log out</a>
+  <div class="main">
+    <h1 class="welcome-title">Welcome to ISCP!</h1>
+
+
+    <div class="profile-card">
+      <img src="image/student-profile.jfif" alt="Student Profile">
+      <h2><?php echo htmlspecialchars($studentName); ?></h2>
+      <p>BSIT</p>
+      <p>S.Y 3001-3002</p>
     </div>
 
-    <h1 style="color: #333; margin-bottom: 20px;">Welcome to ISCP!</h1>
-
-    <div style="display: flex; flex-direction: column; align-items: center;">
-      <img src="student-profile.jpg" alt="Student Profile" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
-      <h2 style="color: #333; margin-bottom: 5px;"><?php echo htmlspecialchars($studentName); ?></h2>
-      <p style="color: #777; margin-bottom: 5px;">BSIT</p>
-      <p style="color: #777;">S.Y 3001-3002</p>
-    </div>
-   
-
-    <div style="display: flex; justify-content: flex-end; margin-top: 40px;">
+    <div class="buttons">
       <a href="admission.php">
-      <button style="padding: 10px 20px; border: 1px solid #ccc; border-radius: 5px; background-color: white; color: #555; cursor: pointer; margin-right: 10px;">Back to Dashboard</button>
-    </a>
-
-      <a href="Personal-Information.php">
-      <button style="padding: 10px 20px; border: none; border-radius: 5px; background-color: #007bff; color: white; cursor: pointer;">Next</button>
+        <button class="btn-back">Back to Dashboard</button>
       </a>
     </div>
   </div>

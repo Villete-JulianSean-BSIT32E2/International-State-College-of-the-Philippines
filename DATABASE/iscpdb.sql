@@ -1,0 +1,659 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.5
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 12, 2025 at 04:13 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `iscpdb`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admission`
+--
+
+CREATE TABLE `admission` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `bdate` date NOT NULL,
+  `gender` enum('m','f','o') NOT NULL,
+  `nat` varchar(255) NOT NULL,
+  `religion` varchar(255) NOT NULL,
+  `curraddress` text NOT NULL,
+  `province` varchar(255) NOT NULL,
+  `peraddress` text NOT NULL,
+  `zip` varchar(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `phoneno` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `AttendanceID` int(11) NOT NULL,
+  `id` int(11) NOT NULL COMMENT 'ID IS FROM ADMISSION TABLE',
+  `Date` date NOT NULL,
+  `Status` smallint(1) NOT NULL COMMENT '0 - ABSENT, 1 - PRESENT, 2 - LATE',
+  `Notes` text,
+  `TimeIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `TimeOut` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class_schedules`
+--
+
+CREATE TABLE `class_schedules` (
+  `id` int(11) NOT NULL,
+  `subject` varchar(100) DEFAULT NULL,
+  `instructor` varchar(100) DEFAULT NULL,
+  `day` varchar(20) DEFAULT NULL,
+  `time` varchar(100) DEFAULT NULL,
+  `room` varchar(50) DEFAULT NULL,
+  `course` varchar(100) NOT NULL,
+  `section` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `class_schedules`
+--
+
+INSERT INTO `class_schedules` (`id`, `subject`, `instructor`, `day`, `time`, `room`, `course`, `section`) VALUES
+(1, 'Programming 1', 'Mr. Juan Dela Cruz', 'Tuesday', '9AM - 10:30 AM', '211', 'CTHM', 'CTHM1A2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deadlines`
+--
+
+CREATE TABLE `deadlines` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `due_date` date NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `deadlines`
+--
+
+INSERT INTO `deadlines` (`id`, `title`, `due_date`, `description`) VALUES
+(1, 'Enrollment Deadline', '2025-05-15', 'Last day to enroll for Summer semester.'),
+(2, 'Document Submission', '2025-05-20', 'Submit all required student documents.'),
+(3, 'Tuition Fee Payment', '2025-06-01', 'Final date to pay tuition without late fee.'),
+(4, 'Clearance Signing', '2025-06-10', 'Deadline for department clearance submissions.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `guardian_info`
+--
+
+CREATE TABLE `guardian_info` (
+  `id` int(11) NOT NULL,
+  `fname` varchar(255) NOT NULL,
+  `mname` varchar(255) NOT NULL,
+  `foccu` varchar(255) NOT NULL,
+  `moccu` varchar(255) NOT NULL,
+  `fno` varchar(20) NOT NULL,
+  `mno` varchar(20) NOT NULL,
+  `gname` varchar(255) NOT NULL,
+  `relationship` varchar(255) NOT NULL,
+  `gno` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `guardian_info`
+--
+
+INSERT INTO `guardian_info` (`id`, `fname`, `mname`, `foccu`, `moccu`, `fno`, `mno`, `gname`, `relationship`, `gno`) VALUES
+(43, 'vbxcbx', 'bxcvbx', 'cvbxc', 'vbxcvb', 'bxcvb', 'xcvbxcvb', 'cvbxcv', 'xcvbxcv', 'xcvbxcv'),
+(44, 'sdfafda', 'fadsf', 'asdfasdfas', 'asfd', 'adfasdfs', 'asdfasdf', 'dsfas', 'dfasdf', 'asfdasdf'),
+(45, 'vxzcvzx', 'zxcvz', 'xcvzxcvz', 'xzcvzcv', 'xzcvzcx', 'zxcvzx', 'cvzvzcv', 'xcvzxcv', 'cvxzv'),
+(46, 'afasdfa', 'sdfasfd', 'adsfasd', 'sfasfas', 'dfasdf', 'asdfasf', 'asdfa', 'fasdfa', 'asdfasdf');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `joined_students`
+-- (See below for the actual view)
+--
+CREATE TABLE `joined_students` (
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `amount_paid` decimal(10,2) NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_method` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `student_id`, `amount_paid`, `payment_date`, `payment_method`) VALUES
+(1, 0, '0.00', '2025-05-12', 'Gcash'),
+(2, 1008, '5000.00', '2025-05-06', 'Cash'),
+(3, 1008, '0.00', '2025-05-12', '	'),
+(4, 1010, '2000.00', '2025-05-13', 'Cash'),
+(5, 1010, '200.00', '2025-05-15', 'Gcash'),
+(6, 1010, '3000.00', '2025-05-12', 'Cash'),
+(7, 1010, '3000.00', '2025-05-12', 'Cash'),
+(8, 1010, '3000.00', '2025-05-29', 'Cash'),
+(9, 1010, '200.00', '2025-05-12', 'Bank Transfer'),
+(10, 0, '3000.00', '2025-05-12', 'Cash'),
+(11, 0, '3000.00', '2025-05-12', 'Cash'),
+(12, 1010, '2222.00', '2025-05-12', 'Cash'),
+(13, 1010, '2222.00', '2025-05-12', 'Cash'),
+(14, 1009, '3000.00', '2025-05-07', 'Bank Transfer'),
+(15, 1007, '2000.00', '2025-05-13', 'Cash'),
+(16, 0, '2000.00', '2025-05-05', 'Cash'),
+(17, 0, '2000.00', '2025-05-19', 'Cash'),
+(18, 0, '3000.00', '2025-05-15', 'Cash'),
+(19, 0, '2000.00', '2025-05-17', 'Cash'),
+(20, 1011, '2000.00', '2025-05-29', 'Cash'),
+(21, 1008, '2000.00', '2025-05-08', 'Cash'),
+(22, 1012, '3000.00', '2025-05-12', 'Cash');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receivables`
+--
+
+CREATE TABLE `receivables` (
+  `id` int(11) NOT NULL,
+  `or_no` varchar(10) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `total_fee` decimal(10,2) NOT NULL,
+  `date` date NOT NULL,
+  `course` varchar(50) NOT NULL,
+  `payment_date` date NOT NULL,
+  `balance` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `payment_amount` int(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `receivables`
+--
+
+INSERT INTO `receivables` (`id`, `or_no`, `student_name`, `total_fee`, `date`, `course`, `payment_date`, `balance`, `created_at`, `payment_amount`) VALUES
+(0, '069305', 'AHmed Hadadi', '8000.00', '2025-05-20', 'CSS', '2025-05-26', '0.00', '2025-05-12 07:25:42', 15844);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `requests`
+--
+
+CREATE TABLE `requests` (
+  `id` int(11) NOT NULL,
+  `student_name` varchar(255) DEFAULT NULL,
+  `request_type` varchar(100) DEFAULT NULL,
+  `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
+  `date_requested` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `student_attendance_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `student_attendance_view` (
+);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_clearance`
+--
+
+CREATE TABLE `student_clearance` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `library_clearance` enum('Pending','Cleared') DEFAULT 'Pending',
+  `accounting_clearance` enum('Pending','Cleared') DEFAULT 'Pending',
+  `dept_head_clearance` enum('Pending','Cleared') DEFAULT 'Pending',
+  `final_clearance` enum('Pending','Cleared') DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_clearance`
+--
+
+INSERT INTO `student_clearance` (`id`, `student_id`, `library_clearance`, `accounting_clearance`, `dept_head_clearance`, `final_clearance`) VALUES
+(0, 1007, 'Cleared', 'Cleared', 'Cleared', 'Cleared');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_documents`
+--
+
+CREATE TABLE `student_documents` (
+  `id` int(11) NOT NULL,
+  `Admission_ID` int(11) NOT NULL,
+  `birth_cert` tinyint(1) DEFAULT '0',
+  `form137` tinyint(1) DEFAULT '0',
+  `tor` tinyint(1) DEFAULT '0',
+  `good_moral` tinyint(1) DEFAULT '0',
+  `honorable_dismissal` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_documents`
+--
+
+INSERT INTO `student_documents` (`id`, `Admission_ID`, `birth_cert`, `form137`, `tor`, `good_moral`, `honorable_dismissal`) VALUES
+(1, 1007, 0, 0, 1, 0, 0),
+(2, 1008, 0, 0, 0, 0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_grades`
+--
+
+CREATE TABLE `student_grades` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `subject` varchar(100) NOT NULL,
+  `grade` varchar(10) DEFAULT NULL,
+  `remarks` varchar(50) DEFAULT NULL,
+  `school_year` int(255) NOT NULL,
+  `semester` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_grades`
+--
+
+INSERT INTO `student_grades` (`id`, `student_id`, `subject`, `grade`, `remarks`, `school_year`, `semester`) VALUES
+(1, 1008, 'Programming 1', '2', 'Fair', 0, ''),
+(2, 0, 'Math', '2', 'Good', 0, ''),
+(3, 1007, 'Math', '2', 'Good', 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbladmission_addstudent`
+--
+
+CREATE TABLE `tbladmission_addstudent` (
+  `Admission_ID` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `birthdate` date NOT NULL,
+  `gender` varchar(20) NOT NULL,
+  `nationality` varchar(50) NOT NULL,
+  `religion` varchar(50) NOT NULL,
+  `address` text NOT NULL,
+  `province` varchar(100) NOT NULL,
+  `zip` varchar(10) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `fathers_name` varchar(255) NOT NULL,
+  `fathers_occupation` varchar(255) NOT NULL,
+  `father_contact` varchar(20) NOT NULL,
+  `mothers_name` varchar(255) NOT NULL,
+  `mothers_occupation` varchar(255) NOT NULL,
+  `mother_contact` varchar(20) NOT NULL,
+  `guardian_name` varchar(255) NOT NULL,
+  `guardian_relationship` varchar(100) NOT NULL,
+  `guardian_contact` varchar(20) NOT NULL,
+  `applying_grade` varchar(20) NOT NULL,
+  `prevschool` varchar(255) NOT NULL,
+  `last_grade` varchar(20) NOT NULL,
+  `course` varchar(100) NOT NULL,
+  `student_type` varchar(50) NOT NULL,
+  `confirm` tinyint(1) NOT NULL,
+  `signature` varchar(255) DEFAULT NULL,
+  `sigdate` date DEFAULT NULL,
+  `signature_path` varchar(255) NOT NULL,
+  `document_path` varchar(255) NOT NULL,
+  `document_name` varchar(255) NOT NULL,
+  `status` varchar(255) DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbladmission_addstudent`
+--
+
+INSERT INTO `tbladmission_addstudent` (`Admission_ID`, `full_name`, `birthdate`, `gender`, `nationality`, `religion`, `address`, `province`, `zip`, `city`, `email`, `phone`, `photo`, `fathers_name`, `fathers_occupation`, `father_contact`, `mothers_name`, `mothers_occupation`, `mother_contact`, `guardian_name`, `guardian_relationship`, `guardian_contact`, `applying_grade`, `prevschool`, `last_grade`, `course`, `student_type`, `confirm`, `signature`, `sigdate`, `signature_path`, `document_path`, `document_name`, `status`) VALUES
+(1007, 'Gabriel', '2025-05-19', 'Male', 'zcvzxcvx', 'zxcvxczv', 'zxcvz', 'xzcv', 'cxvzxcv', 'zxvxz', 'aa@gmail.com', '', 'uploads/6820e48ce4184.jfif', 'zxcvzxcv', 'zxcv', '', 'xzcvxzcvzx', 'zxv', '', 'cvzxcv', 'zxcvzxc', '', '1st Year', 'vzxcv', '1st Year', 'BSCRIM', 'irregular', 0, NULL, '2025-05-22', 'uploads/1746986180_signature_student-profile.jfif', '', '', 'Enrolled'),
+(1008, 'Kevin durant', '2025-05-13', 'Male', 'vxvczxv', 'zxcvzxcv', 'zxcvzcx', 'vzxcv', 'zxcvz', 'xcvzxc', 'xvzxc@rasd.com', '', 'uploads/6820e8dd22459.jfif', 'cxvbcx', 'vbxcv', '', 'b,bm', 'bnm,', '', ',bm', 'nb,', '', '3rd Year', 'zbxcvbxc', '2nd Year', 'CTHM', 'New', 0, NULL, '2025-05-23', 'uploads/1746987255_signature_Archi.jfif', '', '', 'Enrolled'),
+(1009, 'Taylor Sweep', '2025-05-20', 'Male', 'Tiger Commando', 'bvmnvbnm', 'zcxvzcxv', 'zxcvzxc', 'zxcvzxc', 'zxcvzxcv', 'z@gmial.com', '', 'uploads/68216c902b0ce.jfif', 'cxvbxcv', 'bxcvb', '', 'cxvbcxv', 'vbcxvb', '', 'bcxvbcxv', 'bcxvbcxv', '', '3rd Year', 'xcbcxvb', '2nd Year', 'BSA', 'new', 0, NULL, '2025-05-30', 'uploads/1747020971_signature_student-profile.jfif', '', '', 'Enrolled'),
+(1010, 'AHmed Hadadi', '2025-05-21', 'Male', 'vcxbxcv', 'zxcvzxcvzxcv', 'xzvzcx', 'cvzxcvxz', 'vzxcv', 'zxcv', 'zxcvzxcv@gmail.com', '', 'uploads/68216dba4b123.jfif', 'xzcvzxcv', 'zxcvzx', '', 'zxcv', 'zxcvzxcv', '', 'cvzxcv', 'zxcvzxcv', '', '2nd Year', 'xzcvzcxv', '3rd Year', 'BSED', 'irregular', 0, NULL, '2025-05-22', 'uploads/1747021262_signature_Intimacy.jfif', '', '', 'Enrolled'),
+(1011, 'damaspo', '2025-05-11', 'Male', 'asdsad', 'asdasdas', 'asdas', 'asda', 'das', 'dasd', 'dasdas@gmail.com', '', 'uploads/6821b26ad13c3.jfif', 'xzcvzxcv', 'zxcvz', '', 'zxcvzxc', 'cvxzcv', '', 'zxcvzx', 'cvzxcvz', '', '2nd Year', 'zxczxc', '2nd Year', 'BSCRIM', 'irregular', 0, NULL, '2025-05-12', 'uploads/1747038850_signature_Intimacy.jfif', '', '', 'Enrolled'),
+(1012, 'CongTibe', '2025-05-16', 'Male', 'asdasdasd', 'asdasd', 'asdasd', 'asdas', 'asdasd', 'dasdas', 'asdasd@gmail.com', '', 'uploads/6821bc7fa834a.jfif', 'asdas', 'asdas', '', 'asda', 'dasd', '', 'dsad', 'asdas', '', '3rd Year', 'asdas', '1st Year', 'BSCRIM', 'old', 0, NULL, '2025-05-15', 'uploads/1747041424_signature_Theology.jfif', '', '', 'Enrolled');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbladmission_studenttype`
+--
+
+CREATE TABLE `tbladmission_studenttype` (
+  `StudentType_ID` int(11) NOT NULL,
+  `Admission_ID` int(11) NOT NULL,
+  `StudentType` enum('new','old','irregular') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbladmission_studenttype`
+--
+
+INSERT INTO `tbladmission_studenttype` (`StudentType_ID`, `Admission_ID`, `StudentType`) VALUES
+(1, 1007, 'irregular'),
+(2, 1008, 'old'),
+(3, 1009, 'new'),
+(4, 1010, 'irregular'),
+(5, 1011, 'irregular'),
+(6, 1012, 'old');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblstatus`
+--
+
+CREATE TABLE `tblstatus` (
+  `id` int(11) NOT NULL,
+  `Admission_ID` int(11) DEFAULT NULL,
+  `enrollment_status` varchar(255) DEFAULT NULL,
+  `payment_status` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblstatus`
+--
+
+INSERT INTO `tblstatus` (`id`, `Admission_ID`, `enrollment_status`, `payment_status`) VALUES
+(1, 1010, 'Enrolled', 'Paid'),
+(2, 1009, 'Enrolled', 'Paid'),
+(3, 1007, 'Enrolled', 'Paid'),
+(8, 1011, 'Enrolled', 'Paid'),
+(9, 1008, 'Enrolled', 'Paid'),
+(10, 1012, 'Enrolled', 'Paid');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tuition`
+--
+
+CREATE TABLE `tuition` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) DEFAULT NULL,
+  `year_level` varchar(50) DEFAULT NULL,
+  `course` varchar(100) DEFAULT NULL,
+  `tuition` decimal(10,2) DEFAULT NULL,
+  `monthly` decimal(10,2) DEFAULT NULL,
+  `payment_method` varchar(20) DEFAULT NULL,
+  `misc_fee` decimal(10,2) DEFAULT NULL,
+  `lab_fee` decimal(10,2) DEFAULT NULL,
+  `total_tuition` decimal(10,2) DEFAULT NULL,
+  `total_fee` decimal(10,2) DEFAULT NULL,
+  `balance` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tuition`
+--
+
+INSERT INTO `tuition` (`id`, `student_id`, `year_level`, `course`, `tuition`, `monthly`, `payment_method`, `misc_fee`, `lab_fee`, `total_tuition`, `total_fee`, `balance`) VALUES
+(6, 1010, '2nd Year', 'BSED', '6000.00', '3000.00', 'Installment', '1500.00', '500.00', '8000.00', '8000.00', '0.00'),
+(7, 1008, '3rd Year', 'CTHM', '6000.00', '3000.00', 'Installment', '1500.00', '499.98', '7999.98', '7999.98', '7999.98'),
+(8, 1011, '2nd Year', 'BSCRIM', '6000.00', '3000.00', 'Installment', '1500.00', '499.98', '7999.98', '7999.98', '7999.98');
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `joined_students`
+--
+DROP TABLE IF EXISTS `joined_students`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `joined_students`  AS  select `a`.`name` AS `name`,`d`.`applying_grade` AS `applying_grade`,`d`.`Course` AS `Course` from (`admission` `a` join `student_documents` `d` on((`a`.`name` <> 0))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `student_attendance_view`
+--
+DROP TABLE IF EXISTS `student_attendance_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS  select `a`.`AttendanceID` AS `AttendanceID`,`a`.`Date` AS `Date`,`a`.`Status` AS `Status`,(case when (`a`.`Status` = 0) then 'Absent' when (`a`.`Status` = 1) then 'Present' when (`a`.`Status` = 2) then 'Late' else 'Unknown' end) AS `StatusText`,`a`.`TimeIn` AS `TimeIn`,`a`.`TimeOut` AS `TimeOut`,`ad`.`id` AS `StudentID`,`ad`.`name` AS `StudentName`,`ad`.`gender` AS `gender`,`ad`.`email` AS `email`,`ad`.`phoneno` AS `phoneno`,`sd`.`Course` AS `Course`,`sd`.`applying_grade` AS `CurrentGrade`,`sd`.`last_grade` AS `PreviousGrade`,`sd`.`status_std` AS `StudentStatus`,`sd`.`prevschool` AS `PreviousSchool` from ((`attendance` `a` join `admission` `ad` on((`a`.`id` = `ad`.`id`))) join `student_documents` `sd` on((`a`.`id` = `sd`.`id`))) order by `a`.`Date` desc,`ad`.`name` ;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `admission`
+--
+ALTER TABLE `admission`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD PRIMARY KEY (`AttendanceID`),
+  ADD UNIQUE KEY `student_date_unique` (`id`,`Date`);
+
+--
+-- Indexes for table `class_schedules`
+--
+ALTER TABLE `class_schedules`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `guardian_info`
+--
+ALTER TABLE `guardian_info`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `receivables`
+--
+ALTER TABLE `receivables`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `requests`
+--
+ALTER TABLE `requests`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `student_clearance`
+--
+ALTER TABLE `student_clearance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `student_documents`
+--
+ALTER TABLE `student_documents`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Admission_ID` (`Admission_ID`);
+
+--
+-- Indexes for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- Indexes for table `tbladmission_addstudent`
+--
+ALTER TABLE `tbladmission_addstudent`
+  ADD PRIMARY KEY (`Admission_ID`);
+
+--
+-- Indexes for table `tbladmission_studenttype`
+--
+ALTER TABLE `tbladmission_studenttype`
+  ADD PRIMARY KEY (`StudentType_ID`),
+  ADD UNIQUE KEY `Admission_ID` (`Admission_ID`);
+
+--
+-- Indexes for table `tblstatus`
+--
+ALTER TABLE `tblstatus`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Admission_ID` (`Admission_ID`);
+
+--
+-- Indexes for table `tuition`
+--
+ALTER TABLE `tuition`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admission`
+--
+ALTER TABLE `admission`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `attendance`
+--
+ALTER TABLE `attendance`
+  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `class_schedules`
+--
+ALTER TABLE `class_schedules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `guardian_info`
+--
+ALTER TABLE `guardian_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT for table `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `student_documents`
+--
+ALTER TABLE `student_documents`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbladmission_addstudent`
+--
+ALTER TABLE `tbladmission_addstudent`
+  MODIFY `Admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1013;
+
+--
+-- AUTO_INCREMENT for table `tbladmission_studenttype`
+--
+ALTER TABLE `tbladmission_studenttype`
+  MODIFY `StudentType_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tblstatus`
+--
+ALTER TABLE `tblstatus`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `tuition`
+--
+ALTER TABLE `tuition`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `attendance`
+--
+ALTER TABLE `attendance`
+  ADD CONSTRAINT `attendance_ibfk_1` FOREIGN KEY (`id`) REFERENCES `admission` (`id`);
+
+--
+-- Constraints for table `student_documents`
+--
+ALTER TABLE `student_documents`
+  ADD CONSTRAINT `student_documents_ibfk_1` FOREIGN KEY (`Admission_ID`) REFERENCES `tbladmission_addstudent` (`Admission_ID`);
+
+--
+-- Constraints for table `tbladmission_studenttype`
+--
+ALTER TABLE `tbladmission_studenttype`
+  ADD CONSTRAINT `tbladmission_studenttype_ibfk_1` FOREIGN KEY (`Admission_ID`) REFERENCES `tbladmission_addstudent` (`Admission_ID`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tblstatus`
+--
+ALTER TABLE `tblstatus`
+  ADD CONSTRAINT `tblstatus_ibfk_1` FOREIGN KEY (`Admission_ID`) REFERENCES `tbladmission_addstudent` (`Admission_ID`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

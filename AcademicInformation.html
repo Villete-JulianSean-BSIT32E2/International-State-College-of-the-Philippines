@@ -4,131 +4,319 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Academic Information</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      background-color: #003865;
+      color: white;
+      width: 250px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s;
+    }
+
+    .sidebar:hover {
+      width: 270px;
+    }
+
+    .sidebar img {
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+
+    .sidebar img:hover {
+      transform: scale(1.1);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+    }
+
+    .sidebar li {
+      padding: 10px 0;
+      transition: background 0.3s;
+    }
+
+    .sidebar li:hover {
+      background: #3f72af;
+      cursor: pointer;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      display: block;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex-grow: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-links {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 30px;
+    }
+
+    .top-links a {
+      text-decoration: none;
+      color: #555;
+      margin-left: 20px;
+    }
+
+    /* Form Fields */
+    input[type="text"], input[type="file"], select, input[type="date"], input[type="radio"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus, input[type="file"]:focus, select:focus, input[type="date"]:focus, input[type="radio"]:focus {
+      border: 2px solid #3F72AF;
+      box-shadow: 0 0 10px rgba(63, 114, 175, 0.3);
+    }
+
+    /* Button Styles */
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #0066cc;
+      transform: scale(1.05);
+    }
+
+    /* Upload Button Styles */
+    .upload-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .upload-btn:hover {
+      background-color: #0066cc;
+      transform: scale(1.05);
+    }
+
+    /* Flexbox for Form Layout */
+    .form-layout {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .form-column {
+      width: 45%;
+    }
+
+    .form-column h2 {
+      color: #333;
+    }
+
+    .form-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .form-flex input, .form-flex select {
+      min-width: 200px;
+    }
+
+    /* Notification Bell */
+    .notification {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+
+    .notification:hover {
+      transform: scale(1.1);
+    }
+
+    /* Additional Styles for "Declaration" Section */
+    .declaration-section {
+      margin-top: 40px;
+    }
+
+    .declaration-section input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .declaration-section label {
+      margin-top: 10px;
+    }
+
+    /* Navigation Buttons */
+    .navigation-buttons {
+      margin-top: 40px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .navigation-buttons a button {
+      background-color: #eee;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; margin: 0; background-color: #f4f4f4; display: flex;">
-  <!-- Sidebar -->
-  <div style="background-color: #003865; color: white; width: 250px; height: 100vh; padding: 20px; display: flex; flex-direction: column;">
-    <div style="margin-bottom: 40px;">
-      <img src="logo.png" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-    </div>
-    <ul style="list-style: none; padding: 0; width: 100%;">
-      <li style="padding: 10px 0;"><a href="index.php" style="text-decoration: none; color: white;">Dashboard</a></li>
-      <li style="padding: 10px 0;"><a href="#" style="text-decoration: none; color: white;">Admission</a></li>
-      <li style="padding: 10px 0;"><a href="#" style="text-decoration: none; color: white;">Registrar</a></li>
-      <li style="padding: 10px 0;"><a href="#" style="text-decoration: none; color: white;">Cashier</a></li>
-      <li style="padding: 10px 0;"><a href="#" style="text-decoration: none; color: white;">Exams</a></li>
-    </ul>
-    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); width: 100%;">
-      <div style="display: flex; justify-content: space-between; padding: 10px 0;">
-        <a href="#" style="text-decoration: none; color: white; font-size: 14px;">Features</a>
-        <span style="background-color: #ffc107; color: #003865; border-radius: 5px; padding: 2px 5px; font-size: 10px;">NEW</span>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div style="margin-bottom: 40px;">
+        <img src="logo.png" alt="Logo">
       </div>
+      <ul>
+        <li><a href="index.php">Dashboard</a></li>
+        <li><a href="#">Admission</a></li>
+        <li><a href="#">Registrar</a></li>
+        <li><a href="#">Cashier</a></li>
+        <li><a href="#">Exams</a></li>
+      </ul>
     </div>
-  </div>
 
-  <!-- Main Content -->
-  <div style="flex-grow: 1; padding: 40px; display: flex; flex-direction: column;">
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
-      <a href="#" style="text-decoration: none; color: #555; margin-left: 20px;">🔔</a>
-      <a href="#" style="text-decoration: none; color: #555; margin-left: 20px;">Log out</a>
-    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="top-links"></div>
 
-    <form action="insert_data.php" method="post" enctype="multipart/form-data">      
-      <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
-        <div style="width: 45%;">
-          <h2 style="color: #333;">Academic Information</h2>
-          <label style="display:block; margin-top: 15px;">Applying For Class/Grade</label>
-          <select name="applying_grade" style="width: 100%; padding: 10px;" required>
-            <option value="">Select Grade</option>
-            <option value="1st Year">1st Year</option>
-            <option value="2nd Year">2nd Year</option>
-            <option value="3rd Year">3rd Year</option>
-            <option value="4th Year">4th Year</option>
-          </select>
+      <form action="insert_data.php" method="post" enctype="multipart/form-data">      
+        <div class="form-layout">
+          <div class="form-column">
+            <h2>Academic Information</h2>
+            <label>Applying For Class/Grade</label>
+            <select name="applying_grade" required>
+              <option value="">Select Grade</option>
+              <option value="1st Year">1st Year</option>
+              <option value="2nd Year">2nd Year</option>
+              <option value="3rd Year">3rd Year</option>
+              <option value="4th Year">4th Year</option>
+            </select>
 
-          <label style="display:block; margin-top: 15px;">Previous School Name</label>
-          <input type="text" name="prevschool" style="width: 100%; padding: 10px;" required>
+            <label>Previous School Name</label>
+            <input type="text" name="prevschool" required>
 
-          <label style="display:block; margin-top: 15px;">Last Grade Completed</label>
-          <select name="last_grade" style="width: 100%; padding: 10px;" required>
-            <option value="">Select Grade</option>
-            <option value="1st Year">1st Year</option>
-            <option value="2nd Year">2nd Year</option>
-            <option value="3rd Year">3rd Year</option>
-            <option value="4th Year">4th Year</option>
-          </select>
+            <label>Last Grade Completed</label>
+            <select name="last_grade" required>
+              <option value="">Select Grade</option>
+              <option value="1st Year">1st Year</option>
+              <option value="2nd Year">2nd Year</option>
+              <option value="3rd Year">3rd Year</option>
+              <option value="4th Year">4th Year</option>
+            </select>
 
+            <label>Course</label>
+            <select name="Course" required>
+              <option value="">Select</option>
+              <option value="BSIT">BSIT</option>
+              <option value="BSCRIM">BSCRIM</option>
+              <option value="BSED">BSED</option>
+              <option value="BSCS">BSCS</option>
+              <option value="CTHM">CTHM</option>
+              <option value="BSA">BSA</option>
+            </select>
 
-               <label style="display:block; margin-top: 15px;">Course</label>
-          <select name="Course" style="width: 100%; padding: 10px;" required>
-            <option value="">Select</option>
-            <option value="BSIT">BSIT</option>
-            <option value="BSCRIM">BSCRIM</option>
-            <option value="BSED">BSED</option>
-            <option value="BSCS">BSCS</option>
-            <option value="CTHM">CTHM</option>
-            <option value="BSA">BSA</option>
-          </select>
+            <label>Student Status</label>
+            <select name="Student_status" required>
+              <option value="">Select</option>
+              <option value="transferee">Transferee</option>
+              <option value="old">Old</option>
+              <option value="irregular">Irregular</option>
+              <option value="new">New</option>
+            </select>
+          </div>
 
-            <label style="display:block; margin-top: 15px;">Student Status</label>
-          <select name="Student_status" style="width: 100%; padding: 10px;" required>
-            <option value="">Select</option>
-            <option value="transferee">Transferee</option>
-            <option value="old">Old</option>
-            <option value="irregular">Irregular</option>
-            <option value="new">New</option>
-          </select>
-
-
-                 </div>
-
-        <div style="width: 45%;">
-          <h2 style="color: #333;">Documents</h2>
-          <div id="uploads">
-            <script>
-              const docs = ['Birth Certificate', 'Form 137', 'Transcript of Records', 'Good Moral', 'Honorable Dismissal'];
-              docs.forEach((doc, i) => {
-                document.write(`
-                  <div style="margin-bottom: 20px;">
-                    <label style="color: #555;">${doc}</label>
-                    <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
-                      <input type="file" name="doc${i+1}" id="doc${i+1}" accept="image/*,application/pdf" style="display: none;" onchange="showPreview(event, ${i+1})">
-                      <button type="button" onclick="document.getElementById('doc${i+1}').click();" style="background-color: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 5px; font-size: 14px;">Upload</button>
-                      <span id="preview${i+1}" style="font-size: 14px; color: #333;"></span>
+          <div class="form-column">
+            <h2>Documents</h2>
+            <div id="uploads">
+              <script>
+                const docs = ['Birth Certificate', 'Form 137', 'Transcript of Records', 'Good Moral', 'Honorable Dismissal'];
+                docs.forEach((doc, i) => {
+                  document.write(`
+                    <div style="margin-bottom: 20px;">
+                      <label>${doc}</label>
+                      <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px;">
+                        <input type="file" name="doc${i+1}" id="doc${i+1}" accept="image/*,application/pdf" style="display: none;" onchange="showPreview(event, ${i+1})">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('doc${i+1}').click();">Upload</button>
+                        <span id="preview${i+1}" style="font-size: 14px; color: #333;"></span>
+                      </div>
                     </div>
-                  </div>
-                `);
-              });
-            </script>
+                  `);
+                });
+              </script>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Declaration -->
-      <div>
-        <h2 style="color: #333;">Declaration</h2>
-        <label><input type="radio" name="confirm" value="yes" style="margin-right: 10px;" required>I confirm all the information provided is true.</label>
+        <!-- Declaration -->
+        <div class="declaration-section">
+          <h2>Declaration</h2>
+          <label><input type="radio" name="confirm" value="yes" required>I confirm all the information provided is true.</label>
 
-        <div style="margin-top: 20px;">
-          <label style="display:block;">Signature</label>
-          <input type="file" name="signature" accept="image/*" style="margin-top: 10px;" required>
+          <div style="margin-top: 20px;">
+            <label>Signature</label>
+            <input type="file" name="signature" accept="image/*" required>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <label>Date</label>
+            <input type="date" name="sigdate" required>
+          </div>
         </div>
 
-        <div style="margin-top: 20px;">
-          <label>Date</label>
-          <input type="date" name="sigdate" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;" required>
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons">
+          <a href="guardianinfo.html"><button type="button" onclick="history.back();" style="color: black;">Previous</button></a>
+          <button type="submit">Next</button>
         </div>
-      </div>
-
-      <!-- Buttons -->
-      <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
-
-        <a href="guardianinfo.html">
-        <button type="button" onclick="history.back()" style="padding: 10px 20px; background-color: #eee; border: 1px solid #ccc; border-radius: 5px; margin-right: 10px;">Previous</button></a>
-        <button type="submit" style="padding: 10px 20px; background-color: #007bff; border: none; border-radius: 5px; color: white;">Next</button>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
+
   <script>
     function showPreview(event, id) {
       const input = event.target;

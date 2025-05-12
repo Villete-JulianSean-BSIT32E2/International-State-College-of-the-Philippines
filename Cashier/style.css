@@ -1,0 +1,31 @@
+.Tuition {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .Tuition h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .Tuition table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .Tuition th, .Tuition td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .Tuition thead {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .Tuition tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
