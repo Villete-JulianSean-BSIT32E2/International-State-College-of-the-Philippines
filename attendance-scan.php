@@ -63,7 +63,7 @@
             ☰ Menu
         </button>
             <div class="main-content">
-                <div class="page-header mb-4">
+                <div class="page-header py-3 px-0 rounded-2 mb-4">
                     <div class="container-fluid">
                         <div class="row align-items-center gx-3">
                             <div class="col-12 col-md-7 col-lg-8 mb-3 mb-md-0">
