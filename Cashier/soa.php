@@ -24,10 +24,15 @@ $result = $conn->query($sql);
 $student_id = isset($_GET['student_id']) ? $_GET['student_id'] : null;
 
 if ($student_id) {
-    // Fetch student's statement of account or tuition information here
     $soa_query = "SELECT * FROM tuition WHERE student_id = '$student_id'";
     $soa_result = $conn->query($soa_query);
     $soa_data = $soa_result->fetch_assoc();
+
+    // Fetch student name
+    $student_query = "SELECT full_name, address, zip, status FROM tbladmission_addstudent WHERE Admission_ID = '$student_id'";
+
+    $student_result = $conn->query($student_query);
+    $student_info = $student_result->fetch_assoc();
 }
 ?>
 
@@ -35,7 +40,6 @@ if ($student_id) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statement of Account</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -102,7 +106,22 @@ if ($student_id) {
             text-align: left;
         }
         th {
-            background: #e6f4ff;
+            background: #003366;
+            color: white;
+        }
+        .soa-header {
+            display: flex;
+            justify-content: space-between;
+            background: #f9f9f9;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid #ccc;
+        }
+        .soa-header div {
+            width: 45%;
+        }
+        .soa-header h4 {
+            margin: 0 0 10px;
         }
     </style>
 </head>
@@ -115,7 +134,7 @@ if ($student_id) {
         </div>
         <div style="padding: 10px;">
             <div class="nav-item"><i class="fa fa-tachometer"></i> <span>Dashboard</span></div>
-            <div class="nav-item active">
+            <div class="nav-item">
                 <a href="tuition.php">
                     <i class="fas fa-peso-sign"></i> <span>Tuition</span>
                 </a>
@@ -130,15 +149,11 @@ if ($student_id) {
                     <i class="fas fa-file-invoice"></i> <span>Receivables</span>
                 </a>
             </div>
-            <div class="nav-item"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
-            <div class="nav-item"><i class="fas fa-list"></i> <span>Summary</span></div>
-        </div>
-        <div style="padding: 20px; border-top: 1px solid #ffffff30;">
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0;">
-                <a href="homepage.html" style="text-decoration: none; color: white;">
-                    <span>Back</span>
+            <div class="nav-item active"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
+            <div class="nav-item">
+                <a href="summary.php">
+                    <i class="fas fa-file-invoice"></i> <span> Get Summary Reports</span>
                 </a>
-                <span style="background: #FFD700; color: black; padding: 2px 5px; border-radius: 12px; font-size: 10px;">NEW</span>
             </div>
         </div>
     </div>
@@ -166,9 +181,7 @@ if ($student_id) {
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
                             <td><?= htmlspecialchars($row['full_name']) ?></td>
-                            <td>
-                                <a href="?student_id=<?= $row['Admission_ID'] ?>">View SOA</a>
-                            </td>
+                            <td><a href="?student_id=<?= $row['Admission_ID'] ?>">View SOA</a></td>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -177,37 +190,71 @@ if ($student_id) {
             <p>No students found matching your search.</p>
         <?php endif; ?>
 
-        <!-- Display Statement of Account if student is selected -->
+        <!-- Display SOA -->
         <?php if ($student_id && isset($soa_data)): ?>
-            <h3>Statement of Account for <?= htmlspecialchars($soa_data['student_id']) ?></h3>
+            <div class="soa-header">
+                <div>
+                <h4>Bill To <br>
+Student Name: <?= htmlspecialchars($student_info['full_name']) ?><br>
+Student Adress: <?= htmlspecialchars($student_info['address']) ?><br>
+ZIP Code: <?= htmlspecialchars($student_info['zip']) ?><br>
+Student Status: <?= htmlspecialchars($student_info['status']) ?>
+</h4>
+                </div>
+                <div>
+                    <h4>Account Summary</h4>
+                    Date: <?= date('F d, Y') ?><br>
+                    Statement #: <?= rand(1000, 9999) ?><br>
+                    Student ID: <?= htmlspecialchars($soa_data['student_id']) ?><br>
+                    Page 1 of 1<br><br>
+                    Previous Balance: ₱<?= number_format($soa_data['total_fee'], 2) ?><br>
+                    New Charges: ₱<?= number_format($soa_data['misc_fee'], 2) ?><br>
+                    Total Balance Due: ₱<?= number_format($soa_data['balance'], 2) ?><br>
+                    Payment Due Date: July 20, 2025
+                </div>
+            </div>
+
             <table>
                 <thead>
                     <tr>
-                        <th>Tuition Fees</th>
-                        <th>Balance</th>
+                        <th>Date</th>
+                        <th>Invoice #</th>
+                        <th>Description</th>
+                        <th>Charges</th>
+                     
+                        <th>Line Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
+                        <td><?= date('Y-m-d') ?></td>
+                        <td>INV-<?= rand(10000, 99999) ?></td>
                         <td>Tuition Fee</td>
+                        <td>₱<?= number_format($soa_data['total_fee'], 2) ?></td>
+                     
                         <td>₱<?= number_format($soa_data['total_fee'], 2) ?></td>
                     </tr>
                     <tr>
-                        <td>Miscellaneous Fees</td>
+                        <td><?= date('Y-m-d') ?></td>
+                        <td>INV-<?= rand(10000, 99999) ?></td>
+                        <td>Miscellaneous Fee</td>
+                        <td>₱<?= number_format($soa_data['misc_fee'], 2) ?></td>
+                     
                         <td>₱<?= number_format($soa_data['misc_fee'], 2) ?></td>
                     </tr>
-                    <tr>
-                        <td>Total Balance</td>
-                        <td>₱<?= number_format($soa_data['balance'], 2) ?></td>
-                    </tr>
+
+     
+
                 </tbody>
+
+</div>
             </table>
         <?php elseif ($student_id): ?>
-            <p>Student not found.</p>
+            <p>Student not found or no tuition data available.</p>
         <?php endif; ?>
-
     </div>
 
+    
 </body>
 </html>
 

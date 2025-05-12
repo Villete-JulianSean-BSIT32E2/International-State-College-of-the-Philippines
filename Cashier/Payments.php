@@ -17,53 +17,40 @@ if ($conn->connect_error) {
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            display: flex;
         }
 
         .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
             position: fixed;
             left: 0;
             top: 0;
-            width: 250px;
-            height: 100%;
-            background-color: #333;
-            color: white;
         }
 
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .sidebar-header .logo {
-            width: 100px;
-            height: auto;
-            border-radius: 50%;
-        }
-
-        .sidebar-menu {
-            padding-top: 20px;
-        }
-
-        .sidebar-menu .nav-item {
+        .sidebar .nav-item {
             padding: 15px;
-            text-align: left;
-            display: block;
+            cursor: pointer;
+        }
+
+        .sidebar .nav-item:hover, .sidebar .nav-item.active {
+            background-color: #34495e;
+        }
+
+        .sidebar .nav-item a {
             color: white;
             text-decoration: none;
-            padding-left: 20px;
-        }
-
-        .sidebar-menu .nav-item:hover {
-            background-color: #444;
-        }
-
-        .sidebar-menu .nav-item.active {
-            background-color: #555;
+            display: block;
         }
 
         .main-content {
             margin-left: 250px;
             padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         h2 {
@@ -136,117 +123,133 @@ if ($conn->connect_error) {
         }
 
         function selectStudent(admissionId, name, year_level, course) {
-    document.getElementById("student_id").value = admissionId;
-    document.getElementById("search_student").value = name;
-    document.getElementById("search_results").style.display = "none";
+            document.getElementById("student_id").value = admissionId;
+            document.getElementById("search_student").value = name;
+            document.getElementById("search_results").style.display = "none";
     
-    // Debug: Show what ID was selected
-    console.log("Selected student ID:", admissionId);
-}
+            // Debug: Show what ID was selected
+            console.log("Selected student ID:", admissionId);
+        }
     </script>
 </head>
 <body>
 
 <div class="sidebar">
-    <div class="sidebar-header">
-        <img src="logo.jpg" alt="Logo" class="logo">
+    <div style="text-align: center; padding: 20px;">
+        <img src="logo.jpg" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
     </div>
-    <div class="sidebar-menu">
-        <a href="tuition.php" class="nav-item">
-            <i class="fas fa-peso-sign"></i> <span>Tuition</span>
-        </a>
-        <a href="Payments.php" class="nav-item active">
-            <i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span>
-        </a>
+    <div style="padding: 10px;">
+        <div class="nav-item">
+            <a href="../main-dashboard.php">
+                <i class="fa fa-tachometer"></i> <span>Dashboard</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="tuition.php">
+                <i class="fas fa-peso-sign"></i> <span>Tuition</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="Payments.php">
+                <i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span>
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="recievable.html">
+                <i class="fas fa-file-invoice"></i> <span>Receivables</span>
+            </a>
+        </div>
+        <div class="nav-item active"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
+        <div class="nav-item">
+            <a href="summary.php">
+                <i class="fas fa-file-invoice"></i> <span> Get Summary Reports</span>
+            </a>
+        </div>
     </div>
 </div>
 
 <div class="main-content">
     <h2>Manage Payments</h2>
+    
     <?php
-// At the top of the file, add error reporting for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    // At the top of the file, add error reporting for debugging
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 
-$conn = new mysqli("localhost", "root", "", "iscpdb");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-?>
+    $conn = new mysqli("localhost", "root", "", "iscpdb");
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    ?>
 
-<!-- Rest of your HTML remains the same until the PHP processing part -->
+    <?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (
+            isset($_POST["student_id"]) &&
+            isset($_POST["amount_paid"]) &&
+            isset($_POST["payment_date"]) &&
+            isset($_POST["payment_method"])
+        ) {
+            // Use prepared statements to prevent SQL injection
+            $student_id = $_POST["student_id"];
+            $amount_paid = $_POST["amount_paid"];
+            $payment_date = $_POST["payment_date"];
+            $payment_method = $_POST["payment_method"];
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (
-        isset($_POST["student_id"]) &&
-        isset($_POST["amount_paid"]) &&
-        isset($_POST["payment_date"]) &&
-        isset($_POST["payment_method"])
-    ) {
-        // Use prepared statements to prevent SQL injection
-        $student_id = $_POST["student_id"];
-        $amount_paid = $_POST["amount_paid"];
-        $payment_date = $_POST["payment_date"];
-        $payment_method = $_POST["payment_method"];
-        
-        // Debug: Show what ID was received
-        // echo "<p>Received student_id: $student_id</p>";
+            // Check if student exists using prepared statement
+            $check_student = $conn->prepare("SELECT * FROM tbladmission_addstudent WHERE Admission_ID = ?");
+            $check_student->bind_param("s", $student_id);
+            $check_student->execute();
+            $check_student->store_result();
 
-        // Check if student exists using prepared statement
-        $check_student = $conn->prepare("SELECT * FROM tbladmission_addstudent WHERE Admission_ID = ?");
-        $check_student->bind_param("s", $student_id);
-        $check_student->execute();
-        $check_student->store_result();
-        
-        if ($check_student->num_rows == 0) {
-            echo "<p style='color: red;'>Student with ID $student_id not found. Please try again.</p>";
-        } else {
-            // Insert payment with prepared statement
-            $insert = $conn->prepare("INSERT INTO payments (student_id, amount_paid, payment_date, payment_method) 
-                    VALUES (?, ?, ?, ?)");
-            $insert->bind_param("sdss", $student_id, $amount_paid, $payment_date, $payment_method);
-            
-            if ($insert->execute()) {
-                echo "<p style='color: green;'>Payment recorded successfully.</p>";
+            if ($check_student->num_rows == 0) {
+                echo "<p style='color: red;'>Student with ID $student_id not found. Please try again.</p>";
+            } else {
+                // Insert payment with prepared statement
+                $insert = $conn->prepare("INSERT INTO payments (student_id, amount_paid, payment_date, payment_method) 
+                        VALUES (?, ?, ?, ?)");
+                $insert->bind_param("sdss", $student_id, $amount_paid, $payment_date, $payment_method);
 
-                // Update or insert tblstatus with prepared statements
-                $status_check = $conn->prepare("SELECT * FROM tblstatus WHERE Admission_ID = ?");
-                $status_check->bind_param("s", $student_id);
-                $status_check->execute();
-                $status_check->store_result();
-                
-                if ($status_check->num_rows == 0) {
-                    $status_insert = $conn->prepare("INSERT INTO tblstatus (Admission_ID, enrollment_status, payment_status) 
-                                          VALUES (?, 'Enrolled', 'Paid')");
-                    $status_insert->bind_param("s", $student_id);
-                    if (!$status_insert->execute()) {
-                        echo "<p style='color: red;'>Error inserting status: " . $conn->error . "</p>";
+                if ($insert->execute()) {
+                    echo "<p style='color: green;'>Payment recorded successfully.</p>";
+
+                    // Update or insert tblstatus with prepared statements
+                    $status_check = $conn->prepare("SELECT * FROM tblstatus WHERE Admission_ID = ?");
+                    $status_check->bind_param("s", $student_id);
+                    $status_check->execute();
+                    $status_check->store_result();
+
+                    if ($status_check->num_rows == 0) {
+                        $status_insert = $conn->prepare("INSERT INTO tblstatus (Admission_ID, enrollment_status, payment_status) 
+                                              VALUES (?, 'Enrolled', 'Paid')");
+                        $status_insert->bind_param("s", $student_id);
+                        if (!$status_insert->execute()) {
+                            echo "<p style='color: red;'>Error inserting status: " . $conn->error . "</p>";
+                        }
+                    } else {
+                        $status_update = $conn->prepare("UPDATE tblstatus SET enrollment_status = 'Enrolled', payment_status = 'Paid' 
+                                              WHERE Admission_ID = ?");
+                        $status_update->bind_param("s", $student_id);
+                        if (!$status_update->execute()) {
+                            echo "<p style='color: red;'>Error updating status: " . $conn->error . "</p>";
+                        }
+                    }
+
+                    // Update admission table status
+                    $admission_update = $conn->prepare("UPDATE tbladmission_addstudent SET status = 'Enrolled' WHERE Admission_ID = ?");
+                    $admission_update->bind_param("s", $student_id);
+                    if (!$admission_update->execute()) {
+                        echo "<p style='color: red;'>Error updating admission: " . $conn->error . "</p>";
                     }
                 } else {
-                    $status_update = $conn->prepare("UPDATE tblstatus SET enrollment_status = 'Enrolled', payment_status = 'Paid' 
-                                          WHERE Admission_ID = ?");
-                    $status_update->bind_param("s", $student_id);
-                    if (!$status_update->execute()) {
-                        echo "<p style='color: red;'>Error updating status: " . $conn->error . "</p>";
-                    }
+                    echo "<p style='color: red;'>Error recording payment: " . $conn->error . "</p>";
                 }
-
-                // Update admission table status
-                $admission_update = $conn->prepare("UPDATE tbladmission_addstudent SET status = 'Enrolled' WHERE Admission_ID = ?");
-                $admission_update->bind_param("s", $student_id);
-                if (!$admission_update->execute()) {
-                    echo "<p style='color: red;'>Error updating admission: " . $conn->error . "</p>";
-                }
-            } else {
-                echo "<p style='color: red;'>Error recording payment: " . $conn->error . "</p>";
             }
+        } else {
+            echo "<p style='color: red;'>Please fill in all required fields.</p>";
         }
-    } else {
-        echo "<p style='color: red;'>Please fill in all required fields.</p>";
     }
-}
-?>
+    ?>
 
     <form method="POST" action="">
         <label for="search_student">Search Student:</label>

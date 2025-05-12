@@ -21,18 +21,26 @@ if ($conn->connect_error) {
       display: flex;
     }
     .sidebar {
-      width: 250px;
-      background-color: #2c3e50;
-      color: white;
-      min-height: 100vh;
-    }
-    .nav-item {
-      padding: 15px;
-      cursor: pointer;
-    }
-    .nav-item:hover, .nav-item.active {
-      background-color: #34495e;
-    }
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+        .sidebar .nav-item {
+            padding: 15px;
+            cursor: pointer;
+        }
+        .sidebar .nav-item:hover, .sidebar .nav-item.active {
+            background-color: #34495e;
+        }
+        .sidebar .nav-item a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+
     .main-content {
       flex: 1;
       padding: 30px;
@@ -120,40 +128,38 @@ if ($conn->connect_error) {
 <body>
 
 <div class="sidebar">
-  <div>
-    <div style="padding: 20px; text-align: center;">
-      <img src="logo.jpg" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-    </div>
-    <div style="padding: 10px;">
-      <div class="nav-item"><i class="fa fa-tachometer"></i> <span>Dashboard</span></div>
-      <div class="nav-item active">
-        <a href="tuition.php" style="text-decoration: none; color: white;">
-          <i class="fas fa-peso-sign"></i> <span>Tuition</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="Payments.php" style="text-decoration: none; color: white;">
-          <i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span>
-        </a>
-      </div>
-      <div class="nav-item">
-        <a href="recievable.html" style="text-decoration: none; color: white;">
-          <i class="fas fa-file-invoice"></i> <span>Receivables</span>
-        </a>
-      </div>
-      <div class="nav-item"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
-      <div class="nav-item"><i class="fas fa-list"></i> <span>Summary</span></div>
-    </div>
-  </div>
-  <div style="padding: 20px; border-top: 1px solid #ffffff30;">
-    <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0;">
-      <a href="homepage.html" style="text-decoration: none; color: white;">
-        <span>Back</span>
-      </a>
-      <span style="background: #FFD700; color: black; padding: 2px 5px; border-radius: 12px; font-size: 10px;">NEW</span>
-    </div>
-  </div>
+        <div style="text-align: center; padding: 20px;">
+            <img src="logo.jpg" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
+        </div>
+        <div style="padding: 10px;">
+        <div class="nav-item">
+    <a href="../main-dashboard.php">
+        <i class="fa fa-tachometer"></i> <span>Dashboard</span>
+    </a>
 </div>
+            <div class="nav-item">
+                <a href="tuition.php">
+                    <i class="fas fa-peso-sign"></i> <span>Tuition</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="Payments.php">
+                    <i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="recievable.html">
+                    <i class="fas fa-file-invoice"></i> <span>Receivables</span>
+                </a>
+            </div>
+            <div class="nav-item active"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
+            <div class="nav-item">
+                <a href="summary.php">
+                    <i class="fas fa-file-invoice"></i> <span> Get Summary Reports</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
 <div class="main-content">
   <h2>Tuition Management</h2>
