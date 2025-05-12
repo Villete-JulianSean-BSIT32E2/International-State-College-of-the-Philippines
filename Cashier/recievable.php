@@ -17,8 +17,8 @@ if (isset($_GET['receipt']) && isset($_GET['or_no'])) {
             "SELECT p.amount_paid 
              FROM payments p
              JOIN tuition t ON p.student_id = t.student_id
-             JOIN admission a ON t.student_id = a.id
-             WHERE a.name = '".mysqli_real_escape_string($conn, $receiptData['student_name'])."'");
+             JOIN tbladmission_addstudent a ON t.student_id = a.Admission_ID
+             WHERE a.full_name = '".mysqli_real_escape_string($conn, $receiptData['student_name'])."'");
         
         $paymentAmount = 0;
         while ($row = mysqli_fetch_assoc($paymentQuery)) {
@@ -112,9 +112,9 @@ if (isset($_GET['receipt']) && isset($_GET['or_no'])) {
 
 // Fetch students from admission table
 $students = [];
-$result = mysqli_query($conn, "SELECT name FROM admission");
+$result = mysqli_query($conn, "SELECT full_name FROM tbladmission_addstudent");
 while ($row = mysqli_fetch_assoc($result)) {
-    $students[] = $row['name'];
+    $students[] = $row['full_name'];
 }
 
 // Fetch selected student from GET
@@ -128,8 +128,8 @@ if (!empty($selectedStudent)) {
     // Get tuition info
     $query = "SELECT t.balance, t.total_fee 
               FROM tuition t
-              JOIN admission a ON t.student_id = a.id
-              WHERE a.name = '$safeStudent'
+              JOIN tbladmission_addstudent a ON t.student_id = a.Admission_ID
+              WHERE a.full_name = '$safeStudent'
               LIMIT 1";
     
     $result = mysqli_query($conn, $query);
@@ -143,8 +143,8 @@ if (!empty($selectedStudent)) {
         "SELECT p.amount_paid 
          FROM payments p
          JOIN tuition t ON p.student_id = t.student_id
-         JOIN admission a ON t.student_id = a.id
-         WHERE a.name = '$safeStudent'");
+         JOIN tbladmission_addstudent a ON t.student_id = a.Admission_ID
+         WHERE a.full_name = '$safeStudent'");
     
     $paymentAmount = 0;
     while ($row = mysqli_fetch_assoc($paymentQuery)) {
@@ -320,7 +320,11 @@ $receivables = mysqli_query($conn, "SELECT * FROM receivables ORDER BY id DESC")
       <select name="course" required>
         <option value="">Select Course</option>
         <option value="BSIT">BSIT</option>
-        <option value="CSS">CSS</option>
+        <option value="CSS">BSCS</option>
+        <option value="BSED">BSED</option>
+        <option value="BSA">BSA</option>
+        <option value="CTHM">CTHM</option>
+        <option value="BSCRIM">BSCRIM</option>
       </select>
     </div>
 

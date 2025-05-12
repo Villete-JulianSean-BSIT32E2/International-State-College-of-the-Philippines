@@ -5,9 +5,9 @@ $students = [];
 $new_count = $old_count = $irregular_count = 0;
 
 if ($conn && !$conn->connect_error) {
-    // Get all students with their student type
+    // Modified query to fetch status from tbladmission_addstudent
     $result = $conn->query("
-        SELECT a.Admission_ID, a.full_name, a.course, a.applying_grade, s.StudentType
+        SELECT a.Admission_ID, a.full_name, a.course, a.applying_grade, s.StudentType, a.status
         FROM tbladmission_addstudent a
         LEFT JOIN tbladmission_studenttype s ON a.Admission_ID = s.Admission_ID
         ORDER BY a.Admission_ID DESC
@@ -27,9 +27,9 @@ if ($conn && !$conn->connect_error) {
     ");
 
     if ($type_counts && $row = $type_counts->fetch_assoc()) {
-      $new_count = isset($row['new_count']) ? $row['new_count'] : 0;
-      $old_count = isset($row['old_count']) ? $row['old_count'] : 0;
-      $irregular_count = isset($row['irregular_count']) ? $row['irregular_count'] : 0;
+        $new_count = isset($row['new_count']) ? $row['new_count'] : 0;
+        $old_count = isset($row['old_count']) ? $row['old_count'] : 0;
+        $irregular_count = isset($row['irregular_count']) ? $row['irregular_count'] : 0;
     }
 }
 ?>
@@ -124,60 +124,28 @@ if ($conn && !$conn->connect_error) {
     .dropdown:hover .dropdown-content {
         display: block;
     }
-    .sidebar a.nav-item {
-  color: white;
-  text-decoration: none;
-  display: block;
-}
-.sidebar a.nav-item:hover,
-.sidebar a.nav-item.active {
-  background-color: #1a3d7c;
-}
-
   </style>
 </head>
 <body>
-  <div class="sidebar">
+<div class="sidebar">
     <img src="img/LOGO.png" alt="College Logo" />
     <div class="nav-item active">Admission</div>
     <a href="main-dashboard.php" class="nav-item">Main Dashboard</a>
-
-
   </div>
 
   <div class="main-content">
+    <!-- Overview Section -->
     <div class="overview">
-      <div onclick="filterTable('all')">
-        <div>Total Applicants</div>
-        <div class="count"><?= count($students) ?></div>
-      </div>
-      <div onclick="filterTable('new')">
-        <div>New Students</div>
-        <div class="count"><?= $new_count ?></div>
-      </div>
-      <div onclick="filterTable('old')">
-        <div>Old Students</div>
-        <div class="count"><?= $old_count ?></div>
-      </div>
-      <div onclick="filterTable('irregular')">
-        <div>Irregular</div>
-        <div class="count"><?= $irregular_count ?></div>
-      </div>
+      <!-- Count Boxes (Total Applicants, New, Old, Irregular) -->
     </div>
 
     <div style="display: flex; gap: 15px; margin-bottom: 1.5rem;">
-    <a href="Admission-AddStudent.php">
+      <a href="Admission-AddStudent.php">
         <button class="add-btn">+ Add Student</button>
-    </a>
-    <div class="dropdown">
-        <button class="add-btn">📄 Get Report</button>
-        <div class="dropdown-content">
-            <a href="report.php?type=pdf">PDF Report</a>
-            <a href="report.php?type=excel">Excel Report</a>
-            <a href="report.php?type=html">HTML Report</a>
-        </div>
+      </a>
+      <!-- Get Report Dropdown -->
     </div>
-</div>
+
     <div class="table-container">
       <table class="table">
         <thead>
@@ -204,10 +172,15 @@ if ($conn && !$conn->connect_error) {
               <td><?= htmlspecialchars($student['course']) ?></td>
               <td><?= htmlspecialchars($student['applying_grade']) ?></td>
               <td><?= $typeLabels[$studentType] ?></td>
-              <td>Pending</td>
+              <td>
+                <?= isset($student['status']) && !empty($student['status']) ? htmlspecialchars($student['status']) : 'Pending' ?>
+              </td>
               <td>
                 <a href="Admission-View.php?id=<?= $student['Admission_ID'] ?>">
                   <button class="action-btn">View Details</button>
+                </a>
+                <a href="update_status.php?id=<?= $student['Admission_ID'] ?>&current_status=<?= urlencode($student['status']) ?>">
+                  <button class="action-btn">Edit Status</button>
                 </a>
               </td>
             </tr>
