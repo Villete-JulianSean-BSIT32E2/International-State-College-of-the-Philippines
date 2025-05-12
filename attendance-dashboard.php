@@ -59,37 +59,10 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <!-- CSS -->
     <link rel="stylesheet" href="attendance-css.css">
-    <style>
-    .sidebar {
-      width: 240px;
-      height: 135vh;
-      background-color: #13334D;
-      color: white;
-      padding: 1rem;
-    }
-
-    .sidebar img {
-      width: 80px;
-      margin-bottom: 1rem;
-    }
-
-    .nav-item {
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .nav-item.active,
-    .nav-item:hover {
-      background-color: #3e6df3;
-    }
-    </style>
 </head>
 <body>
     <div class="d-flex">
-        <div class="sidebar collapse d-md-block" id="sidebarMenu">
+        <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
             <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo"/>
             <div class="nav-item">Dashboard</div>
             <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>

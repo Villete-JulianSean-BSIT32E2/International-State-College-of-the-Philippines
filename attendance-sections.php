@@ -88,7 +88,7 @@ if (!empty($search)) {
 </head>
 <body>
 <div class="d-flex">
-    <div class="sidebar collapse d-md-block" id="sidebarMenu">
+    <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
         <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
         <div class="nav-item">Dashboard</div>
         <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
