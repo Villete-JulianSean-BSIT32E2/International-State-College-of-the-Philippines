@@ -5,6 +5,8 @@ $username = "root";
 $password = "";
 $dbname = "iscpdb";
 
+date_default_timezone_set('Asia/Manila');
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {

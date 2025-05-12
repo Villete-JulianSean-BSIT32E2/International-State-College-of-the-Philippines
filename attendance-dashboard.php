@@ -5,6 +5,8 @@ $username = "root";
 $password = "";
 $dbname = "iscpdb";
 
+date_default_timezone_set('Asia/Manila');
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -115,7 +117,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                                         <?php
                                         $today = date('Y-m-d');
                                         $todayQuery = "SELECT 
-                                                        Status, 
+                                                        Status,
                                                         COUNT(*) as Count 
                                                     FROM 
                                                         student_attendance_view 
@@ -158,7 +160,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                                             <div class="col-md-3">
                                                 <div class="alert alert-success" role="alert">
                                                     <h4>Present</h4>
-                                                    <h2><?php echo $present; ?></h2>
+                                                    <h2><?php echo $present ; ?></h2>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">

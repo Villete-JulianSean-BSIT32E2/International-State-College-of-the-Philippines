@@ -25,7 +25,7 @@
                 $messageType = 'error';
             } else {
                 //CHECKS IF STUDENT EXISTS
-                $checkStudentSQL = "SELECT id FROM admission WHERE id = ?";
+                $checkStudentSQL = "SELECT Admission_ID FROM tbladmission_addstudent WHERE Admission_ID = ?";
                 $stmt = $conn->prepare($checkStudentSQL);
                 $stmt->bind_param("i", $studentId);
                 $stmt->execute();
@@ -39,7 +39,7 @@
                     $currTime = date('Y-m-d H:i:s');
 
                     //CHECKS IF ALREADY TOOK ATTENDANCE
-                    $checkSQL = "SELECT AttendanceID, Status, TimeIn, TimeOut FROM attendance WHERE id = ? AND Date = ?";
+                    $checkSQL = "SELECT AttendanceID, Status, TimeIn, TimeOut FROM attendance WHERE Admission_ID = ? AND Date = ?";
                     $stmt = $conn->prepare($checkSQL);
                     $stmt->bind_param("is", $studentId, $currDate);
                     $stmt->execute();
@@ -84,7 +84,7 @@
                         }
                     } else {
                         $status = 1; // Present
-                        $insertSQL = "INSERT INTO attendance(id, Date, Status, TimeIn) VALUES (?,?,?,?)";
+                        $insertSQL = "INSERT INTO attendance(Admission_ID, Date, Status, TimeIn) VALUES (?,?,?,?)";
                         $stmt = $conn->prepare($insertSQL);
                         $stmt->bind_param("isis", $studentId, $currDate, $status, $currTime);
 
@@ -99,7 +99,7 @@
                     }
 
                     if ($messageType == 'success' || $messageType == 'update' || $messageType == 'info') {
-                        $infoSQL = "SELECT a.id as studentId, a.AttendanceID, a.Date as date, sav.StudentName,
+                        $infoSQL = "SELECT a.Admission_ID as studentId, a.AttendanceID, a.Date as date, sav.StudentName,
                                     CASE
                                         WHEN a.Status = 0 THEN  'Absent'
                                         WHEN a.Status = 1 THEN 'Present'
@@ -109,8 +109,8 @@
                                     a.TimeIn as timeIn,
                                     a.TimeOut as timeOut
                                     FROM attendance a
-                                    INNER JOIN student_attendance_view sav ON a.id = sav.StudentID
-                                    WHERE a.id = ? AND a.Date = ?";
+                                    INNER JOIN student_attendance_view sav ON a.Admission_ID = sav.StudentID
+                                    WHERE a.Admission_ID = ? AND a.Date = ?";
                         
                         $stmt = $conn->prepare($infoSQL);
                         $stmt->bind_param("is", $studentId, $currDate);
