@@ -179,7 +179,7 @@ if ($conn && !$conn->connect_error) {
                 <a href="Admission-View.php?id=<?= $student['Admission_ID'] ?>">
                   <button class="action-btn">View Details</button>
                 </a>
-                <a href="update_status.php?id=<?= $student['Admission_ID'] ?>&current_status=<?= urlencode($student['status']) ?>">
+                <a href="edit.php?id=<?= $student['Admission_ID'] ?>&current_status=<?= urlencode($student['status']) ?>">
                   <button class="action-btn">Edit Status</button>
                 </a>
               </td>
