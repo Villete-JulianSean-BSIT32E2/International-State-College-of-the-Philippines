@@ -14,9 +14,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $course = $_POST['course'];
     $section = $_POST['section'];
 
+    // Prepare the SQL statement
     $stmt = $conn->prepare("INSERT INTO class_schedules (subject, instructor, day, time, room, course, section) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    
+    // Check if prepare failed
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    // Bind parameters
     $stmt->bind_param("sssssss", $subject, $instructor, $day, $time, $room, $course, $section);
 
+    // Execute the statement
     if ($stmt->execute()) {
         echo "<script>alert('Schedule added successfully'); window.location.href='registrar.php?page=class_schedules';</script>";
     } else {
@@ -25,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Fetch unique courses from student_documents
-$courses = $conn->query("SELECT DISTINCT course FROM student_documents WHERE course IS NOT NULL AND course != '' ORDER BY course ASC");
+$courses = $conn->query("SELECT DISTINCT course FROM tbladmission_addstudent WHERE course IS NOT NULL AND course != '' ORDER BY course ASC");
 ?>
 
 <h2>Add Class Schedule</h2>

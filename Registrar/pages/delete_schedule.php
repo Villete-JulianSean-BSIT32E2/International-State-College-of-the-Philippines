@@ -9,7 +9,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$id = $_GET['id'] ?? null;
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+
 if ($id) {
     $conn->query("DELETE FROM class_schedules WHERE id = $id");
 }

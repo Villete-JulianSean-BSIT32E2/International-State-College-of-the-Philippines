@@ -5,6 +5,8 @@ $username = "root";
 $password = "";
 $dbname = "iscpdb";
 
+date_default_timezone_set('Asia/Manila');
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -88,7 +90,7 @@ if (!empty($search)) {
 </head>
 <body>
 <div class="d-flex">
-    <div class="sidebar collapse d-md-block" id="sidebarMenu">
+    <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
         <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo" />
         <div class="nav-item">Dashboard</div>
         <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
@@ -111,7 +113,7 @@ if (!empty($search)) {
             ☰ Menu
         </button>
             <div class="main-content">
-                <div class="page-header mb-4">
+                <div class="page-header py-3 px-0 rounded-2 mb-4">
                     <div class="container-fluid">
                         <div class="row align-items-center gx-3">
                             <div class="col-12 col-md-7 col-lg-8 mb-3 mb-md-0">

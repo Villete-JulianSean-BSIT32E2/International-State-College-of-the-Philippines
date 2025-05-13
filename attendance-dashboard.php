@@ -5,6 +5,8 @@ $username = "root";
 $password = "";
 $dbname = "iscpdb";
 
+date_default_timezone_set('Asia/Manila');
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -59,36 +61,10 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <!-- CSS -->
     <link rel="stylesheet" href="attendance-css.css">
-    <style>
-    .sidebar {
-      width: 240px;
-      background-color: #13334D;
-      color: white;
-      padding: 1rem;
-    }
-
-    .sidebar img {
-      width: 80px;
-      margin-bottom: 1rem;
-    }
-
-    .nav-item {
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .nav-item.active,
-    .nav-item:hover {
-      background-color: #3e6df3;
-    }
-    </style>
 </head>
 <body>
     <div class="d-flex">
-        <div class="sidebar collapse d-md-block" id="sidebarMenu">
+        <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
             <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo"/>
             <div class="nav-item">Dashboard</div>
             <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
@@ -110,7 +86,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                 ☰ Menu
             </button>
                 <div class="main-content">
-                    <div class="page-header mb-4">
+                    <div class="page-header py-3 px-0 rounded-2 mb-4">
                         <div class="container-fluid">
                             <div class="row align-items-center gx-3">
                                 <div class="col-12 col-md-7 col-lg-8 mb-3 mb-md-0">
@@ -141,7 +117,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                                         <?php
                                         $today = date('Y-m-d');
                                         $todayQuery = "SELECT 
-                                                        Status, 
+                                                        Status,
                                                         COUNT(*) as Count 
                                                     FROM 
                                                         student_attendance_view 
@@ -184,7 +160,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                                             <div class="col-md-3">
                                                 <div class="alert alert-success" role="alert">
                                                     <h4>Present</h4>
-                                                    <h2><?php echo $present; ?></h2>
+                                                    <h2><?php echo $present ; ?></h2>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">

@@ -4,57 +4,60 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Get all distinct courses
-$course_query = $conn->query("SELECT DISTINCT course FROM student_documents WHERE course IS NOT NULL");
-$courses = [];
-while ($row = $course_query->fetch_assoc()) {
-    $courses[] = $row['course'];
+// Check if student_documents table exists, create if not
+$table_check = $conn->query("SHOW TABLES LIKE 'student_documents'");
+if ($table_check->num_rows == 0) {
+    $conn->query("CREATE TABLE student_documents (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        Admission_ID INT NOT NULL UNIQUE,
+        birth_cert TINYINT(1) DEFAULT 0,
+        form137 TINYINT(1) DEFAULT 0,
+        tor TINYINT(1) DEFAULT 0,
+        good_moral TINYINT(1) DEFAULT 0,
+        honorable_dismissal TINYINT(1) DEFAULT 0,
+        FOREIGN KEY (Admission_ID) REFERENCES tbladmission_addstudent(Admission_ID)
+    )");
 }
 
-// Get selected course
-$selected_course = isset($_GET['course']) ? $_GET['course'] : '';
+// Get search term if exists
+$search_term = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
 
-// Build SQL with optional filtering
-$sql = "
-    SELECT 
-        a.id,
-        a.name, 
-        d.birth_cert_path, 
-        d.form137_path, 
-        d.tor_path, 
-        d.good_moral_path, 
-        d.honorable_dismissal_path,
-        d.course
-    FROM admission a
-    LEFT JOIN student_documents d ON a.id = d.id
-";
+// Get all students with document status
+$sql = "SELECT 
+            a.Admission_ID as id, 
+            a.full_name as name, 
+            a.course,
+            d.birth_cert,
+            d.form137,
+            d.tor,
+            d.good_moral,
+            d.honorable_dismissal
+        FROM tbladmission_addstudent a
+        LEFT JOIN student_documents d ON a.Admission_ID = d.Admission_ID";
 
-if ($selected_course !== '') {
-    $sql .= " WHERE d.course = '" . $conn->real_escape_string($selected_course) . "'";
+if (!empty($search_term)) {
+    $sql .= " WHERE a.full_name LIKE '%$search_term%'";
 }
 
-$sql .= " ORDER BY a.name ASC";
+$sql .= " ORDER BY a.full_name ASC";
 
-$result = $conn->query($sql);
+$students_result = $conn->query($sql);
 ?>
 
 <div class="container mt-4">
     <h2>📁 Student Records</h2>
 
-    <!-- Filter by Course -->
+    <!-- Search by Name -->
     <form method="GET" action="registrar.php" style="margin-bottom: 15px;">
-    <input type="hidden" name="page" value="student_records">
-    <label><strong>Filter by Course:</strong></label>
-    <select name="course" onchange="this.form.submit()" style="padding: 5px;">
-        <option value="">-- All Courses --</option>
-        <?php foreach ($courses as $course): ?>
-            <option value="<?= htmlspecialchars($course) ?>" <?= $selected_course === $course ? 'selected' : '' ?>>
-                <?= htmlspecialchars($course) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-</form>
-
+        <input type="hidden" name="page" value="student_records">
+        <label><strong>Search Students:</strong></label>
+        <input type="text" name="search" placeholder="Enter student name" 
+               value="<?php echo htmlspecialchars($search_term); ?>" style="padding: 5px; width: 250px;">
+        <button type="submit" style="padding: 5px 15px; background: #0b2a5b; color: white; border: none;">Search</button>
+        <?php if (!empty($search_term)): ?>
+            <a href="registrar.php?page=student_records" style="margin-left: 10px;">Clear Search</a>
+        <?php endif; ?>
+    </form>
 
     <table class="table table-bordered table-hover">
         <thead class="table-light">
@@ -70,29 +73,40 @@ $result = $conn->query($sql);
             </tr>
         </thead>
         <tbody>
-            <?php if ($result && $result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
+            <?php if ($students_result && $students_result->num_rows > 0): ?>
+                <?php while ($student = $students_result->fetch_assoc()): ?>
                     <tr>
-                        <td><?= htmlspecialchars($row['name']) ?></td>
-                        <td><?= htmlspecialchars($row['course'] ?? 'N/A') ?></td>
-                        <td><span class="<?= !empty($row['birth_cert_path']) ? 'cleared' : 'pending' ?>">
-                            <?= !empty($row['birth_cert_path']) ? 'Cleared' : 'Pending' ?></span></td>
-                        <td><span class="<?= !empty($row['form137_path']) ? 'cleared' : 'pending' ?>">
-                            <?= !empty($row['form137_path']) ? 'Cleared' : 'Pending' ?></span></td>
-                        <td><span class="<?= !empty($row['tor_path']) ? 'cleared' : 'pending' ?>">
-                            <?= !empty($row['tor_path']) ? 'Cleared' : 'Pending' ?></span></td>
-                        <td><span class="<?= !empty($row['good_moral_path']) ? 'cleared' : 'pending' ?>">
-                            <?= !empty($row['good_moral_path']) ? 'Cleared' : 'Pending' ?></span></td>
-                        <td><span class="<?= !empty($row['honorable_dismissal_path']) ? 'cleared' : 'pending' ?>">
-                            <?= !empty($row['honorable_dismissal_path']) ? 'Cleared' : 'Pending' ?></span></td>
-                        <td>
-                            <a href="registrar.php?page=edit_studentrecords&id=<?= $row['id'] ?>">Edit</a>
-                        </td>
+                        <td><?php echo htmlspecialchars($student['name']); ?></td>
+                        <td><?php echo htmlspecialchars($student['course']); ?></td>
+                        <td><span class="<?php echo (isset($student['birth_cert']) && $student['birth_cert']) ? 'cleared' : 'pending'; ?>">
+    <?php echo (isset($student['birth_cert']) && $student['birth_cert']) ? 'Cleared' : 'Pending'; ?>
+</span></td>
+<td><span class="<?php echo (isset($student['form137']) && $student['form137']) ? 'cleared' : 'pending'; ?>">
+    <?php echo (isset($student['form137']) && $student['form137']) ? 'Cleared' : 'Pending'; ?>
+</span></td>
+<td><span class="<?php echo (isset($student['tor']) && $student['tor']) ? 'cleared' : 'pending'; ?>">
+    <?php echo (isset($student['tor']) && $student['tor']) ? 'Cleared' : 'Pending'; ?>
+</span></td>
+<td><span class="<?php echo (isset($student['good_moral']) && $student['good_moral']) ? 'cleared' : 'pending'; ?>">
+    <?php echo (isset($student['good_moral']) && $student['good_moral']) ? 'Cleared' : 'Pending'; ?>
+</span></td>
+<td><span class="<?php echo (isset($student['honorable_dismissal']) && $student['honorable_dismissal']) ? 'cleared' : 'pending'; ?>">
+    <?php echo (isset($student['honorable_dismissal']) && $student['honorable_dismissal']) ? 'Cleared' : 'Pending'; ?>
+</span>
+<td>
+    <a href="registrar.php?page=edit_student_documents&id=<?= isset($student['id']) ? $student['id'] : '' ?>" 
+       class="btn-edit" 
+       style="background: #0b2a5b; color: white; padding: 3px 8px; text-decoration: none; border-radius: 3px;">
+        Edit
+    </a>
+</td>
                     </tr>
                 <?php endwhile; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="8" class="text-center">No student records found.</td>
+                    <td colspan="8" class="text-center">
+                        <?php echo empty($search_term) ? 'No student records found.' : 'No students match your search.'; ?>
+                    </td>
                 </tr>
             <?php endif; ?>
         </tbody>
@@ -108,14 +122,29 @@ $result = $conn->query($sql);
         color: red;
         font-weight: bold;
     }
-
-        a {
-            color: #0b90d0;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table th, .table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    .table-light {
+        background-color: #f8f9fa;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+    .text-center {
+        text-align: center;
+    }
+    a {
+        color: #0b90d0;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
 </style>

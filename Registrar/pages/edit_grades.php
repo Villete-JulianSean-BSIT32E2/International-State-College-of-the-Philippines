@@ -18,47 +18,68 @@ if (!$student_id) {
 
 // Fetch student name
 $student = null;
-$result = $conn->query("SELECT name FROM admission WHERE id = $student_id");
+$stmt = $conn->prepare("SELECT full_name FROM tbladmission_addstudent WHERE Admission_ID = ?");
+$stmt->bind_param("i", $student_id);
+$stmt->execute();
+$result = $stmt->get_result();
 if ($result->num_rows > 0) {
     $student = $result->fetch_assoc();
 } else {
     die("Student not found.");
 }
+$stmt->close();
 
-// Handle update form submission
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $subject = $conn->real_escape_string($_POST['subject']);
+    $subject = trim($_POST['subject']);
     $grade = floatval($_POST['grade']);
-    $remarks = $conn->real_escape_string($_POST['remarks']);
+    $remarks = trim($_POST['remarks']);
 
-    // Update existing grade or insert if not exists
-    $check = $conn->query("SELECT * FROM student_grades WHERE student_id = $student_id AND subject = '$subject'");
-    if ($check->num_rows > 0) {
-        $conn->query("UPDATE student_grades SET grade = $grade, remarks = '$remarks' WHERE student_id = $student_id AND subject = '$subject'");
+    // Check if grade record already exists
+    $check_stmt = $conn->prepare("SELECT * FROM student_grades WHERE student_id = ? AND subject = ?");
+    $check_stmt->bind_param("is", $student_id, $subject);
+    $check_stmt->execute();
+    $check_result = $check_stmt->get_result();
+
+    if ($check_result->num_rows > 0) {
+        // Update
+        $update_stmt = $conn->prepare("UPDATE student_grades SET grade = ?, remarks = ? WHERE student_id = ? AND subject = ?");
+        $update_stmt->bind_param("dsis", $grade, $remarks, $student_id, $subject);
+        $update_stmt->execute();
+        $update_stmt->close();
     } else {
-        $conn->query("INSERT INTO student_grades (student_id, subject, grade, remarks) VALUES ($student_id, '$subject', $grade, '$remarks')");
+        // Insert
+        $insert_stmt = $conn->prepare("INSERT INTO student_grades (student_id, subject, grade, remarks) VALUES (?, ?, ?, ?)");
+        $insert_stmt->bind_param("isds", $student_id, $subject, $grade, $remarks);
+        $insert_stmt->execute();
+        $insert_stmt->close();
     }
+    $check_stmt->close();
 }
 
-// Get student grades
+// Fetch all grades for this student
 $grades = [];
-$result = $conn->query("SELECT * FROM student_grades WHERE student_id = $student_id");
-while ($row = $result->fetch_assoc()) {
+$grade_stmt = $conn->prepare("SELECT * FROM student_grades WHERE student_id = ?");
+$grade_stmt->bind_param("i", $student_id);
+$grade_stmt->execute();
+$grade_result = $grade_stmt->get_result();
+while ($row = $grade_result->fetch_assoc()) {
     $grades[] = $row;
 }
+$grade_stmt->close();
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Grades - <?= htmlspecialchars($student['name']) ?></title>
+    <title>Edit Grades - <?= htmlspecialchars($student['full_name']) ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 30px;
             background-color: #f9f9f9;
         }
-        h2 {
+        h2, h3 {
             color: #333;
         }
         table {
@@ -85,34 +106,32 @@ while ($row = $result->fetch_assoc()) {
         }
         button {
             padding: 8px 14px;
-            background-color: #28a745;
+            background-color: #007bff;
             border: none;
             color: white;
             border-radius: 4px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
-
-        .cancel{
-             padding: 8px 14px;
-            background-color: #28a745;
+        .cancel {
+            padding: 8px 14px;
+            background-color: #6c757d;
             border: none;
             color: white;
             border-radius: 4px;
             cursor: pointer;
             text-decoration: none;
-        
         }
-        .cancel:hover{
-            background-color: #218838;
+        .cancel:hover {
+            background-color: #5a6268;
         }
     </style>
 </head>
 <body>
 
-<h2>Edit Grades for <?= htmlspecialchars($student['name']) ?></h2>
+<h2>Edit Grades for <?= htmlspecialchars($student['full_name']) ?></h2>
 
 <table>
     <tr>
@@ -120,7 +139,7 @@ while ($row = $result->fetch_assoc()) {
         <th>Grade</th>
         <th>Remarks</th>
     </tr>
-    <?php if (count($grades) > 0): ?>
+    <?php if (!empty($grades)): ?>
         <?php foreach ($grades as $g): ?>
             <tr>
                 <td><?= htmlspecialchars($g['subject']) ?></td>
