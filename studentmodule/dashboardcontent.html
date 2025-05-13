@@ -1,97 +1,153 @@
-<main class="flex-1 p-6 space-y-6">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-10">
 
-    <!-- Welcome Section -->
-    <div class="bg-white p-6 rounded shadow">
-      <h2 class="text-2xl font-bold mb-1">Welcome Son Goku D. Arevalo</h2>
-      <p class="text-gray-700">
-        Bachelor of Science in Information Technology - 42A2<br />
-        Current Semester and Year: 2025
-      </p>
-    </div>
+<main class="flex-1 p-6 space-y-6 ">
 
-    <!-- 3-Column Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <!-- Welcome Section -->
+  <div class="bg-blue-50 border-4 border-blue-500 p-6 rounded-2xl shadow-md">
+    <h2 class="text-2xl font-bold text-blue-800 mb-2">Welcome, Son Goku D. Arevalo</h2>
+    <p class="text-gray-700 leading-relaxed">
+      Bachelor of Science in Information Technology - 42A2<br>
+      <span class="font-medium">Current Semester and Year:</span> 2025
+    </p>
+  </div>
+  
 
-      <!-- Left Column (2 stacked cards) -->
-      <div class="space-y-4 lg:col-span-2">
-        
-        <div class="bg-pink-100 p-6 rounded shadow flex items-center justify-around">
-            <div class="flex items-center justify-center w-32 h-32 border-8 border-transparent rounded-full relative">
-              <div id="attendance-graph" class="absolute inset-0 rounded-full bg-conic-gradient">
-                <!-- Present Percentage inside the blue segment -->
-                <span id="present-percent" class="text-2xl font-semibold text-blue-700 absolute inset-0 flex items-center justify-center">0%</span>
-                
-                <!-- Absent Percentage inside the red segment -->
-                <span id="absent-percent" class="text-2xl font-semibold text-red-700 absolute inset-0 flex items-center justify-center">0%</span>
-              </div>
-            </div>
-            
-            <style>
-              .bg-conic-gradient {
-                background: conic-gradient(from 90deg, #3b82f6 0%, #3b82f6 50%, #ef4444 50%, #ef4444 100%);
-              }
-            </style>
-            
-            <!-- Right Side (Present / Absent) -->
-            <div class="space-y-4">
-              <div class="text-center">
-                <h3 class="text-lg font-bold">Present</h3>
-                <p id="present-count" class="text-xl text-blue-700">0</p>
-              </div>
-              <div class="text-center">
-                <h3 class="text-lg font-bold">Absent</h3>
-                <p id="absent-count" class="text-xl text-blue-700">0</p>
-              </div>
-            </div>
-          </div>
+  <!-- 3-Column Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 ">
 
-        <!-- Recent Grades -->
-        <div class="bg-white p-6 rounded shadow">
-          <h3 class="text-lg font-bold mb-2">Recent Grades - 2025</h3>
-          <ul class="list-disc list-inside text-gray-700">
-            <li>Math: 95</li>
-            <li>Science: 90</li>
-            <li>English: 92</li>
-            <li>IT Elective: 88</li>
-          </ul>
+    <!-- Left Column -->
+    <div class="space-y-4 lg:col-span-2">
+
+      <!-- Attendance Pie Chart -->
+      <div class="p-6 flex items-center justify-around">
+        <div class="relative w-30 h-30">
+          <svg viewBox="0 0 36 36" class="w-full h-full bg-white rounded-full shadow-xl transform -rotate-90">
+            <!-- Background circle -->
+            <circle cx="18" cy="18" r="10" fill="none" stroke="#f3f4f6" stroke-width="16" />
+
+            <!-- Present arc -->
+            <circle id="present-arc"
+                    cx="18" cy="18" r="10"
+                    fill="none" stroke="yellow" stroke-width="16"
+                    stroke-dasharray="0, 100"
+                    stroke-dashoffset="0"
+                     />
+
+            <!-- Absent arc -->
+            <circle id="absent-arc"
+                    cx="18" cy="18" r="10"
+                    fill="none" stroke="purple" stroke-width="16"
+                    stroke-dasharray="0, 100"
+                    stroke-dashoffset="0"
+                     />
+          </svg>
         </div>
+
+        <!-- Text values -->
+        <div class="grid grid-cols-1 sm:grid-rows-2 gap-4 w-[30%]">
+          <!-- Present Card -->
+          <div class="bg-yellow-50 border-4 border-yellow-500 p-4 rounded-3xl shadow text-center">
+            <h3 class="text-lg font-bold text-yellow-800">PRESENT</h3>
+            <p id="present-count" class="text-2xl font-bold text-yellow-900">0</p>
+          </div>
+        
+          <!-- Absent Card -->
+          <div class="bg-purple-50 border-4 border-purple-500 p-4 rounded-3xl shadow text-center">
+            <h3 class="text-lg font-bold text-purple-800">ABSENT</h3>
+            <p id="absent-count" class="text-2xl font-bold text-purple-900">0</p>
+          </div>
+        </div>
+        
       </div>
 
-      <!-- Right Column (Notification Card) -->
-      <div class="bg-white p-6 rounded shadow h-full max-h-screen">
-        <h3 class="text-lg font-bold mb-2">Notifications</h3>
-        <ul class="list-disc list-inside text-gray-700 space-y-1">
-          <li>Evaluation for Prof. A ends this Friday</li>
-          <li>New module available in LMS</li>
-          <li>Class in English will be asynchronous tomorrow</li>
-          <li>Grades are now posted</li>
-        </ul>
-      </div>
+<!-- Recent Grades -->
+<div class=" p-6">
+  <h3 class="text-lg font-bold mb-4">Recent Grades - 2025</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+    
+    <!-- Math -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-300">
+      <h4 class="text-blue-700 font-semibold text-md">Math</h4>
+      <p class="text-gray-700 text-xl font-bold">95</p>
+    </div>
+
+    <!-- Science -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-300">
+      <h4 class="text-blue-700 font-semibold text-md">Science</h4>
+      <p class="text-gray-700 text-xl font-bold">90</p>
+    </div>
+
+    <!-- English -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-300">
+      <h4 class="text-blue-700 font-semibold text-md">English</h4>
+      <p class="text-gray-700 text-xl font-bold">92</p>
+    </div>
+
+    <!-- IT Elective -->
+    <div class="bg-blue-50 p-4 rounded-lg shadow-sm border border-blue-300">
+      <h4 class="text-blue-700 font-semibold text-md">IT Elective</h4>
+      <p class="text-gray-700 text-xl font-bold">88</p>
+    </div>
+
+  </div>
+</div>
+
 
     </div>
 
-  </main>
+    <!-- Right Column -->
+<!-- Right Column: School Notifications -->
+<div class="space-y-4 lg:col-span-2 h-full">
 
-  <script>
-    // Example data (you can replace these with dynamic values)
-    const totalStudents = 100;   // Total count of students
-    const totalPresent = 10;     // Dynamic value fetched from your database
-    const totalAbsent = 30;      // Dynamic value fetched from your database
-    
-    // Calculate the percentage for present and absent
-    const totalAttendance = totalPresent + totalAbsent;  // Total attendance count
-    const presentPercentage = (totalPresent / totalAttendance) * 100;
-    const absentPercentage = (totalAbsent / totalAttendance) * 100;
-    
-    // Set the present and absent counts in the DOM
-    document.getElementById("present-count").innerText = totalPresent;
-    document.getElementById("absent-count").innerText = totalAbsent;
-    
-    // Update the percentage text inside the colored segments
-    document.getElementById("present-percent").innerText = `${Math.round(presentPercentage)}%`;
-    document.getElementById("absent-percent").innerText = `${Math.round(absentPercentage)}%`;
-    
-    // Update the conic gradient dynamically based on the percentages
-    const attendanceGraph = document.getElementById("attendance-graph");
-    attendanceGraph.style.background = `conic-gradient(from 90deg, #3b82f6 ${presentPercentage}%, #ef4444 ${presentPercentage}%)`;
-    </script>
+<div class="bg-blue-600 h-[50%]">dsada</div>
+<div class="bg-blue-50 h-[50%]">dsadsa</div>
+</div>
+
+
+  </div>
+</main>
+
+<script>
+  const totalPresent = 10;
+  const totalAbsent = 30;
+  const total = totalPresent + totalAbsent;
+
+  const presentPercent = (totalPresent / total) * 100;
+  const absentPercent = (totalAbsent / total) * 100;
+
+  document.getElementById("present-count").innerText = totalPresent;
+  document.getElementById("absent-count").innerText = totalAbsent;
+
+  function animateArc(element, percent, offset = 0) {
+    let current = 0;
+    const interval = setInterval(() => {
+      if (current >= percent) {
+        clearInterval(interval);
+        return;
+      }
+      current += 1;
+      element.setAttribute("stroke-dasharray", `${current}, 100`);
+      element.setAttribute("stroke-dashoffset", -offset);
+    }, 10);
+  }
+
+  animateArc(document.getElementById("present-arc"), presentPercent);
+  setTimeout(() => {
+    animateArc(document.getElementById("absent-arc"), absentPercent, presentPercent);
+  }, 500);
+</script>
+
+</body>
+</html>
