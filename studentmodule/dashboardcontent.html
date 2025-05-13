@@ -1,0 +1,97 @@
+<main class="flex-1 p-6 space-y-6">
+
+    <!-- Welcome Section -->
+    <div class="bg-white p-6 rounded shadow">
+      <h2 class="text-2xl font-bold mb-1">Welcome Son Goku D. Arevalo</h2>
+      <p class="text-gray-700">
+        Bachelor of Science in Information Technology - 42A2<br />
+        Current Semester and Year: 2025
+      </p>
+    </div>
+
+    <!-- 3-Column Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+      <!-- Left Column (2 stacked cards) -->
+      <div class="space-y-4 lg:col-span-2">
+        
+        <div class="bg-pink-100 p-6 rounded shadow flex items-center justify-around">
+            <div class="flex items-center justify-center w-32 h-32 border-8 border-transparent rounded-full relative">
+              <div id="attendance-graph" class="absolute inset-0 rounded-full bg-conic-gradient">
+                <!-- Present Percentage inside the blue segment -->
+                <span id="present-percent" class="text-2xl font-semibold text-blue-700 absolute inset-0 flex items-center justify-center">0%</span>
+                
+                <!-- Absent Percentage inside the red segment -->
+                <span id="absent-percent" class="text-2xl font-semibold text-red-700 absolute inset-0 flex items-center justify-center">0%</span>
+              </div>
+            </div>
+            
+            <style>
+              .bg-conic-gradient {
+                background: conic-gradient(from 90deg, #3b82f6 0%, #3b82f6 50%, #ef4444 50%, #ef4444 100%);
+              }
+            </style>
+            
+            <!-- Right Side (Present / Absent) -->
+            <div class="space-y-4">
+              <div class="text-center">
+                <h3 class="text-lg font-bold">Present</h3>
+                <p id="present-count" class="text-xl text-blue-700">0</p>
+              </div>
+              <div class="text-center">
+                <h3 class="text-lg font-bold">Absent</h3>
+                <p id="absent-count" class="text-xl text-blue-700">0</p>
+              </div>
+            </div>
+          </div>
+
+        <!-- Recent Grades -->
+        <div class="bg-white p-6 rounded shadow">
+          <h3 class="text-lg font-bold mb-2">Recent Grades - 2025</h3>
+          <ul class="list-disc list-inside text-gray-700">
+            <li>Math: 95</li>
+            <li>Science: 90</li>
+            <li>English: 92</li>
+            <li>IT Elective: 88</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column (Notification Card) -->
+      <div class="bg-white p-6 rounded shadow h-full max-h-screen">
+        <h3 class="text-lg font-bold mb-2">Notifications</h3>
+        <ul class="list-disc list-inside text-gray-700 space-y-1">
+          <li>Evaluation for Prof. A ends this Friday</li>
+          <li>New module available in LMS</li>
+          <li>Class in English will be asynchronous tomorrow</li>
+          <li>Grades are now posted</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    // Example data (you can replace these with dynamic values)
+    const totalStudents = 100;   // Total count of students
+    const totalPresent = 10;     // Dynamic value fetched from your database
+    const totalAbsent = 30;      // Dynamic value fetched from your database
+    
+    // Calculate the percentage for present and absent
+    const totalAttendance = totalPresent + totalAbsent;  // Total attendance count
+    const presentPercentage = (totalPresent / totalAttendance) * 100;
+    const absentPercentage = (totalAbsent / totalAttendance) * 100;
+    
+    // Set the present and absent counts in the DOM
+    document.getElementById("present-count").innerText = totalPresent;
+    document.getElementById("absent-count").innerText = totalAbsent;
+    
+    // Update the percentage text inside the colored segments
+    document.getElementById("present-percent").innerText = `${Math.round(presentPercentage)}%`;
+    document.getElementById("absent-percent").innerText = `${Math.round(absentPercentage)}%`;
+    
+    // Update the conic gradient dynamically based on the percentages
+    const attendanceGraph = document.getElementById("attendance-graph");
+    attendanceGraph.style.background = `conic-gradient(from 90deg, #3b82f6 ${presentPercentage}%, #ef4444 ${presentPercentage}%)`;
+    </script>
