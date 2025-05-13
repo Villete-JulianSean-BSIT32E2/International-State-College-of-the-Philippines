@@ -22,6 +22,10 @@ try {
         $_SESSION['student_type'] = 'new'; // Force valid value
     }
 
+    // Handle optional fields with variables
+    $photo = isset($_SESSION['photo']) ? $_SESSION['photo'] : null;
+    $signature = isset($_SESSION['signature']) ? $_SESSION['signature'] : null;
+
     // Prepare SQL statement for main admission data
     $sql = "
         INSERT INTO tbladmission_addstudent (
@@ -60,7 +64,7 @@ try {
         $_SESSION['city'],
         $_SESSION['email'],
         $_SESSION['phone'],
-        isset($_SESSION['photo']) ? $_SESSION['photo'] : null,
+        $photo,
         $_SESSION['fathers_name'],
         $_SESSION['fathers_occupation'],
         $_SESSION['father_contact'],
@@ -76,7 +80,7 @@ try {
         $_SESSION['Course'],
         $_SESSION['student_type'],
         $_SESSION['confirm'],
-        isset($_SESSION['signature']) ? $_SESSION['signature'] : null,
+        $signature,
         $_SESSION['sigdate']
     );
 
@@ -87,8 +91,8 @@ try {
     // Execute the main admission insertion
     if ($stmt->execute()) {
         $Admission_ID = $stmt->insert_id;
-        
-        // Insert into student type table (ENUM approach)
+
+        // Insert into student type table
         $typeStmt = $conn->prepare("
             INSERT INTO tbladmission_studenttype 
             (Admission_ID, StudentType) 
@@ -106,24 +110,24 @@ try {
         }
 
         $typeStmt->close();
-        
+
         // Clear session data
         session_unset();
         session_destroy();
-        
+
         // Redirect to success page
         header('Location: admission_success.php');
         exit();
     } else {
         throw new Exception("Error inserting student data: " . $stmt->error);
     }
-    
+
     $stmt->close();
     $conn->close();
 } catch (Exception $e) {
     // Log the error for debugging
     error_log("Admission Error: " . $e->getMessage());
-    
+
     $_SESSION['error'] = "An error occurred during submission: " . $e->getMessage();
     header('Location: admission_error.php');
     exit();

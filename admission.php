@@ -46,7 +46,7 @@ if ($conn && !$conn->connect_error) {
     body { display: flex; background-color: #f6f8fb; min-height: 100vh; }
     .sidebar { width: 240px; background-color: #0b2a5b; color: white; height: 100vh; padding: 1rem; }
     .sidebar img { width: 80px; margin-bottom: 1rem; }
-    .nav-item { padding: 12px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
+    .nav-item { padding: 12px; margin: 10px 0; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; text-decoration: none ; color: white; }
     .nav-item.active, .nav-item:hover { background-color: #1a3d7c; }
     .main-content { flex: 1; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
     .overview {
@@ -130,7 +130,7 @@ if ($conn && !$conn->connect_error) {
 <div class="sidebar">
     <img src="img/LOGO.png" alt="College Logo" />
     <div class="nav-item active">Admission</div>
-    <a href="main-dashboard.php" class="nav-item">Main Dashboard</a>
+   <a href="main-dashboard.php" class="nav-item">Main Dashboard</a>
   </div>
 
   <div class="main-content">

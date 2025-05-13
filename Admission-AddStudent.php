@@ -254,8 +254,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <label>Nationality</label>
           <input type="text" name="nationality" id="nationality" value="<?php echo isset($_SESSION['nationality']) ? $_SESSION['nationality'] : ''; ?>" />
         </div>
-
-        <!-- New Religion Field -->
+        
         <div class="form-group">
           <label>Religion</label>
           <input type="text" name="religion" id="religion" value="<?php echo isset($_SESSION['religion']) ? $_SESSION['religion'] : ''; ?>" />

@@ -14,7 +14,7 @@ if ($check->num_rows === 0) {
 }
 
 // Fetch student info
-$student_stmt = $conn->prepare("SELECT name FROM admission WHERE id = ?");
+$student_stmt = $conn->prepare("SELECT full_name FROM tbladmission_addstudent WHERE Admission_ID = ?");
 $student_stmt->bind_param("i", $student_id);
 $student_stmt->execute();
 $student_result = $student_stmt->get_result();
@@ -26,7 +26,14 @@ $clearance_stmt = $conn->prepare("SELECT * FROM student_clearance WHERE student_
 $clearance_stmt->bind_param("i", $student_id);
 $clearance_stmt->execute();
 $clearance_result = $clearance_stmt->get_result();
-$clearance = $clearance_result->fetch_assoc();
+$clearance_data = $clearance_result->fetch_assoc();
+$clearance = is_array($clearance_data) ? $clearance_data : [
+    'library_clearance' => 'Pending',
+    'accounting_clearance' => 'Pending',
+    'dept_head_clearance' => 'Pending',
+    'final_clearance' => 'Pending'
+];
+
 $clearance_stmt->close();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -111,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 
-<h2>Edit Clearance for <?= htmlspecialchars($student['name']) ?></h2>
+<h2>Edit Clearance for <?= htmlspecialchars($student['full_name']) ?></h2>
 
 <form method="POST">
     <label>Library Clearance:</label>

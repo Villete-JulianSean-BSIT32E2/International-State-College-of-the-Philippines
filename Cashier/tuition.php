@@ -20,26 +20,37 @@ if ($conn->connect_error) {
       font-family: Arial, sans-serif;
       display: flex;
     }
-    .sidebar {
-            width: 250px;
-            background-color: #2c3e50;
-            color: white;
-            min-height: 100vh;
-            padding-top: 20px;
-        }
-        .sidebar .nav-item {
-            padding: 15px;
-            cursor: pointer;
-        }
-        .sidebar .nav-item:hover, .sidebar .nav-item.active {
-            background-color: #34495e;
-        }
-        .sidebar .nav-item a {
-            color: white;
-            text-decoration: none;
-            display: block;
-        }
-
+   .sidebar {
+      width: 200px;
+      background: #112D4E;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 0;
+      min-height: 100vh;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+      position: fixed;
+      left: 0;
+      top: 0;
+    }
+    .nav-item {
+      margin: 5px 10px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 4px;
+      transition: background 0.3s;
+      color: white;
+      text-decoration: none;
+    }
+    .nav-item:hover {
+      background: #4267b2;
+      cursor: pointer;
+    }
+    .active {
+      background: #4267b2;
+    }
 
     .main-content {
       flex: 1;
@@ -60,7 +71,7 @@ if ($conn->connect_error) {
       border-radius: 5px;
     }
     input[type=submit] {
-      background-color: #27ae60;
+      background-color: #112D4E;
       color: white;
       font-weight: bold;
       cursor: pointer;
@@ -128,41 +139,21 @@ if ($conn->connect_error) {
 <body>
 
 <div class="sidebar">
-        <div style="text-align: center; padding: 20px;">
-            <img src="logo.jpg" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
-        </div>
-        <div style="padding: 10px;">
-        <div class="nav-item">
-    <a href="../main-dashboard.php">
-        <i class="fa fa-tachometer"></i> <span>Dashboard</span>
-    </a>
+  <div style="padding: 20px; text-align: center;">
+    <img src="logo.jpg" alt="Logo" style="width: 100px; height: auto; border-radius: 50%;">
+  </div>
+  <div style="padding: 10px;">
+    <div class="nav-item"><i class="fa fa-tachometer"></i> <span>Dashboard</span></div>
+    <a href="tuition.php" class="nav-item active"><i class="fas fa-peso-sign"></i> <span>Tuition</span></a>
+    <a href="Payments.php" class="nav-item"><i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span></a>
+    <a href="recievable.php" class="nav-item"><i class="fas fa-file-invoice"></i> <span>Receivables</span></a>
+    <a href="soa.php" class="nav-item"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></a>
+    <a href="summary.php" class="nav-item"><i class="fas fa-list"></i> <span>Get Summary Reports</span></a>
+  </div>
 </div>
-            <div class="nav-item">
-                <a href="tuition.php">
-                    <i class="fas fa-peso-sign"></i> <span>Tuition</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="Payments.php">
-                    <i class="fas fa-file-invoice-dollar"></i> <span>Manage Invoice/Payments</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="recievable.html">
-                    <i class="fas fa-file-invoice"></i> <span>Receivables</span>
-                </a>
-            </div>
-            <div class="nav-item active"><i class="fas fa-file-alt"></i> <span>Statement of Account</span></div>
-            <div class="nav-item">
-                <a href="summary.php">
-                    <i class="fas fa-file-invoice"></i> <span> Get Summary Reports</span>
-                </a>
-            </div>
-        </div>
-    </div>
 
 <div class="main-content">
-  <h2>Tuition Management</h2>
+  <h2 style="margin-left: 470px;">Tuition Management</h2>
 
   <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
