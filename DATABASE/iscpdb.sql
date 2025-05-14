@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2025 at 06:30 PM
+-- Generation Time: May 14, 2025 at 07:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,28 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `iscpdb`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `admission`
---
-
-CREATE TABLE `admission` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `bdate` date NOT NULL,
-  `gender` enum('m','f','o') NOT NULL,
-  `nat` varchar(255) NOT NULL,
-  `religion` varchar(255) NOT NULL,
-  `curraddress` text NOT NULL,
-  `province` varchar(255) NOT NULL,
-  `peraddress` text NOT NULL,
-  `zip` varchar(10) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `city` varchar(255) NOT NULL,
-  `phoneno` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -88,7 +66,8 @@ CREATE TABLE `class_schedules` (
 --
 
 INSERT INTO `class_schedules` (`id`, `subject`, `instructor`, `day`, `time`, `room`, `course`, `section`) VALUES
-(1, 'Programming 1', 'Mr. Juan Dela Cruz', 'Tuesday', '9AM - 10:30 AM', '211', 'CTHM', 'CTHM1A2');
+(1, 'English', 'Mr. De Jesus', 'Monday', '12:00 - 1:30 PM', '103', 'BSA', 'BSIT41A1'),
+(2, 'English', 'Mr. De Jesus', 'Tuesday', '1:00 - 2:30 PM', '211', 'BSA', 'BSIT41A2');
 
 -- --------------------------------------------------------
 
@@ -116,35 +95,6 @@ INSERT INTO `deadlines` (`id`, `title`, `due_date`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `guardian_info`
---
-
-CREATE TABLE `guardian_info` (
-  `id` int(11) NOT NULL,
-  `fname` varchar(255) NOT NULL,
-  `mname` varchar(255) NOT NULL,
-  `foccu` varchar(255) NOT NULL,
-  `moccu` varchar(255) NOT NULL,
-  `fno` varchar(20) NOT NULL,
-  `mno` varchar(20) NOT NULL,
-  `gname` varchar(255) NOT NULL,
-  `relationship` varchar(255) NOT NULL,
-  `gno` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `guardian_info`
---
-
-INSERT INTO `guardian_info` (`id`, `fname`, `mname`, `foccu`, `moccu`, `fno`, `mno`, `gname`, `relationship`, `gno`) VALUES
-(43, 'vbxcbx', 'bxcvbx', 'cvbxc', 'vbxcvb', 'bxcvb', 'xcvbxcvb', 'cvbxcv', 'xcvbxcv', 'xcvbxcv'),
-(44, 'sdfafda', 'fadsf', 'asdfasdfas', 'asfd', 'adfasdfs', 'asdfasdf', 'dsfas', 'dfasdf', 'asfdasdf'),
-(45, 'vxzcvzx', 'zxcvz', 'xcvzxcvz', 'xzcvzcv', 'xzcvzcx', 'zxcvzx', 'cvzvzcv', 'xcvzxcv', 'cvxzv'),
-(46, 'afasdfa', 'sdfasfd', 'adsfasd', 'sfasfas', 'dfasdf', 'asdfasf', 'asdfa', 'fasdfa', 'asdfasdf');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `payments`
 --
 
@@ -153,36 +103,38 @@ CREATE TABLE `payments` (
   `student_id` int(11) NOT NULL,
   `amount_paid` decimal(10,2) NOT NULL,
   `payment_date` date NOT NULL,
-  `payment_method` varchar(50) DEFAULT NULL
+  `payment_method` varchar(50) DEFAULT NULL,
+  `status` varchar(50) DEFAULT 'Paid'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `payments`
 --
 
-INSERT INTO `payments` (`id`, `student_id`, `amount_paid`, `payment_date`, `payment_method`) VALUES
-(1, 0, 0.00, '2025-05-12', 'Gcash'),
-(2, 1008, 5000.00, '2025-05-06', 'Cash'),
-(3, 1008, 0.00, '2025-05-12', '	'),
-(4, 1010, 2000.00, '2025-05-13', 'Cash'),
-(5, 1010, 200.00, '2025-05-15', 'Gcash'),
-(6, 1010, 3000.00, '2025-05-12', 'Cash'),
-(7, 1010, 3000.00, '2025-05-12', 'Cash'),
-(8, 1010, 3000.00, '2025-05-29', 'Cash'),
-(9, 1010, 200.00, '2025-05-12', 'Bank Transfer'),
-(10, 0, 3000.00, '2025-05-12', 'Cash'),
-(11, 0, 3000.00, '2025-05-12', 'Cash'),
-(12, 1010, 2222.00, '2025-05-12', 'Cash'),
-(13, 1010, 2222.00, '2025-05-12', 'Cash'),
-(14, 1009, 3000.00, '2025-05-07', 'Bank Transfer'),
-(15, 1007, 2000.00, '2025-05-13', 'Cash'),
-(16, 0, 2000.00, '2025-05-05', 'Cash'),
-(17, 0, 2000.00, '2025-05-19', 'Cash'),
-(18, 0, 3000.00, '2025-05-15', 'Cash'),
-(19, 0, 2000.00, '2025-05-17', 'Cash'),
-(20, 1011, 2000.00, '2025-05-29', 'Cash'),
-(21, 1008, 2000.00, '2025-05-08', 'Cash'),
-(22, 1012, 3000.00, '2025-05-12', 'Cash');
+INSERT INTO `payments` (`id`, `student_id`, `amount_paid`, `payment_date`, `payment_method`, `status`) VALUES
+(0, 1013, 3000.00, '2025-05-14', 'Cash', 'Paid'),
+(1, 0, 0.00, '2025-05-12', 'Gcash', 'Paid'),
+(2, 1008, 5000.00, '2025-05-06', 'Cash', 'Paid'),
+(3, 1008, 0.00, '2025-05-12', '	', 'Paid'),
+(4, 1010, 2000.00, '2025-05-13', 'Cash', 'Paid'),
+(5, 1010, 200.00, '2025-05-15', 'Gcash', 'Paid'),
+(6, 1010, 3000.00, '2025-05-12', 'Cash', 'Paid'),
+(7, 1010, 3000.00, '2025-05-12', 'Cash', 'Paid'),
+(8, 1010, 3000.00, '2025-05-29', 'Cash', 'Paid'),
+(9, 1010, 200.00, '2025-05-12', 'Bank Transfer', 'Paid'),
+(10, 0, 3000.00, '2025-05-12', 'Cash', 'Paid'),
+(11, 0, 3000.00, '2025-05-12', 'Cash', 'Paid'),
+(12, 1010, 2222.00, '2025-05-12', 'Cash', 'Paid'),
+(13, 1010, 2222.00, '2025-05-12', 'Cash', 'Paid'),
+(14, 1009, 3000.00, '2025-05-07', 'Bank Transfer', 'Paid'),
+(15, 1007, 2000.00, '2025-05-13', 'Cash', 'Paid'),
+(16, 0, 2000.00, '2025-05-05', 'Cash', 'Paid'),
+(17, 0, 2000.00, '2025-05-19', 'Cash', 'Paid'),
+(18, 0, 3000.00, '2025-05-15', 'Cash', 'Paid'),
+(19, 0, 2000.00, '2025-05-17', 'Cash', 'Paid'),
+(20, 1011, 2000.00, '2025-05-29', 'Cash', 'Paid'),
+(21, 1008, 2000.00, '2025-05-08', 'Cash', 'Paid'),
+(22, 1012, 3000.00, '2025-05-12', 'Cash', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -208,7 +160,8 @@ CREATE TABLE `receivables` (
 --
 
 INSERT INTO `receivables` (`id`, `or_no`, `student_name`, `total_fee`, `date`, `course`, `payment_date`, `balance`, `created_at`, `payment_amount`) VALUES
-(0, '069305', 'AHmed Hadadi', 8000.00, '2025-05-20', 'CSS', '2025-05-26', 0.00, '2025-05-12 07:25:42', 15844);
+(1, '069305', 'AHmed Hadadi', 8000.00, '2025-05-20', 'CSS', '2025-05-26', 0.00, '2025-05-12 07:25:42', 15844),
+(2, '685331', 'Ferdi', 10000.00, '2025-05-14', 'CSS', '2025-05-14', 10000.00, '2025-05-14 05:20:14', 3000);
 
 -- --------------------------------------------------------
 
@@ -223,6 +176,13 @@ CREATE TABLE `requests` (
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `date_requested` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `requests`
+--
+
+INSERT INTO `requests` (`id`, `student_name`, `request_type`, `status`, `date_requested`) VALUES
+(0, 'Gabriel', 'Tor', 'Approved', '2025-05-13');
 
 -- --------------------------------------------------------
 
@@ -264,7 +224,11 @@ CREATE TABLE `student_clearance` (
 --
 
 INSERT INTO `student_clearance` (`id`, `student_id`, `library_clearance`, `accounting_clearance`, `dept_head_clearance`, `final_clearance`) VALUES
-(0, 1007, 'Cleared', 'Cleared', 'Cleared', 'Cleared');
+(1, 1007, 'Cleared', 'Cleared', 'Cleared', 'Cleared'),
+(2, 1008, 'Pending', 'Pending', 'Pending', 'Pending'),
+(3, 1009, 'Cleared', 'Cleared', 'Cleared', 'Cleared'),
+(4, 1011, 'Pending', 'Pending', 'Pending', 'Pending'),
+(5, 1010, 'Pending', 'Pending', 'Pending', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -287,6 +251,7 @@ CREATE TABLE `student_documents` (
 --
 
 INSERT INTO `student_documents` (`id`, `Admission_ID`, `birth_cert`, `form137`, `tor`, `good_moral`, `honorable_dismissal`) VALUES
+(0, 0, 1, 1, 1, 1, 1),
 (1, 1007, 0, 0, 1, 0, 0),
 (2, 1008, 0, 0, 0, 0, 1);
 
@@ -311,9 +276,8 @@ CREATE TABLE `student_grades` (
 --
 
 INSERT INTO `student_grades` (`id`, `student_id`, `subject`, `grade`, `remarks`, `school_year`, `semester`) VALUES
-(1, 1008, 'Programming 1', '2', 'Fair', 0, ''),
-(2, 0, 'Math', '2', 'Good', 0, ''),
-(3, 1007, 'Math', '2', 'Good', 0, '');
+(1, 1010, 'Programming 1', '2', 'good', 0, ''),
+(2, 1010, 'Programming 2', '3', 'Fair', 0, '');
 
 -- --------------------------------------------------------
 
@@ -363,12 +327,13 @@ CREATE TABLE `tbladmission_addstudent` (
 --
 
 INSERT INTO `tbladmission_addstudent` (`Admission_ID`, `full_name`, `birthdate`, `gender`, `nationality`, `religion`, `address`, `province`, `zip`, `city`, `email`, `phone`, `photo`, `fathers_name`, `fathers_occupation`, `father_contact`, `mothers_name`, `mothers_occupation`, `mother_contact`, `guardian_name`, `guardian_relationship`, `guardian_contact`, `applying_grade`, `prevschool`, `last_grade`, `course`, `student_type`, `confirm`, `signature`, `sigdate`, `signature_path`, `document_path`, `document_name`, `status`) VALUES
-(1007, 'Gabriel', '2025-05-19', 'Male', 'zcvzxcvx', 'zxcvxczv', 'zxcvz', 'xzcv', 'cxvzxcv', 'zxvxz', 'aa@gmail.com', '', 'uploads/6820e48ce4184.jfif', 'zxcvzxcv', 'zxcv', '', 'xzcvxzcvzx', 'zxv', '', 'cvzxcv', 'zxcvzxc', '', '1st Year', 'vzxcv', '1st Year', 'BSCRIM', 'irregular', 0, NULL, '2025-05-22', 'uploads/1746986180_signature_student-profile.jfif', '', '', 'Enrolled'),
+(1007, 'Gabriel', '2025-05-19', 'Male', 'zcvzxcvx', 'zxcvxczv', 'zxcvz', 'xzcv', 'cxvzxcv', 'zxvxz', 'aa@gmail.com', '', 'uploads/6820e48ce4184.jfif', 'zxcvzxcv', 'zxcv', '', 'xzcvxzcvzx', 'zxv', '', 'cvzxcv', 'zxcvzxc', '', '1st Year', 'vzxcv', '1st Year', 'BSCRIM', 'Irregular', 0, NULL, '2025-05-22', 'uploads/1746986180_signature_student-profile.jfif', '', '', 'Enrolled'),
 (1008, 'Kevin durant', '2025-05-13', 'Male', 'vxvczxv', 'zxcvzxcv', 'zxcvzcx', 'vzxcv', 'zxcvz', 'xcvzxc', 'xvzxc@rasd.com', '', 'uploads/6820e8dd22459.jfif', 'cxvbcx', 'vbxcv', '', 'b,bm', 'bnm,', '', ',bm', 'nb,', '', '3rd Year', 'zbxcvbxc', '2nd Year', 'CTHM', 'New', 0, NULL, '2025-05-23', 'uploads/1746987255_signature_Archi.jfif', '', '', 'Enrolled'),
 (1009, 'Taylor Sweep', '2025-05-20', 'Male', 'Tiger Commando', 'bvmnvbnm', 'zcxvzcxv', 'zxcvzxc', 'zxcvzxc', 'zxcvzxcv', 'z@gmial.com', '', 'uploads/68216c902b0ce.jfif', 'cxvbxcv', 'bxcvb', '', 'cxvbcxv', 'vbcxvb', '', 'bcxvbcxv', 'bcxvbcxv', '', '3rd Year', 'xcbcxvb', '2nd Year', 'BSA', 'new', 0, NULL, '2025-05-30', 'uploads/1747020971_signature_student-profile.jfif', '', '', 'Enrolled'),
-(1010, 'AHmed Hadadi', '2025-05-21', 'Male', 'vcxbxcv', 'zxcvzxcvzxcv', 'xzvzcx', 'cvzxcvxz', 'vzxcv', 'zxcv', 'zxcvzxcv@gmail.com', '', 'uploads/68216dba4b123.jfif', 'xzcvzxcv', 'zxcvzx', '', 'zxcv', 'zxcvzxcv', '', 'cvzxcv', 'zxcvzxcv', '', '2nd Year', 'xzcvzcxv', '3rd Year', 'BSED', 'irregular', 0, NULL, '2025-05-22', 'uploads/1747021262_signature_Intimacy.jfif', '', '', 'Enrolled'),
+(1010, 'AHmed Hadadi', '2025-05-21', 'Male', 'vcxbxcv', 'zxcvzxcvzxcv', 'xzvzcx', 'cvzxcvxz', 'vzxcv', 'zxcv', 'zxcvzxcv@gmail.com', '', 'uploads/68216dba4b123.jfif', 'xzcvzxcv', 'zxcvzx', '', 'zxcv', 'zxcvzxcv', '', 'cvzxcv', 'zxcvzxcv', '', '2nd Year', 'xzcvzcxv', '3rd Year', 'BSED', 'Old', 0, NULL, '2025-05-22', 'uploads/1747021262_signature_Intimacy.jfif', '', '', 'Enrolled'),
 (1011, 'damaspo', '2025-05-11', 'Male', 'asdsad', 'asdasdas', 'asdas', 'asda', 'das', 'dasd', 'dasdas@gmail.com', '', 'uploads/6821b26ad13c3.jfif', 'xzcvzxcv', 'zxcvz', '', 'zxcvzxc', 'cvxzcv', '', 'zxcvzx', 'cvzxcvz', '', '2nd Year', 'zxczxc', '2nd Year', 'BSCRIM', 'irregular', 0, NULL, '2025-05-12', 'uploads/1747038850_signature_Intimacy.jfif', '', '', 'Enrolled'),
-(1012, 'CongTibe', '2025-05-16', 'Male', 'asdasdasd', 'asdasd', 'asdasd', 'asdas', 'asdasd', 'dasdas', 'asdasd@gmail.com', '', 'uploads/6821bc7fa834a.jfif', 'asdas', 'asdas', '', 'asda', 'dasd', '', 'dsad', 'asdas', '', '3rd Year', 'asdas', '1st Year', 'BSCRIM', 'old', 0, NULL, '2025-05-15', 'uploads/1747041424_signature_Theology.jfif', '', '', 'Enrolled');
+(1012, 'CongTibe', '2025-05-16', 'Male', 'asdasdasd', 'asdasd', 'asdasd', 'asdas', 'asdasd', 'dasdas', 'asdasd@gmail.com', '', 'uploads/6821bc7fa834a.jfif', 'asdas', 'asdas', '', 'asda', 'dasd', '', 'dsad', 'asdas', '', '3rd Year', 'asdas', '1st Year', 'BSCRIM', 'old', 0, NULL, '2025-05-15', 'uploads/1747041424_signature_Theology.jfif', '', '', 'Enrolled'),
+(1013, 'Ferdi', '2025-05-14', 'Male', 'asdasd', 'sadasdas', 'asdasda', 'asdfad', 'sdasdas', 'safa', 'sadasd@gmail.com', '41244', '', 'cxzvxcv', 'zxcvzxv', '', 'zxcvzxc', 'xcvzxcv', '', 'xcvzxcv', 'zxcvzx', '', '2nd Year', 'xcvzxcvz', '1st Year', 'BSCS', 'new', 0, NULL, '2025-05-13', 'uploads/1747097720_signature_Selected photo (1).jfif', '', '', 'Enrolled');
 
 -- --------------------------------------------------------
 
@@ -392,7 +357,8 @@ INSERT INTO `tbladmission_studenttype` (`StudentType_ID`, `Admission_ID`, `Stude
 (3, 1009, 'new'),
 (4, 1010, 'irregular'),
 (5, 1011, 'irregular'),
-(6, 1012, 'old');
+(6, 1012, 'old'),
+(0, 0, 'new');
 
 -- --------------------------------------------------------
 
@@ -417,7 +383,8 @@ INSERT INTO `tblstatus` (`id`, `Admission_ID`, `enrollment_status`, `payment_sta
 (3, 1007, 'Enrolled', 'Paid'),
 (8, 1011, 'Enrolled', 'Paid'),
 (9, 1008, 'Enrolled', 'Paid'),
-(10, 1012, 'Enrolled', 'Paid');
+(10, 1012, 'Enrolled', 'Paid'),
+(0, 1013, 'Enrolled', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -447,7 +414,8 @@ CREATE TABLE `tuition` (
 INSERT INTO `tuition` (`id`, `student_id`, `year_level`, `course`, `tuition`, `monthly`, `payment_method`, `misc_fee`, `lab_fee`, `total_tuition`, `total_fee`, `balance`) VALUES
 (6, 1010, '2nd Year', 'BSED', 6000.00, 3000.00, 'Installment', 1500.00, 500.00, 8000.00, 8000.00, 0.00),
 (7, 1008, '3rd Year', 'CTHM', 6000.00, 3000.00, 'Installment', 1500.00, 499.98, 7999.98, 7999.98, 7999.98),
-(8, 1011, '2nd Year', 'BSCRIM', 6000.00, 3000.00, 'Installment', 1500.00, 499.98, 7999.98, 7999.98, 7999.98);
+(8, 1011, '2nd Year', 'BSCRIM', 6000.00, 3000.00, 'Installment', 1500.00, 499.98, 7999.98, 7999.98, 7999.98),
+(0, 1013, '2nd Year', 'BSCS', 6000.00, 3000.00, 'Installment', 1500.00, 2500.00, 10000.00, 10000.00, 10000.00);
 
 -- --------------------------------------------------------
 
@@ -463,12 +431,6 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
--- Indexes for table `admission`
---
-ALTER TABLE `admission`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `attendance`
 --
 ALTER TABLE `attendance`
@@ -479,12 +441,6 @@ ALTER TABLE `attendance`
 -- Indexes for table `class_schedules`
 --
 ALTER TABLE `class_schedules`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `guardian_info`
---
-ALTER TABLE `guardian_info`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -528,6 +484,12 @@ ALTER TABLE `student_grades`
   ADD KEY `student_id` (`student_id`);
 
 --
+-- Indexes for table `tbladmission_addstudent`
+--
+ALTER TABLE `tbladmission_addstudent`
+  ADD PRIMARY KEY (`Admission_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -536,6 +498,36 @@ ALTER TABLE `student_grades`
 --
 ALTER TABLE `attendance`
   MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `class_schedules`
+--
+ALTER TABLE `class_schedules`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `receivables`
+--
+ALTER TABLE `receivables`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `student_clearance`
+--
+ALTER TABLE `student_clearance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `student_grades`
+--
+ALTER TABLE `student_grades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbladmission_addstudent`
+--
+ALTER TABLE `tbladmission_addstudent`
+  MODIFY `Admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1019;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
