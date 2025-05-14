@@ -4,43 +4,40 @@
   <meta charset="UTF-8">
   <title>School ERP Dashboard</title>
   <style>
-    /* Simulated Parallax Background with Gradient */
-    body {
+    html, body {
       margin: 0;
+      height: 100%;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom, #e0f0ff 0%, #cfe8ff 100%);
       background-attachment: fixed;
       background-repeat: no-repeat;
       background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .overlay {
-      background: rgba(255, 255, 255, 0.85);
-      min-height: 100vh;
+      background: transparent;
+      padding: 30px 40px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
     }
 
-    .navbar {
-      background-color: #003f7f;
-      color: white;
-      padding: 15px 25px;
-      display: flex;
-      align-items: center;
-      font-size: 18px;
-    }
-
-    .navbar h1 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: normal;
+    .dashboard-title {
+      font-size: 28px;
+      color: #003f7f;
+      margin-bottom: 30px;
     }
 
     .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 25px;
-      padding: 40px;
-      max-width: 1000px;
-      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .tile {
@@ -52,6 +49,9 @@
       cursor: pointer;
       transition: 0.3s;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 180px;
+      max-width: 250px;
     }
 
     .tile:hover {
@@ -73,20 +73,21 @@
     .dashboard a {
       text-decoration: none;
     }
+
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-wrap: wrap;
+      }
+    }
   </style>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
-
   <div class="overlay">
-    <!-- Navigation Bar -->
-    <div class="navbar">
-      <h1>ERP Dashboard</h1>
-    </div>
+    <h1 class="dashboard-title">ERP MODULES</h1>
 
-    <!-- Dashboard Section -->
     <div class="dashboard">
       <a href="admission.php" class="tile">
         <i class="fas fa-user-plus"></i>
@@ -103,17 +104,16 @@
         <span>Attendance</span>
       </a>
 
-      <a href="#" class="tile">
+      <a href="./studentmodule-admin/index.php" class="tile">
         <i class="fas fa-user-graduate"></i>
         <span>Student Management</span>
       </a>
-      
+
       <a href="Cashier/tuition.php" class="tile">
-      <i class="fa-solid fa-circle-dollar-to-slot"></i>
+        <i class="fa-solid fa-circle-dollar-to-slot"></i>
         <span>Cashier</span>
       </a>
     </div>
   </div>
-
 </body>
 </html>

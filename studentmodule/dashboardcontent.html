@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 p-10">
+
+<main class="flex-1 px-6 space-y-6 ">
+
+  <!-- Welcome Section -->
+  <div class="bg-gradient-to-r from-indigo-700 to-white border-2 border-blue-400 p-6 rounded-2xl shadow-md">
+    <h2 class="text-4xl font-bold text-white mb-2">Welcome, Son Goku D. Arevalo</h2>
+    <p class="text-gray-200 leading-relaxed">
+      Bachelor of Science in Information Technology - 42A2<br>
+      <span class="font-medium">Current Semester and Year:</span> 2025
+    </p>
+  </div>
+  
+
+  <!-- 3-Column Section -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-4 h-full">
+
+  <!-- Left Column -->
+  <div class="space-y-4 lg:col-span-2 h-full">
+    <!-- Attendance Pie Chart -->
+    <div class="p-6 flex items-center justify-around bg-white rounded-2xl shadow-md">
+      <div class="relative w-30 h-30 hover:scale-105 transition-transform border-4 border-gray-300 rounded-full">
+        <svg viewBox="0 0 36 36" class="w-full h-full bg-white rounded-full shadow-xl transform -rotate-90">
+          <!-- Background circle -->
+          <circle cx="18" cy="18" r="10" fill="none" stroke="#f3f4f6" stroke-width="17" />
+          <!-- Present arc -->
+          <circle id="present-arc" cx="18" cy="18" r="10" fill="none" stroke="#00C471" stroke-width="17" stroke-dasharray="0, 100" stroke-dashoffset="0" />
+          <!-- Absent arc -->
+          <circle id="absent-arc" cx="18" cy="18" r="10" fill="none" stroke="#EF4444" stroke-width="17" stroke-dasharray="0, 100" stroke-dashoffset="0" />
+        </svg>
+      </div>
+
+      <!-- Text values -->
+      <div class="grid grid-cols-1 sm:grid-rows-2 gap-12 p-4">
+        <!-- Present Card -->
+        <div class="p-4 text-center">
+          <h3 class="text-lg font-bold text-green-500">PRESENT</h3>
+          <div class="flex justify-center items-center space-x-2 mt-2">
+            <p id="present-count" class="text-2xl font-bold text-green-500">0</p>
+            <div class="w-8 h-8 bg-green-500 rounded-sm"></div>
+          </div>
+        </div>
+        
+        <!-- Absent Card -->
+        <div class="p-4 text-center">
+          <h3 class="text-lg font-bold text-red-500">ABSENT</h3>
+          <div class="flex justify-center items-center space-x-2 mt-2">
+            <p id="absent-count" class="text-2xl font-bold text-red-500">0</p>
+            <div class="w-8 h-8 bg-red-500 rounded-sm"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Grades -->
+<div class="p-6 bg-white rounded-2xl shadow-md">
+  <h3 class="text-sm font-thin mb-4 text-blue-800">Recent Grades - 2025</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-16">
+
+    <!-- Math -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">Math</h4>
+        <p class="text-3xl font-bold">95</p>
+      </div>
+    </div>
+
+    <!-- Science -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">Science</h4>
+        <p class="text-3xl font-bold">90</p>
+      </div>
+    </div>
+
+    <!-- English -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">English</h4>
+        <p class="text-3xl font-bold">92</p>
+      </div>
+    </div>
+
+    <!-- IT Elective 1 -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">IT Elective</h4>
+        <p class="text-3xl font-bold">88</p>
+      </div>
+    </div>
+
+    <!-- IT Elective 2 -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">IT Elective</h4>
+        <p class="text-3xl font-bold">88</p>
+      </div>
+    </div>
+
+    <!-- IT Elective 3 -->
+    <div class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white">
+      <div class="flex justify-between items-center">
+        <h4 class="font-normal text-lg">IT Elective</h4>
+        <p class="text-3xl font-bold">88</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+  </div>
+
+  <!-- Right Column: School Notifications -->
+  <div class="space-y-4 lg:col-span-2 h-full">
+    <!-- Schedule List Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 text-white overflow-y-auto max-h-[350px]">
+  <h2 class="text-sm font-thin mb-2 text-blue-800">Schedule List</h2>
+  <ul class="space-y-2" id="schedule-list">
+    <!-- Schedule items will be dynamically populated here -->
+  </ul>
+</div>
+
+    <!-- Tuition History Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 text-gray-700">
+      <h2 class="text-sm font-thin mb-2 text-blue-800">Tuition Payment History</h2>
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="text-left border-b border-blue-200">
+            <th class="py-1">Date</th>
+            <th class="py-1">Amount</th>
+            <th class="py-1">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-blue-100">
+            <td class="py-1">Jan 5, 2025</td>
+            <td class="py-1">₱5,000</td>
+            <td class="py-1 text-green-600">Paid</td>
+          </tr>
+          <tr class="border-b border-blue-100">
+            <td class="py-1">Feb 5, 2025</td>
+            <td class="py-1">₱5,000</td>
+            <td class="py-1 text-yellow-500">Pending</td>
+          </tr>
+          <tr>
+            <td class="py-1">Mar 5, 2025</td>
+            <td class="py-1">₱5,000</td>
+            <td class="py-1 text-red-500">Unpaid</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+  const totalPresent = 10;
+  const totalAbsent = 30;
+  const total = totalPresent + totalAbsent;
+
+  const presentPercent = (totalPresent / total) * 100;
+  const absentPercent = (totalAbsent / total) * 100;
+
+  document.getElementById("present-count").innerText = totalPresent;
+  document.getElementById("absent-count").innerText = totalAbsent;
+
+  function animateArc(element, percent, offset = 0) {
+    let current = 0;
+    const interval = setInterval(() => {
+      if (current >= percent) {
+        clearInterval(interval);
+        return;
+      }
+      current += 1;
+      element.setAttribute("stroke-dasharray", `${current}, 100`);
+      element.setAttribute("stroke-dashoffset", -offset);
+    }, 10);
+  }
+
+  animateArc(document.getElementById("present-arc"), presentPercent);
+  setTimeout(() => {
+    animateArc(document.getElementById("absent-arc"), absentPercent, presentPercent);
+  }, 500);
+
+const schedules = [
+    { subject: "Math", time: "8:00 AM - 9:00 AM" },
+    { subject: "Science", time: "9:15 AM - 10:15 AM" },
+    { subject: "English", time: "2:30 PM - 3:30 PM" },
+    { subject: "ITC", time: "4:30 PM - 5:30 PM" },
+  ];
+
+  // Function to create a schedule item and update the button's state
+  const createScheduleItem = (subject, time) => {
+    const [startTime, endTime] = time.split(" - ");
+    const startDate = new Date(`${new Date().toLocaleDateString()} ${startTime}`);
+    const endDate = new Date(`${new Date().toLocaleDateString()} ${endTime}`);
+    const now = new Date(); // ✅ Use current time dynamically
+
+    const listItem = document.createElement("li");
+    listItem.classList.add("schedule-item", "bg-gradient-to-r", "from-blue-600", "via-blue-500", "to-indigo-600", "p-2", "rounded-md");
+
+    listItem.innerHTML = `
+      <div class="flex justify-between items-center">
+        <span class="text-sm text-white">${subject} - ${time}</span>
+        <button class="attend-btn bg-gray-500 text-white p-2 rounded-md text-xs transition-transform">Next Class</button>
+      </div>
+    `;
+
+    const button = listItem.querySelector(".attend-btn");
+
+    // Calculate time difference
+    const timeDiffToClass = startDate - now;
+
+    // Status logic
+    if (timeDiffToClass > 0 && timeDiffToClass <= 3600000) {
+      // Upcoming within 1 hour
+      button.classList.remove("bg-gray-500", "bg-green-500", "bg-red-500");
+      button.classList.add("bg-yellow-500");
+      button.innerText = "Next Class";
+      button.disabled = true;
+    } else if (now >= startDate && now <= endDate) {
+      // Ongoing
+      button.classList.remove("bg-yellow-500", "bg-red-500");
+      button.classList.add("bg-gray-500", "hover:scale-105"); // ✅ hover effect here only
+      button.innerText = "Mark as Attended";
+      button.disabled = false;
+    } else if (now > endDate) {
+      // Missed
+      button.classList.remove("bg-yellow-500", "bg-gray-500", "hover:scale-105");
+      button.classList.add("bg-red-500");
+      button.innerText = "Missed";
+      button.disabled = true;
+    }
+
+    // Click handler only during ongoing time
+    button.addEventListener("click", () => {
+      const now = new Date(); // Get fresh time
+      if (now >= startDate && now <= endDate) {
+        button.classList.remove("bg-gray-500", "hover:scale-105");
+        button.classList.add("bg-green-500");
+        button.innerText = "Attended";
+        button.disabled = true;
+      }
+    });
+
+    document.getElementById("schedule-list").appendChild(listItem);
+  };
+
+  // Render the list
+  function renderSchedules() {
+    document.getElementById("schedule-list").innerHTML = '';
+    schedules.forEach(schedule => {
+      createScheduleItem(schedule.subject, schedule.time);
+    });
+  }
+
+  // Initial render
+  renderSchedules();
+
+  // Optional: Auto update every 1 minute
+  setInterval(() => {
+    renderSchedules();
+  }, 60000);
+
+</script>
+
+
+</body>
+</html>
