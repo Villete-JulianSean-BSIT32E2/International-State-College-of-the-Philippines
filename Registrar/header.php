@@ -57,6 +57,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="registrar.php?page=Add_Subjects" class="nav-link text-white d-flex align-items-center gap-2">
+                <img src="assets/icons/calendar.png" width="20"> Add Subjects
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="registrar.php?page=clearance" class="nav-link text-white d-flex align-items-center gap-2">
                 <img src="assets/icons/check.png" width="20"> Clearance
             </a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2025 at 07:28 AM
+-- Generation Time: May 14, 2025 at 09:07 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -282,6 +282,32 @@ INSERT INTO `student_grades` (`id`, `student_id`, `subject`, `grade`, `remarks`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `student_subjects`
+--
+
+CREATE TABLE `student_subjects` (
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `days` varchar(50) NOT NULL,
+  `room` varchar(50) NOT NULL,
+  `teacher` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `student_subjects`
+--
+
+INSERT INTO `student_subjects` (`id`, `student_id`, `subject`, `start_time`, `end_time`, `days`, `room`, `teacher`) VALUES
+(2, 1013, 'Programming', '14:57:00', '16:58:00', 'Mon', '211', 'Mr.Jino Barrentes'),
+(3, 1008, 'Programming 2', '14:11:00', '18:13:00', 'Mon', '401', 'Mr.Burotos'),
+(4, 1007, 'English', '15:03:00', '23:00:00', 'Wednesday', '123', 'Mr.Naruto');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbladmission_addstudent`
 --
 
@@ -484,6 +510,13 @@ ALTER TABLE `student_grades`
   ADD KEY `student_id` (`student_id`);
 
 --
+-- Indexes for table `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `student_id` (`student_id`);
+
+--
 -- Indexes for table `tbladmission_addstudent`
 --
 ALTER TABLE `tbladmission_addstudent`
@@ -524,10 +557,26 @@ ALTER TABLE `student_grades`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tbladmission_addstudent`
 --
 ALTER TABLE `tbladmission_addstudent`
   MODIFY `Admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1019;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `student_subjects`
+--
+ALTER TABLE `student_subjects`
+  ADD CONSTRAINT `student_subjects_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `tbladmission_addstudent` (`Admission_ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
