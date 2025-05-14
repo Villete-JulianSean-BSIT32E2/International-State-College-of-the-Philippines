@@ -104,7 +104,7 @@
         <span>Attendance</span>
       </a>
 
-      <a href="#" class="tile">
+      <a href="./studentmodule-admin/index.php" class="tile">
         <i class="fas fa-user-graduate"></i>
         <span>Student Management</span>
       </a>

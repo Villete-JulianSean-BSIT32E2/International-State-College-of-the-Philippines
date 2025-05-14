@@ -25,11 +25,11 @@
         <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1" id="notification-badge"></span>
       </button>
 
-      <!-- Notification Dropdown (Modal-like) -->
+
       <div id="notificationDropdown" class="hidden absolute top-10 right-16 mr-4 p-4 w-[500px] bg-white border border-blue-500 rounded-md shadow-lg z-10">
-        <!-- Content will be dynamically inserted here -->
+
         <div id="notificationContent" class="max-h-auto overflow-y-auto bg-white">
-          <!-- Content will be dynamically inserted here -->
+
         </div>
         <a href="" class="text-blue-500 text-xs mt-2 block hover:underline">See all notifications</a>
       </div>
@@ -43,7 +43,7 @@
         <div id="dropdownMenu" class="absolute right-0 mt-1 p-1 w-44 bg-white border border-blue-500 rounded-md shadow-lg hidden z-10">
   <button onclick="handleMyAccount()" class="w-36 text-blue-500 mx-auto my-1 flex items-center justify-between px-4 py-2 text-sm rounded-md transition-all duration-200 transform hover:scale-105 hover:bg-blue-100 hover:text-black hover:border hover:border-blue-500">
     <span>My Account</span>
-    <img src="../img/attendancelogo.png" alt="Account" class="h-6 w-6" />
+    <img src="../img/accountsettingslogo.png" alt="Account" class="h-6 w-6" />
   </button>
   
   <button onclick="handleSettings()" class="w-36 text-blue-500 mx-auto my-1 flex items-center justify-between px-4 py-2 text-sm rounded-md transition-all duration-200 transform hover:scale-105 hover:bg-blue-100 hover:text-black hover:border hover:border-blue-500">
@@ -53,7 +53,7 @@
   
   <button onclick="handleLogout()" class="w-36 text-blue-500 mx-auto my-1 flex items-center justify-between px-4 py-2 text-sm rounded-md transition-all duration-200 transform hover:scale-105 hover:bg-blue-100 hover:text-black hover:border hover:border-blue-500">
     <span>Logout</span>
-    <img src="../img/logoutlogo.png" alt="Logout" class="h-6 w-6" />
+    <img src="../img/logofflogo.png" alt="Logout" class="h-6 w-6" />
   </button>
 </div>
 
@@ -61,15 +61,15 @@
     </div>
   </header>
 
-  <!-- Main Content -->
+
   <main class="p-6">
     <?php include('dashboardcontent.html'); ?>
     <?php include('myaccount.php'); ?>
   </main>
 
-  <!-- Script for Toggle -->
+
  <script>
-  // Notification Data (Hardcoded in HTML)
+
   const notifications = [
     {
       title: "Registrar's Office",
@@ -189,6 +189,10 @@
 
   function closeMyAccount() {
     document.getElementById("myAccountModal").classList.add("hidden");
+  }
+
+    function handleLogout() {
+    window.location.href = '../index.html';
   }
 </script>
 
