@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 14, 2025 at 09:07 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 14, 2025 at 05:16 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 5.6.40
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,10 +33,10 @@ CREATE TABLE `attendance` (
   `Admission_ID` int(11) NOT NULL COMMENT 'ID IS FROM ADMISSION TABLE',
   `Date` date NOT NULL,
   `Status` smallint(1) NOT NULL COMMENT '0 - ABSENT, 1 - PRESENT, 2 - LATE',
-  `Notes` text DEFAULT NULL,
-  `TimeIn` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Notes` text,
+  `TimeIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `TimeOut` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `attendance`
@@ -59,7 +60,7 @@ CREATE TABLE `class_schedules` (
   `room` varchar(50) DEFAULT NULL,
   `course` varchar(100) NOT NULL,
   `section` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `class_schedules`
@@ -79,8 +80,8 @@ CREATE TABLE `deadlines` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `due_date` date NOT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `deadlines`
@@ -95,6 +96,32 @@ INSERT INTO `deadlines` (`id`, `title`, `due_date`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `enrolledstudents`
+--
+
+CREATE TABLE `enrolledstudents` (
+  `Admission_ID` int(11) NOT NULL DEFAULT '0',
+  `full_name` varchar(255) NOT NULL,
+  `course` varchar(100) NOT NULL,
+  `status` varchar(255) DEFAULT 'Pending'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `enrolledstudents`
+--
+
+INSERT INTO `enrolledstudents` (`Admission_ID`, `full_name`, `course`, `status`) VALUES
+(1007, 'Gabriel', 'BSCRIM', 'Enrolled'),
+(1008, 'Kevin durant', 'CTHM', 'Enrolled'),
+(1009, 'Taylor Sweep', 'BSA', 'Enrolled'),
+(1010, 'AHmed Hadadi', 'BSED', 'Enrolled'),
+(1011, 'damaspo', 'BSCRIM', 'Enrolled'),
+(1012, 'CongTibe', 'BSCRIM', 'Enrolled'),
+(1013, 'Ferdi', 'BSCS', 'Enrolled');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `payments`
 --
 
@@ -105,36 +132,36 @@ CREATE TABLE `payments` (
   `payment_date` date NOT NULL,
   `payment_method` varchar(50) DEFAULT NULL,
   `status` varchar(50) DEFAULT 'Paid'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `payments`
 --
 
 INSERT INTO `payments` (`id`, `student_id`, `amount_paid`, `payment_date`, `payment_method`, `status`) VALUES
-(0, 1013, 3000.00, '2025-05-14', 'Cash', 'Paid'),
-(1, 0, 0.00, '2025-05-12', 'Gcash', 'Paid'),
-(2, 1008, 5000.00, '2025-05-06', 'Cash', 'Paid'),
-(3, 1008, 0.00, '2025-05-12', '	', 'Paid'),
-(4, 1010, 2000.00, '2025-05-13', 'Cash', 'Paid'),
-(5, 1010, 200.00, '2025-05-15', 'Gcash', 'Paid'),
-(6, 1010, 3000.00, '2025-05-12', 'Cash', 'Paid'),
-(7, 1010, 3000.00, '2025-05-12', 'Cash', 'Paid'),
-(8, 1010, 3000.00, '2025-05-29', 'Cash', 'Paid'),
-(9, 1010, 200.00, '2025-05-12', 'Bank Transfer', 'Paid'),
-(10, 0, 3000.00, '2025-05-12', 'Cash', 'Paid'),
-(11, 0, 3000.00, '2025-05-12', 'Cash', 'Paid'),
-(12, 1010, 2222.00, '2025-05-12', 'Cash', 'Paid'),
-(13, 1010, 2222.00, '2025-05-12', 'Cash', 'Paid'),
-(14, 1009, 3000.00, '2025-05-07', 'Bank Transfer', 'Paid'),
-(15, 1007, 2000.00, '2025-05-13', 'Cash', 'Paid'),
-(16, 0, 2000.00, '2025-05-05', 'Cash', 'Paid'),
-(17, 0, 2000.00, '2025-05-19', 'Cash', 'Paid'),
-(18, 0, 3000.00, '2025-05-15', 'Cash', 'Paid'),
-(19, 0, 2000.00, '2025-05-17', 'Cash', 'Paid'),
-(20, 1011, 2000.00, '2025-05-29', 'Cash', 'Paid'),
-(21, 1008, 2000.00, '2025-05-08', 'Cash', 'Paid'),
-(22, 1012, 3000.00, '2025-05-12', 'Cash', 'Paid');
+(0, 1013, '3000.00', '2025-05-14', 'Cash', 'Paid'),
+(1, 0, '0.00', '2025-05-12', 'Gcash', 'Paid'),
+(2, 1008, '5000.00', '2025-05-06', 'Cash', 'Paid'),
+(3, 1008, '0.00', '2025-05-12', '	', 'Paid'),
+(4, 1010, '2000.00', '2025-05-13', 'Cash', 'Paid'),
+(5, 1010, '200.00', '2025-05-15', 'Gcash', 'Paid'),
+(6, 1010, '3000.00', '2025-05-12', 'Cash', 'Paid'),
+(7, 1010, '3000.00', '2025-05-12', 'Cash', 'Paid'),
+(8, 1010, '3000.00', '2025-05-29', 'Cash', 'Paid'),
+(9, 1010, '200.00', '2025-05-12', 'Bank Transfer', 'Paid'),
+(10, 0, '3000.00', '2025-05-12', 'Cash', 'Paid'),
+(11, 0, '3000.00', '2025-05-12', 'Cash', 'Paid'),
+(12, 1010, '2222.00', '2025-05-12', 'Cash', 'Paid'),
+(13, 1010, '2222.00', '2025-05-12', 'Cash', 'Paid'),
+(14, 1009, '3000.00', '2025-05-07', 'Bank Transfer', 'Paid'),
+(15, 1007, '2000.00', '2025-05-13', 'Cash', 'Paid'),
+(16, 0, '2000.00', '2025-05-05', 'Cash', 'Paid'),
+(17, 0, '2000.00', '2025-05-19', 'Cash', 'Paid'),
+(18, 0, '3000.00', '2025-05-15', 'Cash', 'Paid'),
+(19, 0, '2000.00', '2025-05-17', 'Cash', 'Paid'),
+(20, 1011, '2000.00', '2025-05-29', 'Cash', 'Paid'),
+(21, 1008, '2000.00', '2025-05-08', 'Cash', 'Paid'),
+(22, 1012, '3000.00', '2025-05-12', 'Cash', 'Paid');
 
 -- --------------------------------------------------------
 
@@ -151,17 +178,17 @@ CREATE TABLE `receivables` (
   `course` varchar(50) NOT NULL,
   `payment_date` date NOT NULL,
   `balance` decimal(10,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `payment_amount` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `receivables`
 --
 
 INSERT INTO `receivables` (`id`, `or_no`, `student_name`, `total_fee`, `date`, `course`, `payment_date`, `balance`, `created_at`, `payment_amount`) VALUES
-(1, '069305', 'AHmed Hadadi', 8000.00, '2025-05-20', 'CSS', '2025-05-26', 0.00, '2025-05-12 07:25:42', 15844),
-(2, '685331', 'Ferdi', 10000.00, '2025-05-14', 'CSS', '2025-05-14', 10000.00, '2025-05-14 05:20:14', 3000);
+(1, '069305', 'AHmed Hadadi', '8000.00', '2025-05-20', 'CSS', '2025-05-26', '0.00', '2025-05-12 07:25:42', 15844),
+(2, '685331', 'Ferdi', '10000.00', '2025-05-14', 'CSS', '2025-05-14', '10000.00', '2025-05-14 05:20:14', 3000);
 
 -- --------------------------------------------------------
 
@@ -175,7 +202,7 @@ CREATE TABLE `requests` (
   `request_type` varchar(100) DEFAULT NULL,
   `status` enum('Pending','Approved','Rejected') DEFAULT 'Pending',
   `date_requested` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `requests`
@@ -217,7 +244,7 @@ CREATE TABLE `student_clearance` (
   `accounting_clearance` enum('Pending','Cleared') DEFAULT 'Pending',
   `dept_head_clearance` enum('Pending','Cleared') DEFAULT 'Pending',
   `final_clearance` enum('Pending','Cleared') DEFAULT 'Pending'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_clearance`
@@ -239,12 +266,12 @@ INSERT INTO `student_clearance` (`id`, `student_id`, `library_clearance`, `accou
 CREATE TABLE `student_documents` (
   `id` int(11) NOT NULL,
   `Admission_ID` int(11) NOT NULL,
-  `birth_cert` tinyint(1) DEFAULT 0,
-  `form137` tinyint(1) DEFAULT 0,
-  `tor` tinyint(1) DEFAULT 0,
-  `good_moral` tinyint(1) DEFAULT 0,
-  `honorable_dismissal` tinyint(1) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `birth_cert` tinyint(1) DEFAULT '0',
+  `form137` tinyint(1) DEFAULT '0',
+  `tor` tinyint(1) DEFAULT '0',
+  `good_moral` tinyint(1) DEFAULT '0',
+  `honorable_dismissal` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_documents`
@@ -269,7 +296,7 @@ CREATE TABLE `student_grades` (
   `remarks` varchar(50) DEFAULT NULL,
   `school_year` int(255) NOT NULL,
   `semester` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_grades`
@@ -287,23 +314,22 @@ INSERT INTO `student_grades` (`id`, `student_id`, `subject`, `grade`, `remarks`,
 
 CREATE TABLE `student_subjects` (
   `id` int(11) NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  `days` varchar(50) NOT NULL,
-  `room` varchar(50) NOT NULL,
-  `teacher` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `student_id` int(11) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
+  `days` varchar(50) DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `room` varchar(50) DEFAULT NULL,
+  `section` varchar(255) NOT NULL,
+  `teacher` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `student_subjects`
 --
 
-INSERT INTO `student_subjects` (`id`, `student_id`, `subject`, `start_time`, `end_time`, `days`, `room`, `teacher`) VALUES
-(2, 1013, 'Programming', '14:57:00', '16:58:00', 'Mon', '211', 'Mr.Jino Barrentes'),
-(3, 1008, 'Programming 2', '14:11:00', '18:13:00', 'Mon', '401', 'Mr.Burotos'),
-(4, 1007, 'English', '15:03:00', '23:00:00', 'Wednesday', '123', 'Mr.Naruto');
+INSERT INTO `student_subjects` (`id`, `student_id`, `subject`, `days`, `start_time`, `end_time`, `room`, `section`, `teacher`) VALUES
+(2, 1009, 'Programmin 1', 'Mon', '23:04:00', '17:04:00', '211', 'BSCSA1', 'Mr. Naruto');
 
 -- --------------------------------------------------------
 
@@ -346,7 +372,7 @@ CREATE TABLE `tbladmission_addstudent` (
   `document_path` varchar(255) NOT NULL,
   `document_name` varchar(255) NOT NULL,
   `status` varchar(255) DEFAULT 'Pending'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbladmission_addstudent`
@@ -361,6 +387,38 @@ INSERT INTO `tbladmission_addstudent` (`Admission_ID`, `full_name`, `birthdate`,
 (1012, 'CongTibe', '2025-05-16', 'Male', 'asdasdasd', 'asdasd', 'asdasd', 'asdas', 'asdasd', 'dasdas', 'asdasd@gmail.com', '', 'uploads/6821bc7fa834a.jfif', 'asdas', 'asdas', '', 'asda', 'dasd', '', 'dsad', 'asdas', '', '3rd Year', 'asdas', '1st Year', 'BSCRIM', 'old', 0, NULL, '2025-05-15', 'uploads/1747041424_signature_Theology.jfif', '', '', 'Enrolled'),
 (1013, 'Ferdi', '2025-05-14', 'Male', 'asdasd', 'sadasdas', 'asdasda', 'asdfad', 'sdasdas', 'safa', 'sadasd@gmail.com', '41244', '', 'cxzvxcv', 'zxcvzxv', '', 'zxcvzxc', 'xcvzxcv', '', 'xcvzxcv', 'zxcvzx', '', '2nd Year', 'xcvzxcvz', '1st Year', 'BSCS', 'new', 0, NULL, '2025-05-13', 'uploads/1747097720_signature_Selected photo (1).jfif', '', '', 'Enrolled');
 
+--
+-- Triggers `tbladmission_addstudent`
+--
+DELIMITER $$
+CREATE TRIGGER `delete_enrolledstudent` AFTER DELETE ON `tbladmission_addstudent` FOR EACH ROW BEGIN
+    DELETE FROM enrolledstudents WHERE Admission_ID = OLD.Admission_ID;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `insert_enrolledstudent` AFTER INSERT ON `tbladmission_addstudent` FOR EACH ROW BEGIN
+    IF NEW.status = 'Enrolled' THEN
+        INSERT INTO enrolledstudents (Admission_ID, full_name, course, status)
+        VALUES (NEW.Admission_ID, NEW.full_name, NEW.course, NEW.status);
+    END IF;
+END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `update_enrolledstudent` AFTER UPDATE ON `tbladmission_addstudent` FOR EACH ROW BEGIN
+    -- If status was changed to 'Enrolled' and was not 'Enrolled' before, add to enrolledstudents
+    IF NEW.status = 'Enrolled' AND OLD.status != 'Enrolled' THEN
+        INSERT INTO enrolledstudents (Admission_ID, full_name, course, status)
+        VALUES (NEW.Admission_ID, NEW.full_name, NEW.course, NEW.status);
+    -- If status was changed to something other than 'Enrolled', remove from enrolledstudents
+    ELSEIF NEW.status != 'Enrolled' AND OLD.status = 'Enrolled' THEN
+        DELETE FROM enrolledstudents WHERE Admission_ID = NEW.Admission_ID;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -371,7 +429,7 @@ CREATE TABLE `tbladmission_studenttype` (
   `StudentType_ID` int(11) NOT NULL,
   `Admission_ID` int(11) NOT NULL,
   `StudentType` enum('new','old','irregular') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbladmission_studenttype`
@@ -397,7 +455,7 @@ CREATE TABLE `tblstatus` (
   `Admission_ID` int(11) DEFAULT NULL,
   `enrollment_status` varchar(255) DEFAULT NULL,
   `payment_status` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblstatus`
@@ -431,17 +489,17 @@ CREATE TABLE `tuition` (
   `total_tuition` decimal(10,2) DEFAULT NULL,
   `total_fee` decimal(10,2) DEFAULT NULL,
   `balance` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tuition`
 --
 
 INSERT INTO `tuition` (`id`, `student_id`, `year_level`, `course`, `tuition`, `monthly`, `payment_method`, `misc_fee`, `lab_fee`, `total_tuition`, `total_fee`, `balance`) VALUES
-(6, 1010, '2nd Year', 'BSED', 6000.00, 3000.00, 'Installment', 1500.00, 500.00, 8000.00, 8000.00, 0.00),
-(7, 1008, '3rd Year', 'CTHM', 6000.00, 3000.00, 'Installment', 1500.00, 499.98, 7999.98, 7999.98, 7999.98),
-(8, 1011, '2nd Year', 'BSCRIM', 6000.00, 3000.00, 'Installment', 1500.00, 499.98, 7999.98, 7999.98, 7999.98),
-(0, 1013, '2nd Year', 'BSCS', 6000.00, 3000.00, 'Installment', 1500.00, 2500.00, 10000.00, 10000.00, 10000.00);
+(6, 1010, '2nd Year', 'BSED', '6000.00', '3000.00', 'Installment', '1500.00', '500.00', '8000.00', '8000.00', '0.00'),
+(7, 1008, '3rd Year', 'CTHM', '6000.00', '3000.00', 'Installment', '1500.00', '499.98', '7999.98', '7999.98', '7999.98'),
+(8, 1011, '2nd Year', 'BSCRIM', '6000.00', '3000.00', 'Installment', '1500.00', '499.98', '7999.98', '7999.98', '7999.98'),
+(0, 1013, '2nd Year', 'BSCS', '6000.00', '3000.00', 'Installment', '1500.00', '2500.00', '10000.00', '10000.00', '10000.00');
 
 -- --------------------------------------------------------
 
@@ -450,7 +508,7 @@ INSERT INTO `tuition` (`id`, `student_id`, `year_level`, `course`, `tuition`, `m
 --
 DROP TABLE IF EXISTS `student_attendance_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS SELECT `a`.`AttendanceID` AS `AttendanceID`, `a`.`Date` AS `Date`, `a`.`Status` AS `Status`, CASE WHEN `a`.`Status` = 0 THEN 'Absent' WHEN `a`.`Status` = 1 THEN 'Present' WHEN `a`.`Status` = 2 THEN 'Late' ELSE 'Unknown' END AS `StatusText`, `ad`.`Admission_ID` AS `StudentID`, `ad`.`full_name` AS `StudentName`, `ad`.`gender` AS `gender`, `ad`.`email` AS `email`, `ad`.`phone` AS `phoneno`, `ad`.`course` AS `Course`, `ad`.`status` AS `StudentStatus` FROM ((`attendance` `a` join `tbladmission_addstudent` `ad` on(`a`.`Admission_ID` = `ad`.`Admission_ID`)) join `student_documents` `sd` on(`a`.`Admission_ID` = `sd`.`Admission_ID`)) ORDER BY `a`.`Date` DESC, `ad`.`full_name` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `student_attendance_view`  AS  select `a`.`AttendanceID` AS `AttendanceID`,`a`.`Date` AS `Date`,`a`.`Status` AS `Status`,(case when (`a`.`Status` = 0) then 'Absent' when (`a`.`Status` = 1) then 'Present' when (`a`.`Status` = 2) then 'Late' else 'Unknown' end) AS `StatusText`,`ad`.`Admission_ID` AS `StudentID`,`ad`.`full_name` AS `StudentName`,`ad`.`gender` AS `gender`,`ad`.`email` AS `email`,`ad`.`phone` AS `phoneno`,`ad`.`course` AS `Course`,`ad`.`status` AS `StudentStatus` from ((`attendance` `a` join `tbladmission_addstudent` `ad` on((`a`.`Admission_ID` = `ad`.`Admission_ID`))) join `student_documents` `sd` on((`a`.`Admission_ID` = `sd`.`Admission_ID`))) order by `a`.`Date` desc,`ad`.`full_name` ;
 
 --
 -- Indexes for dumped tables
@@ -560,7 +618,7 @@ ALTER TABLE `student_grades`
 -- AUTO_INCREMENT for table `student_subjects`
 --
 ALTER TABLE `student_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbladmission_addstudent`
@@ -576,7 +634,7 @@ ALTER TABLE `tbladmission_addstudent`
 -- Constraints for table `student_subjects`
 --
 ALTER TABLE `student_subjects`
-  ADD CONSTRAINT `student_subjects_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `tbladmission_addstudent` (`Admission_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `student_subjects_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `tbladmission_addstudent` (`Admission_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
