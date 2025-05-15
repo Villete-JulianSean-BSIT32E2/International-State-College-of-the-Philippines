@@ -13,27 +13,27 @@
       </div>
 
       <table class="table-auto border-separate border-spacing-y-4 w-full text-gray-700">
-        <tr>
-          <td class="font-light text-sm">Student Name:</td>
-          <td class="font-bold text-sm text-black">Juan Dela Cruz</td>
-        </tr>
-        <tr>
-          <td class="font-light text-sm">RFID:</td>
-          <td class="font-light text-sm">1234567890</td>
-        </tr>
-        <tr>
-          <td class="font-light text-sm">Section:</td>
-          <td class="font-light text-sm">BSIT-3B</td>
-        </tr>
-        <tr>
-          <td class="font-light text-sm">Year:</td>
-          <td class="font-light text-sm">3rd Year</td>
-        </tr>
-        <tr>
-          <td class="font-light text-sm">Semester Enrolled:</td>
-          <td class="font-light text-sm">2nd Semester</td>
-        </tr>
-      </table>
+  <tr>
+    <td class="font-light text-sm">Student Name:</td>
+    <td id="studentname" class="font-bold text-sm text-black">Loading...</td>
+  </tr>
+  <tr>
+    <td class="font-light text-sm">Student ID:</td>
+    <td id="studentID" class="font-light text-sm">Loading...</td>
+  </tr>
+  <tr>
+    <td class="font-light text-sm">Section:</td>
+    <td id="studentSection" class="font-light text-sm">Loading...</td>
+  </tr>
+  <tr>
+    <td class="font-light text-sm">Year:</td>
+    <td id="studentyear" class="font-light text-sm">Loading...</td>
+  </tr>
+  <tr>
+    <td class="font-light text-sm">Semester Enrolled:</td>
+    <td id="studentSemester" class="font-light text-sm">Loading...</td>
+  </tr>
+</table>
 
       <div class="flex items-center gap-3">
         <button onclick="closeMyAccount()"

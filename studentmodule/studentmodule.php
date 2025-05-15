@@ -63,7 +63,7 @@
 
 
   <main class="p-6">
-    <?php include('dashboardcontent.html'); ?>
+    <?php include('dashboardcontent.php'); ?>
     <?php include('myaccount.php'); ?>
   </main>
 
@@ -183,16 +183,30 @@
     }
   });
 
-    function handleMyAccount() {
-    document.getElementById("myAccountModal").classList.remove("hidden");
-  }
+function handleMyAccount() {
+  const name = localStorage.getItem('studentName') || 'N/A';
+  const id = localStorage.getItem('studentID') || 'N/A';
+  const section = localStorage.getItem('studentSection') || 'N/A';
+  const year = localStorage.getItem('studentYear') || 'N/A';
+  const sem = localStorage.getItem('studentSem') || 'N/A';
 
-  function closeMyAccount() {
-    document.getElementById("myAccountModal").classList.add("hidden");
-  }
+  document.getElementById('studentname').innerText = name;
+  document.getElementById('studentID').innerText = id;
+  document.getElementById('studentSection').innerText = section;
+  document.getElementById('studentyear').innerText = year;
+  document.getElementById('studentSemester').innerText = sem;
+
+  document.getElementById("myAccountModal").classList.remove('hidden');
+}
+
+function closeMyAccount() {
+  document.getElementById("myAccountModal").classList.add('hidden');
+}
+
+
 
     function handleLogout() {
-    window.location.href = '../index.html';
+    window.location.href = '../index.php';
   }
 </script>
 
