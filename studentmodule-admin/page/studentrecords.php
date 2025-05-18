@@ -213,27 +213,32 @@ $result = $conn->query($sql);
   const tableBody = document.querySelector('#studentTable tbody');
 
   searchBox.addEventListener('input', () => {
-    const filter = searchBox.value.toLowerCase();
+  const filter = searchBox.value.toLowerCase();
 
-    Array.from(tableBody.rows).forEach(row => {
-      let rowHasMatch = false;
+  Array.from(tableBody.rows).forEach(row => {
+    let rowHasMatch = false;
 
-      Array.from(row.cells).forEach(cell => {
-        const originalText = cell.textContent;
-        cell.innerHTML = originalText;
-
-        if (filter && originalText.toLowerCase().includes(filter)) {
-          rowHasMatch = true;
-
-          const regex = new RegExp(`(${filter})`, 'gi');
-          const highlighted = originalText.replace(regex, '<span style="background-color: yellow;">$1</span>');
-          cell.innerHTML = highlighted;
-        }
-      });
-
-      row.style.display = rowHasMatch || !filter ? '' : 'none';
+    // Reset cells to original text first
+    Array.from(row.cells).forEach(cell => {
+      cell.innerHTML = cell.textContent;
     });
+
+    // Then check and highlight matches
+    Array.from(row.cells).forEach(cell => {
+      const originalText = cell.textContent;
+
+      if (filter && originalText.toLowerCase().includes(filter)) {
+        rowHasMatch = true;
+        const regex = new RegExp(`(${filter})`, 'gi');
+        const highlighted = originalText.replace(regex, '<span style="background-color: yellow;">$1</span>');
+        cell.innerHTML = highlighted;
+      }
+    });
+
+    row.style.display = rowHasMatch || !filter ? '' : 'none';
   });
+});
+
 });
 
 </script>

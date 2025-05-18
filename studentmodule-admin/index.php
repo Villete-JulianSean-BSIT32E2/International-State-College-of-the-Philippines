@@ -140,35 +140,44 @@
 }
 
     function attachSearchHandler(tableId = 'studentTable', searchBoxId = 'searchBox') {
-      const searchBox = mainContent.querySelector(`#${searchBoxId}`);
-      const tableBody = mainContent.querySelector(`#${tableId} tbody`);
+  const searchBox = mainContent.querySelector(`#${searchBoxId}`);
+  const tableBody = mainContent.querySelector(`#${tableId} tbody`);
 
-      if (!searchBox || !tableBody) return;
+  if (!searchBox || !tableBody) return;
 
-      searchBox.addEventListener('input', () => {
-        const filter = searchBox.value.toLowerCase();
+  searchBox.addEventListener('input', () => {
+    const filter = searchBox.value.toLowerCase();
 
-        Array.from(tableBody.rows).forEach(row => {
-          let rowHasMatch = false;
+    Array.from(tableBody.rows).forEach(row => {
+      let rowHasMatch = false;
 
-          Array.from(row.cells).forEach(cell => {
-            if (cell.querySelector('button') || cell.querySelector('a') || cell.querySelector('input')) return;
+      Array.from(row.cells).forEach(cell => {
+        // Skip cells that contain buttons, links, inputs, or images
+        if (cell.querySelector('button') || cell.querySelector('a') || cell.querySelector('input') || cell.querySelector('img')) {
+          return;
+        }
 
-            const originalText = cell.textContent;
-            cell.innerHTML = originalText;
+        const originalText = cell.textContent;
 
-            if (filter && originalText.toLowerCase().includes(filter)) {
-              rowHasMatch = true;
-              const regex = new RegExp(`(${filter})`, 'gi');
-              const highlighted = originalText.replace(regex, '<span style="background-color: yellow;">$1</span>');
-              cell.innerHTML = highlighted;
-            }
-          });
+        if (filter && originalText.toLowerCase().includes(filter)) {
+          rowHasMatch = true;
 
-          row.style.display = rowHasMatch || !filter ? '' : 'none';
-        });
+          const escapedFilter = filter.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(`(${escapedFilter})`, 'gi');
+
+          const highlighted = originalText.replace(regex, '<span style="background-color: yellow;">$1</span>');
+          cell.innerHTML = highlighted;
+        } else {
+          cell.textContent = originalText;
+        }
       });
-    }
+
+      row.style.display = rowHasMatch || !filter ? '' : 'none';
+    });
+  });
+}
+
+
 
    function attachDropdownHandlers() {
   const mainContent = document.getElementById('main-content');
