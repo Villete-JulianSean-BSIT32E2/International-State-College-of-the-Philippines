@@ -51,7 +51,7 @@
 
       <!-- Header -->
       <header class="h-14 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-500 shadow-md py-2 px-4 flex justify-between items-center rounded-xl m-2">
-        <h1 class="text-xl font-semibold text-white">Welcome, Student</h1>
+        <h1 class="text-xl font-semibold text-white">Welcome, Admin</h1>
         
         <!-- Right Side - Image Button with Select Dropdown -->
         <div class="relative">
