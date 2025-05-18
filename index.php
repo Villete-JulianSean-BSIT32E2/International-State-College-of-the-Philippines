@@ -399,7 +399,7 @@ a:hover {
 
   <header>
     <div class="logo">
-      <img src="logo.png" alt="ISCP Logo" class="logo-img" />
+      <img src="logo.jpg" alt="ISCP Logo" class="logo-img" />
       <span>ISCP</span>
     </div>
 

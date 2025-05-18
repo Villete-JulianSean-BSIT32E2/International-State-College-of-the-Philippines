@@ -157,7 +157,6 @@ if ($conn->connect_error) {
     <h2>Manage Payments</h2>
     
     <?php
-    // At the top of the file, add error reporting for debugging
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 
@@ -175,13 +174,12 @@ if ($conn->connect_error) {
             isset($_POST["payment_date"]) &&
             isset($_POST["payment_method"])
         ) {
-            // Use prepared statements to prevent SQL injection
             $student_id = $_POST["student_id"];
             $amount_paid = $_POST["amount_paid"];
             $payment_date = $_POST["payment_date"];
             $payment_method = $_POST["payment_method"];
+            $payment_status = 'Paid'; // Status for the payments table
 
-            // Check if student exists using prepared statement
             $check_student = $conn->prepare("SELECT * FROM tbladmission_addstudent WHERE Admission_ID = ?");
             $check_student->bind_param("s", $student_id);
             $check_student->execute();
@@ -190,15 +188,14 @@ if ($conn->connect_error) {
             if ($check_student->num_rows == 0) {
                 echo "<p style='color: red;'>Student with ID $student_id not found. Please try again.</p>";
             } else {
-                // Insert payment with prepared statement
-                $insert = $conn->prepare("INSERT INTO payments (student_id, amount_paid, payment_date, payment_method) 
-                        VALUES (?, ?, ?, ?)");
-                $insert->bind_param("sdss", $student_id, $amount_paid, $payment_date, $payment_method);
+                // ✅ UPDATED QUERY to include `status`
+                $insert = $conn->prepare("INSERT INTO payments (student_id, amount_paid, payment_date, payment_method, status) 
+                        VALUES (?, ?, ?, ?, ?)");
+                $insert->bind_param("sdsss", $student_id, $amount_paid, $payment_date, $payment_method, $payment_status);
 
                 if ($insert->execute()) {
                     echo "<p style='color: green;'>Payment recorded successfully.</p>";
 
-                    // Update or insert tblstatus with prepared statements
                     $status_check = $conn->prepare("SELECT * FROM tblstatus WHERE Admission_ID = ?");
                     $status_check->bind_param("s", $student_id);
                     $status_check->execute();
@@ -220,7 +217,6 @@ if ($conn->connect_error) {
                         }
                     }
 
-                    // Update admission table status
                     $admission_update = $conn->prepare("UPDATE tbladmission_addstudent SET status = 'Enrolled' WHERE Admission_ID = ?");
                     $admission_update->bind_param("s", $student_id);
                     if (!$admission_update->execute()) {
