@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['student_id'])) {
+    header("Location: ../index.php?login=student");
+    exit();
+}
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,10 +19,10 @@
   <title>Student Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-200">
+<body class="bg-gray-200 min-h-screen">
 
   <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 opacity-100 shadow-xl px-4 pl-14 py-2 flex items-center justify-between">
+  <header class="h-14 m-2 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 opacity-100 shadow-xl px-4 pl-14 py-2 flex items-center justify-between">
     <!-- Left: Logo and Title -->
     <div class="flex items-center space-x-3">
       <img src="/International-State-College-of-the-Philippines/logo.jpg" alt="Logo" class="h-10 w-10 rounded-full" />
@@ -51,10 +63,10 @@
     <img src="../img/settingslogo.png" alt="Settings" class="h-6 w-6" />
   </button>
   
-  <button onclick="handleLogout()" class="w-36 text-blue-500 mx-auto my-1 flex items-center justify-between px-4 py-2 text-sm rounded-md transition-all duration-200 transform hover:scale-105 hover:bg-blue-100 hover:text-black hover:border hover:border-blue-500">
+  <a href="../logout.php" class="w-36 text-blue-500 mx-auto my-1 flex items-center justify-between px-4 py-2 text-sm rounded-md transition-all duration-200 transform hover:scale-105 hover:bg-blue-100 hover:text-black hover:border hover:border-blue-500">
     <span>Logout</span>
     <img src="../img/logofflogo.png" alt="Logout" class="h-6 w-6" />
-  </button>
+  </a>
 </div>
 
       </div>
@@ -63,7 +75,7 @@
 
 
   <main class="p-6">
-    <?php include('dashboardcontent.html'); ?>
+    <?php include('dashboardcontent.php'); ?>
     <?php include('myaccount.php'); ?>
   </main>
 
@@ -183,17 +195,28 @@
     }
   });
 
-    function handleMyAccount() {
-    document.getElementById("myAccountModal").classList.remove("hidden");
-  }
+function handleMyAccount() {
+  const name = localStorage.getItem('studentName') || 'N/A';
+  const id = localStorage.getItem('studentID') || 'N/A';
+  const section = localStorage.getItem('studentSection') || 'N/A';
+  const year = localStorage.getItem('studentYear') || 'N/A';
+  const sem = localStorage.getItem('studentSem') || 'N/A';
 
-  function closeMyAccount() {
-    document.getElementById("myAccountModal").classList.add("hidden");
-  }
+  document.getElementById('studentname').innerText = name;
+  document.getElementById('studentID').innerText = id;
+  document.getElementById('studentSection').innerText = section;
+  document.getElementById('studentyear').innerText = year;
+  document.getElementById('studentSemester').innerText = sem;
 
-    function handleLogout() {
-    window.location.href = '../index.html';
-  }
+  document.getElementById("myAccountModal").classList.remove('hidden');
+}
+
+function closeMyAccount() {
+  document.getElementById("myAccountModal").classList.add('hidden');
+}
+
+
+
 </script>
 
 

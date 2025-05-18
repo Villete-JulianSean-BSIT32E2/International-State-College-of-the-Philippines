@@ -157,6 +157,52 @@
       color: #333;
     }
 
+    #studentLoginModal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+#studentLoginModal .modal-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  width: 300px;
+}
+
+#studentLoginModal input {
+  padding: 10px;
+  width: 100%;
+  margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#studentLoginModal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#studentLoginModal .submit-btn {
+  background: #2e5cfa;
+  color: #fff;
+}
+
+#studentLoginModal .cancel-btn {
+  background: #ccc;
+  color: #333;
+}
+
     .floating-object {
       position: absolute;
       font-size: 30px;
@@ -360,7 +406,8 @@ a:hover {
     <nav>
   <ul>
     <li><a href="#">Home</a></li>
-    <li><a href="#" onclick="showLogin()">Login</a></li>
+    <li><a href="#" onclick="showLogin()">ADMIN</a></li>
+<li><a href="#" onclick="showStudentLogin()">STUDENT</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
 </nav>
@@ -520,7 +567,7 @@ a:hover {
     <p>&copy; 2025 International State College of the Philippines. All rights reserved.</p>
   </div>
 </footer>
-
+<div id="modalContainer"></div>
 <!-- FontAwesome Icons (for social media icons) -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
@@ -536,6 +583,20 @@ a:hover {
       <button class="cancel-btn" onclick="hideLogin()">Cancel</button>
     </div>
   </div>
+
+<div id="studentLoginModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h3>Student Login</h3>
+    <input type="text" id="studentUsername" placeholder="Enter username" />
+    <input type="password" id="studentPassword" placeholder="Enter password" />
+    <br />
+    <button onclick="checkStudentLogin()">Login</button>
+    <button onclick="hideStudentLogin()">Cancel</button>
+  </div>
+</div>
+
+  
+
 
   <!-- Floating Enroll Button -->
   <a href="addstudent.html" class="floating-enroll-btn">Enroll Now</a>
@@ -593,6 +654,59 @@ a:hover {
       item.classList.toggle('active');
     });
   });
+
+function showStudentLogin() {
+  document.getElementById("studentLoginModal").style.display = "flex";
+}
+
+function hideStudentLogin() {
+  document.getElementById("studentLoginModal").style.display = "none";
+  document.getElementById("studentUsername").value = "";
+  document.getElementById("studentPassword").value = "";
+}
+
+function checkStudentLogin() {
+  const user = document.getElementById("studentUsername").value;
+  const pass = document.getElementById("studentPassword").value;
+
+  fetch('student_login.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.status === 'success') {
+      // Save basic info
+      localStorage.setItem('studentName', data.fullname);
+      localStorage.setItem('studentCourse', data.course);
+      localStorage.setItem('studentSem', data.current_sem);
+      localStorage.setItem('studentYear', data.school_year);
+      localStorage.setItem('studentSection', data.section);
+      localStorage.setItem('studentID', data.student_id);
+
+      // Save other info
+      localStorage.setItem('studentGrades', JSON.stringify(data.grades));
+      localStorage.setItem('studentSchedule', JSON.stringify(data.schedule));
+      localStorage.setItem('studentAttendance', JSON.stringify(data.attendance));
+      localStorage.setItem('studentPayments', JSON.stringify(data.payments));
+
+      window.location.href = './studentmodule/studentmodule.php';
+    } else {
+      alert("Incorrect credentials.");
+    }
+  })
+  .catch(error => {
+    console.error("Login error:", error);
+    alert("An error occurred. Please try again.");
+  });
+}
+
+
+    const params = new URLSearchParams(window.location.search);
+  if (params.get('login') === 'student') {
+    document.getElementById('studentLoginModal').style.display = 'flex';
+  }
   </script>
 
 </body>
