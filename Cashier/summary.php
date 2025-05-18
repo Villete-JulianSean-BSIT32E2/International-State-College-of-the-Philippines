@@ -135,10 +135,13 @@ $result = mysqli_query($conn, $query);
     <!-- Date Filter -->
     <form method="GET" class="filter-form">
         <label for="start_date">Start Date:</label>
-        <input type="date" name="start_date" required value="<?= htmlspecialchars($start_date ?? '') ?>">
+        <input type="date" name="start_date" required value="<?= htmlspecialchars(isset($start_date) ? $start_date : '') ?>">
+
+
 
         <label for="end_date">End Date:</label>
-        <input type="date" name="end_date" required value="<?= htmlspecialchars($end_date ?? '') ?>">
+        <input type="date" name="end_date" required value="<?= htmlspecialchars(isset($end_date) ? $end_date : '') ?>">
+
 
         <button type="submit" class="print-btn">🔍 Filter</button>
         <button type="button" onclick="exportToExcel('summaryTable')" class="print-btn">📥 Export to Excel</button>
