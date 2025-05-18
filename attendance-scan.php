@@ -36,7 +36,8 @@
                     $messageType = 'error';
                 } else {
                     $currDate = date('Y-m-d');
-                    $currTime = date('Y-m-d H:i:s');
+                    $currTime = date('H:i:s');
+
 
                     //CHECKS IF ALREADY TOOK ATTENDANCE
                     $checkSQL = "SELECT AttendanceID, Status, TimeIn, TimeOut FROM attendance WHERE Admission_ID = ? AND Date = ?";

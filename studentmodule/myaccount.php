@@ -33,6 +33,10 @@
     <td class="font-light text-sm">Semester Enrolled:</td>
     <td id="studentSemester" class="font-light text-sm">Loading...</td>
   </tr>
+    <tr>
+    <td class="font-light text-sm">New Password:</td>
+    <td><input type="password" id="newPassword" class="border border-black px-2 py-1 rounded w-full text-sm" /></td>
+  </tr>
 </table>
 
       <div class="flex items-center gap-3">
@@ -40,8 +44,39 @@
           class="bg-red-400 transition-all gradient text-[15px] text-white px-3 py-[6px] rounded-full flex items-center gap-1">
           Close
         </button>
+        <button onclick="updatePassword()" 
+  class="bg-green-600 transition-all gradient text-[15px] text-white px-3 py-[6px] rounded-full flex items-center gap-1">Update Password</button>
       </div>
     </div>
 
   </div>
 </div>
+
+<script>
+  function updatePassword() {
+  const studentID = document.getElementById('studentID').innerText.trim();
+  const newPassword = document.getElementById('newPassword').value.trim();
+
+  if (!newPassword) {
+    alert('Please enter a new password.');
+    return;
+  }
+
+  fetch('update_password.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: `student_id=${encodeURIComponent(studentID)}&new_password=${encodeURIComponent(newPassword)}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status === 'success') {
+      alert('Password updated successfully.');
+      document.getElementById('newPassword').value = '';
+    } else {
+      alert('Error: ' + data.message);
+    }
+  })
+  .catch(() => alert('Error updating password.'));
+}
+
+</script>

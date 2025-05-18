@@ -703,7 +703,10 @@ function checkStudentLogin() {
 }
 
 
-
+    const params = new URLSearchParams(window.location.search);
+  if (params.get('login') === 'student') {
+    document.getElementById('studentLoginModal').style.display = 'flex';
+  }
   </script>
 
 </body>

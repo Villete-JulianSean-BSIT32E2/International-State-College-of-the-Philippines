@@ -32,7 +32,7 @@
   <!-- Left Column -->
   <div class="space-y-4 lg:col-span-2 h-full">
     <!-- Attendance Pie Chart -->
-    <div class="p-6 flex items-center justify-around bg-white rounded-2xl shadow-md">
+    <div class="p-4 flex items-center justify-around bg-white rounded-2xl shadow-md">
       <div class="relative w-30 h-30 hover:scale-105 transition-transform border-4 border-gray-300 rounded-full">
         <svg viewBox="0 0 36 36" class="w-full h-full bg-white rounded-full shadow-xl transform -rotate-90">
           <!-- Background circle -->
@@ -43,34 +43,34 @@
       </div>
 
       <!-- Text values -->
-      <div class="grid grid-cols-1 sm:grid-rows-2 gap-12 p-4">
+      <div class="grid grid-cols-1 sm:grid-rows-2 gap-4">
         <!-- Present Card -->
        <!-- Present Card -->
 <div class="p-2 text-center">
-  <h3 class="text-lg font-bold text-green-500">PRESENT</h3>
   <div class="flex justify-center items-center space-x-2 mt-2">
+    <div class="w-6 h-6 bg-green-500 rounded-sm"></div>
+    <h3 class="text-lg font-bold text-green-500">PRESENT :</h3>
     <p id="present-count" class="text-2xl font-bold text-green-500">0</p>
-    <div class="w-8 h-8 bg-green-500 rounded-sm"></div>
+  </div>
+</div>
+
+<div class="p-2 text-center">
+  <div class="flex justify-center items-center space-x-2 mt-2">
+    <div class="w-6 h-6 bg-red-500 rounded-sm"></div>
+    <h3 class="text-lg font-bold text-red-500">ABSENT :</h3>
+    <p id="absent-count" class="text-2xl font-bold text-red-500">0</p>
   </div>
 </div>
 
 <!-- Late Card -->
 <div class="p-2 text-center">
-  <h3 class="text-lg font-bold text-yellow-600">LATE</h3>
   <div class="flex justify-center items-center space-x-2 mt-2">
+    <div class="w-6 h-6 bg-yellow-600 rounded-sm"></div>
+    <h3 class="text-lg font-bold text-yellow-600">LATE :</h3>
     <p id="late-count" class="text-2xl font-bold text-yellow-600">0</p>
-    <div class="w-8 h-8 bg-yellow-600 rounded-sm"></div>
   </div>
 </div>
 
-<!-- Absent Card -->
-<div class="p-2 text-center">
-  <h3 class="text-lg font-bold text-red-500">ABSENT</h3>
-  <div class="flex justify-center items-center space-x-2 mt-2">
-    <p id="absent-count" class="text-2xl font-bold text-red-500">0</p>
-    <div class="w-8 h-8 bg-red-500 rounded-sm"></div>
-  </div>
-</div>
 
       </div>
     </div>
@@ -100,11 +100,11 @@
     <div class="bg-white rounded-xl shadow-md p-6 text-gray-700">
   <h2 class="text-sm font-thin mb-2 text-blue-800">Tuition Payment History</h2>
   <table class="w-full text-sm">
-    <thead>
+    <thead class="bg-blue-600 text-white">
       <tr class="text-left border-b border-blue-200">
-        <th class="py-1">Date</th>
-        <th class="py-1">Amount</th>
-        <th class="py-1">Status</th>
+        <th class="px-4 py-1">Date</th>
+        <th class="px-4 py-1">Amount</th>
+        <th class="px-4 py-1">Status</th>
       </tr>
     </thead>
     <tbody id="payment-history-body">
@@ -268,24 +268,36 @@ document.getElementById("studentSem").textContent = localStorage.getItem('studen
 document.getElementById("studentYear").textContent = localStorage.getItem('studentYear');
 
 
-  document.getElementById("gradeYear").textContent = localStorage.getItem("studentYear");
+document.getElementById("gradeYear").textContent = localStorage.getItem("studentYear");
 
-  const grades = JSON.parse(localStorage.getItem('studentGrades')) || [];
-  const container = document.getElementById('gradesContainer');
+const grades = JSON.parse(localStorage.getItem('studentGrades')) || [];
+const container = document.getElementById('gradesContainer');
 
-  grades.forEach(item => {
-    const gradeCard = document.createElement('div');
-    gradeCard.className = "bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white";
+grades.forEach(item => {
+  const grade = parseFloat(item.grade);
+  let colorClass = '';
 
-    gradeCard.innerHTML = `
-      <div class="flex justify-between items-center">
-        <h4 class="font-normal text-sm">${item.subject}</h4>
-        <p class="text-3xl font-bold">${item.grade}</p>
-      </div>
-    `;
+  if (grade === 5.0 || grade > 3.0) {
+    colorClass = 'text-red-500';
+  } else if (grade <= 2.0) {
+    colorClass = 'text-green-400';
+  } else if (grade > 2.0 && grade <= 3.0) {
+    colorClass = 'text-yellow-300';
+  }
 
-    container.appendChild(gradeCard);
-  });
+  const gradeCard = document.createElement('div');
+  gradeCard.className = "bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:scale-105 transition-transform p-4 rounded-xl shadow-lg text-white";
+
+  gradeCard.innerHTML = `
+    <div class="flex justify-between items-center">
+      <h4 class="font-normal text-sm">${item.subject}</h4>
+      <p class="text-3xl font-bold ${colorClass}">${item.grade}</p>
+    </div>
+  `;
+
+  container.appendChild(gradeCard);
+});
+
 
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -304,9 +316,9 @@ document.getElementById("studentYear").textContent = localStorage.getItem('stude
       : 'text-red-500';
 
     row.innerHTML = `
-      <td class="py-1">${payment.payment_date}</td>
-      <td class="py-1">₱${parseFloat(payment.amount_paid).toLocaleString()}</td>
-      <td class="py-1 ${statusClass}">${payment.status}</td>
+      <td class="px-4 py-1">${payment.payment_date}</td>
+      <td class="px-4 py-1">₱${parseFloat(payment.amount_paid).toLocaleString()}</td>
+      <td class="px-4 py-1 ${statusClass}">${payment.status}</td>
     `;
     tableBody.appendChild(row);
   });
