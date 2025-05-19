@@ -99,7 +99,7 @@
         <span>Registrar</span>
       </a>
 
-      <a href="#" class="tile">
+      <a href="attendance-dashboard.php" class="tile">
         <i class="fas fa-calendar-check"></i>
         <span>Attendance</span>
       </a>

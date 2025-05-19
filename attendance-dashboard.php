@@ -66,19 +66,9 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
     <div class="d-flex">
         <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
             <img src="img\logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo"/>
-            <div class="nav-item">Dashboard</div>
             <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
-            <div class="nav-item">Registrar</div>
-            <div class="nav-item">Cashier</div>
-            <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="attendanceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: white;">
-                    Attendance
-                </a>
-                <ul class="dropdown-menu bg-dark" aria-labelledby="attendanceDropdown">
-                    <li><a class="dropdown-item text-white" href="attendance-scan.php">Scan</a></li>
-                    <li><a class="dropdown-item text-white" href="attendance-dashboard.php">Dashboard</a></li>
-                </ul>
-            </div>
+            <div class="nav-item"><a href="attendance-scan.php" style="text-decoration: none; color: white;">Scan</a></div>
+            <div class="nav-item"><a href="attendance-dashboard.php" style="text-decoration: none; color: white;">Dashboard</a></div>
         </div>
         <div class="flex-grow-1">
             <div class="container-fluid py-4">

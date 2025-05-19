@@ -399,7 +399,7 @@ a:hover {
 
   <header>
     <div class="logo">
-      <img src="logo.jpg" alt="ISCP Logo" class="logo-img" />
+      <img src="img\logo.png" alt="ISCP Logo" class="logo-img" />
       <span>ISCP</span>
     </div>
 
@@ -407,7 +407,7 @@ a:hover {
   <ul>
     <li><a href="#">Home</a></li>
     <li><a href="#" onclick="showLogin()">ADMIN</a></li>
-<li><a href="#" onclick="showStudentLogin()">STUDENT</a></li>
+    <li><a href="#" onclick="showStudentLogin()">STUDENT</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
 </nav>
