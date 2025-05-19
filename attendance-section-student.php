@@ -1,6 +1,6 @@
 <?php
 //ATTENDANCE-SECTION-STUDENT.PHP
-$servername = "localhost";
+$servername = "192.168.0.30";
 $username = "root";
 $password = "";
 $dbname = "iscpdb";
