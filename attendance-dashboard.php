@@ -65,7 +65,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
 <body>
     <div class="d-flex">
         <div class="sidebar mh-100 collapse d-md-block" id="sidebarMenu">
-            <img src="logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo"/>
+            <img src="img\logo.png" style="width: 100px; height: auto; border-radius: 50%;" alt="Logo"/>
             <div class="nav-item">Dashboard</div>
             <div class="nav-item"><a href="index.html" style="text-decoration: none; color: white;">Home</a></div>
             <div class="nav-item">Registrar</div>
@@ -91,7 +91,7 @@ $courseBreakdownResult = $conn->query($courseBreakdownQuery);
                             <div class="row align-items-center gx-3">
                                 <div class="col-12 col-md-7 col-lg-8 mb-3 mb-md-0">
                                     <div class="d-flex align-items-center">
-                                        <img src="logo.png" alt="School Logo" style="width: 100px; height: auto; border-radius: 50%;" class="me-3" />
+                                        <img src="img\logo.png" alt="School Logo" style="width: 100px; height: auto; border-radius: 50%;" class="me-3" />
                                         <h1 class="fw-bold mb-0">International State College of the Philippines</h1>
                                     </div>
                                 </div>
