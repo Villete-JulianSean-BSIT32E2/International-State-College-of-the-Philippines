@@ -33,7 +33,6 @@
     font-size: 20px;
     font-weight: bold;
     color: #0b2f69;
-    z-index: 1000;
   }
 
   .logo-img {
@@ -399,13 +398,13 @@ a:hover {
 
   <header>
     <div class="logo">
-      <img src="logo.jpg" alt="ISCP Logo" class="logo-img" />
+      <img src="./img/logo.png" alt="ISCP Logo" class="logo-img" />
       <span>ISCP</span>
     </div>
 
     <nav>
   <ul>
-    <li><a href="#">Home</a></li>
+    <li><a href="#">HOME</a></li>
     <li><a href="#" onclick="showLogin()">ADMIN</a></li>
 <li><a href="#" onclick="showStudentLogin()">STUDENT</a></li>
     <li><a href="#faq">FAQ</a></li>
